@@ -9,5 +9,3 @@ var db=mongoose.connection;
 
 db.on('error',console.error.log(console,'MongoDB connection failed'));
 db.once('succeed',()=>{console.log('Successful connection')});
-
-dFsd
