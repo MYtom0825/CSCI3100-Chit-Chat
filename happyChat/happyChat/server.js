@@ -2,8 +2,29 @@ const express = require('express');
 const bodyParser=require('body-parser');
 const bcrypt=require('bcryptjs');
 const mongoose=require('mongoose')
-const app=express();
+const socketio = require('socket.io');
+const http = require('http');
 
+const app=express();
+const server = http.createServer(app);
+const io = socketio(server);
+
+const port = 3000;
+
+//import files
+const router_home = require('./router_home.js');
+const router_reg = require('./router_reg.js');
+const router_create = require('./router_create.js');
+const router_login = require('./router_login.js');
+const router_mission = require('./router_mission.js');
+const session = require('./session.js');
+
+app.use(session({secret: 'secret', resave:false, saveUninitialized:true}));
+app.use(router_home);
+app.use(router_reg);
+app.use(router_create);
+app.use(router_login);
+app.use(router_mission);
 
 mongoose.connect('mongodb://localhost/happyChat');
 var db=mongoose.connection;
@@ -43,7 +64,6 @@ var UserProfileSchema=mongoose.Schema({
     contactType:{type:String},
     contact:{type:String}
 
-
 });
 
 var MissionSchema=mongoose.Schema({
@@ -79,3 +99,29 @@ var UserProfile=mongoose.model('UserProfile',UserProfileSchema);
 var Mission=mongoose.model('Mission',MissionSchema);
 var Report=mongoose.model('Report',ReportSchema);
 var Queue=mongoose.model('Queue',QueueSchema);
+
+io.on('connection', (socket) => {
+    console.log('socket We connect');
+
+    socket.on('join', ({ name, room }, callback) => {
+        console.log(name, room);
+        
+        //const error = function;
+        if (error) {
+            return callback({error: 'error'});
+        }
+
+    })
+
+    socket.on('sendMessage', (message, callback) => {
+        io.to(user.room).emit('message', { user: user.name, text: message});
+    })
+
+    socket.on('disconnect', () => {
+        console.log('socket We disconnect');
+    })
+})
+
+server.listen(port, () => {
+    console.log(`hello world ${port}`);
+})
