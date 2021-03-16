@@ -17,7 +17,6 @@ const router_reg = require('./router_reg.js');
 const router_create = require('./router_create.js');
 const router_login = require('./router_login.js');
 const router_mission = require('./router_mission.js');
-const session = require('./session.js');
 
 app.use(session({secret: 'secret', resave:false, saveUninitialized:true}));
 app.use(router_home);
