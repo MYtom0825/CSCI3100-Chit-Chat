@@ -5,7 +5,7 @@ import ProfileDetail from './profileDetail';
 
 
 
-const profile = (props) => {
+const profile = () => {
     const user = [{ name: "Tom",
                     gender: "Male",
                     picture: "",
@@ -18,12 +18,10 @@ const profile = (props) => {
 
 
     return(
-        <div>
+        <nav>
+            
             <img className="profile_img" src="https://placeimg.com/400/400/tech" alt="test" width="300" height="300"></img>
-            <section>
-                
-                
-            </section>
+            
             <div className="profile_detail">
                 {user.map((user) => (
                     <ProfileDetail  na={user.name} 
@@ -35,12 +33,12 @@ const profile = (props) => {
                                     yrs={user.years} 
                                     sts={user.status} 
                                     int={user.interest} />
-                    ))}
+                ))}
                 
 
             </div>
-
-        </div>
+        
+        </nav>
     )
 
 
