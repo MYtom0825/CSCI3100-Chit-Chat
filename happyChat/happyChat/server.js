@@ -1,8 +1,14 @@
 const express = require('express');
 const session = require('session');
+<<<<<<< HEAD
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
+=======
+const bodyParser=require('body-parser');
+const bcrypt=require('bcryptjs');
+const mongoose=require('mongoose');
+>>>>>>> fb681943781165f8d7c87d07ef4d10076fd2654f
 const socketio = require('socket.io');
 const http = require('http');
 
