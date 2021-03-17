@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('session');
 const bodyParser=require('body-parser');
 const bcrypt=require('bcryptjs');
-const mongoose=require('mongoose')
+const mongoose=require('mongoose');
 const socketio = require('socket.io');
 const http = require('http');
 
