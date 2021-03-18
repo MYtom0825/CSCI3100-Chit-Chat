@@ -1,0 +1,64 @@
+
+.mission_body{
+  
+    display: flex;
+    margin-right: 35%;
+    text-align: center;
+    border: 10px solid rebeccapurple;
+    min-height: 100vh;
+}
+  
+  
+.mission_card{
+  
+    display: flex;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    
+    height: 78vh;
+    width: 90vh;
+    border: 10px solid rgba(15, 177, 218, 0);
+}
+  
+.mission_element{
+    height: 32vh;
+    width: 80%;
+    border: 10px solid rgb(22, 170, 207);
+}
+
+.column {
+  
+  width: 50%;
+}
+  
+  /* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+.th, td {
+  text-align: left;
+  width: 33vh;
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+  
+}
+
+
+
+.tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+a {
+  text-decoration: none;
+}

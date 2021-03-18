@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 import "./App.css";
 
 //Import Component
-import Menu from "./menu"
-import Profile from "./Profile"
-import Mission from "./mission"
+import Menu from "./menu/Menu"
+import Profile from "./profile/Profile"
+import Mission from "./mission/Mission"
+import Mission_card from './mission/Mission_card';
 
 
 const App = () => {
@@ -32,11 +33,9 @@ const App = () => {
     
       </div>
       <div className="body">
-      {toProfile ? <Profile />:''}
-      {tomission ? <Mission />:''}
-      
-        
-        
+        {toProfile ? <Profile />:''}
+
+        {tomission ? <Mission />:''}
        
       </div>
       
@@ -49,4 +48,3 @@ const App = () => {
 }
 
 export default App;
-
