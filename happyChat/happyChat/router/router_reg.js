@@ -19,11 +19,16 @@ router.get('/register', (req, res) => {
 
 function add(email) {
     const newAccount = new VerifyingAccount({
-        email
+        _id: new mongoose.Types.ObjectID(),
+        email: email
     });
     
     newAccount.save(function(err, record) {
-        return record._id;
+        if(err){
+            console.log('Account can\'t be save');
+        }else{
+        return newAccount._id;
+        }
     })
 }
 
@@ -70,7 +75,8 @@ router.post('/register', (req, res) => {
                     }
                     else {  //non exist email in mongodb
                         var id = add(email);    //get objectID
-                        sendEmail(email, id);   //send email
+                        await sendEmail(email, id);   //send email
+                        res.send('email sent');
                     }
                 });
             }
