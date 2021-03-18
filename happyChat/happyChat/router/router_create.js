@@ -19,7 +19,6 @@ router.get('/create/:id', (req, res) => {
                 'email':record.email
             };
             res.json(userEmail); //send json data to frontend
-            
         }
     })
 });
@@ -29,7 +28,7 @@ router.post('/create/:id', (req, res) => {
     if(req.body.password==null){
         console.log('password is empty');
     }else{
-    const hash = await bcrypt.hash(req.body.password,10);
+    const hash = bcrypt.hash(req.body.password,10);
     var newUserAccount = new UserAccount({
             email : req.body['email'],
             username: req.body.password,

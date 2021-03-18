@@ -75,8 +75,8 @@ router.post('/register', (req, res) => {
                     }
                     else {  //non exist email in mongodb
                         var id = add(email);    //get objectID
-                        await sendEmail(email, id);   //send email
-                        res.send('email sent');
+                        sendEmail(email, id);   //send email
+                        res.send('verification email sent');
                     }
                 });
             }
