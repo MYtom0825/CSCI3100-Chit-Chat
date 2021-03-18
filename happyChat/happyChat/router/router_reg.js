@@ -27,7 +27,7 @@ function add(email) {
         if(err){
             console.log('Account can\'t be save');
         }else{
-        return newAccount._id;
+            return newAccount._id;
         }
     })
 }
