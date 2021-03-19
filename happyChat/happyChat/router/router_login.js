@@ -26,7 +26,6 @@ router.post('/login', (req, res) => {
         res.json(data);
     }
     if(bcrypt.compareSync(password,user.password)){
-        req.session.loggedin=true;
         req.session.username=user.username;
         //res.redirect('/');
         var data={
