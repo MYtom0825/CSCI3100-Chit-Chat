@@ -1,0 +1,23 @@
+.menu{
+    width: 80px;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, rgba(97, 8, 214, 0.897), rgb(245, 0, 184));
+    position: fixed;
+}
+  
+.menu_item {
+    display: block;
+    border: none; /* Remove borders */
+    text-align: center;
+    background-color:  rgba(29, 3, 77, 0); /* Add a text color */
+    padding: 14px;
+    transition: all 0.3s ease;
+    color: white;
+    height: 80px;
+    cursor: pointer; /* Add a pointer cursor on mouse-over */
+    
+    
+}
+.menu_item:hover {
+    background-color: rgb(68, 40, 145);
+  }
