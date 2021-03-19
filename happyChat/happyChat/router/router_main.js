@@ -43,7 +43,8 @@ router.post('/match', (req, res) => {    //matching
 }
 
     var account=getAccount();
-    var profile=getProfile(account.user_id);    if (profile !== []) {    //profile or account?
+    var profile=getProfile(account.user_id);    
+    if (profile !== []) {    //profile or account?
         const newQueue = new Queue({
             _id: new mongoose.Types.ObjectId(),
             userAccount: account.user_id,

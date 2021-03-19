@@ -1,5 +1,5 @@
 const express = require('express');
-const { Mongoose } = require('mongoose');
+const mongoose = require('mongoose');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 let UserAccount = require('../model/model_account.js');
@@ -19,7 +19,7 @@ router.get('/register', (req, res) => {
 
 function add(email) {
     const newAccount = new VerifyingAccount({
-        _id: new mongoose.Types.ObjectID(),
+        _id: new mongoose.Types.ObjectId(),
         email: email
     });
     
