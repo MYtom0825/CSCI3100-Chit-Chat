@@ -8,7 +8,7 @@ router.get('/login', (req, res) => {
     res.send('running la');
 })
 
-router.post('/login', (req, res) => {
+router.post('/login', (req, res) => {   //login
     var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
@@ -58,6 +58,10 @@ router.post('/login', (req, res) => {
         res.send('Please enter Username, Email and Password!');
         res.end();
     }*/
+})
+
+router.post('/forgotpw', (req, res) => {    //forgot password
+    
 })
 
 module.exports = router;
