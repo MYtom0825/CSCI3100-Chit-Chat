@@ -1,6 +1,5 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const session=require('express-session');
 const router = express.Router();
 let UserAccount = require('../model/model_account.js');
 
