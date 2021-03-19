@@ -120,6 +120,7 @@ router.post('/match', (req, res) => {   //filter
                         }
                     });
                     res.json(element);
+                    break;
                     }
             });
         }
