@@ -12,7 +12,7 @@ class Name_card extends React.Component{
                 <div className="card">
                     
                     <img className="card_img" src="https://placeimg.com/400/400/tech" alt="John" width="270" height="270"></img>
-                    <h1 className="name">John Doe</h1>
+                    <h1 className="name">Tom Tom</h1>
                     <h3 className="info">Basic Info:</h3>
                     <p className="info">Hi</p>
                     <h3 className="info">Common Interest:</h3>
