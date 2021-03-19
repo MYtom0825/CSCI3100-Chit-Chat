@@ -73,7 +73,7 @@ router.post('/match', (req, res) => {    //matching
 
  lookfor();
     
-})
+});
 
 router.post('/match', (req, res) => {   //filter
     //matcher's info
@@ -112,13 +112,20 @@ router.post('/match', (req, res) => {   //filter
                  (element.requiredMajor === null || profile.account.major === element.requiredMajor) &&
                  (element.requiredYear === null || profile.account.year === element.requiredYear) &&
                  (element.requiredStatus === null || profile.account.status === element.requiredStatus) ) {
-                res.json(element);
-            }
-            else {
-                console.log('no matched user');
-            }
-        });
-    }
-})
+                    Queue.deleteOne({userAccount:element.user_id},function(err){
+                        if(err){
+                            console.log(err);
+                        }else{
+                            console.log('User deleted from the queue');
+                        }
+                    });
+                    res.json(element);
+                    }
+            });
+        }
+        else {
+            console.log('no matched user');
+        }
+    });
 
 module.exports = router;
