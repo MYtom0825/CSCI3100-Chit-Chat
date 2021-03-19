@@ -32,7 +32,7 @@ router.post('/create/:id', (req, res) => {
     const hash = bcrypt.hash(req.body.password,10);
     var newUserAccount = new UserAccount({
             _id: new mongoose.Types.ObjectId(),
-            email : req.body['email'],
+            email : req.body.email,
             username: req.body.password,
             password: hash
             });
