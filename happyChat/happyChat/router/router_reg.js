@@ -88,4 +88,4 @@ router.post('/register', (req, res) => {
     res.end();
 })
 
-module.exports = router, nodemailer;
+module.exports = {router, nodemailer};

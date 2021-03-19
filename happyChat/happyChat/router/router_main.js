@@ -46,7 +46,7 @@ router.post('/match', (req, res) => {    //matching
  async function lookfor(){
      var account= await getAccount();
      var profile= await getProfile(account.user_id);
-     if (profile !== []) {    //profile or account?
+     if (profile !== []) {    //set new Queue with info inside profile
         const newQueue = new Queue({
             _id: new mongoose.Types.ObjectId(),
             userAccount: account.user_id,
@@ -67,7 +67,7 @@ router.post('/match', (req, res) => {    //matching
         })
     }
     else {
-        console.log('no account get');
+        console.log('no profile get');
     }
  }
 
