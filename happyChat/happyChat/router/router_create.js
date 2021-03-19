@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 let UserAccount = require('../model/model_account.js');
 let VerifyingAccount = require('../model/model_verifyaccount.js');
+const mongoose = require('mongoose');
 
 router.use(express.json());
 router.use(express.urlencoded());
@@ -30,6 +31,7 @@ router.post('/create/:id', (req, res) => {
     }else{
     const hash = bcrypt.hash(req.body.password,10);
     var newUserAccount = new UserAccount({
+            _id: new mongoose.Types.ObjectId(),
             email : req.body['email'],
             username: req.body.password,
             password: hash

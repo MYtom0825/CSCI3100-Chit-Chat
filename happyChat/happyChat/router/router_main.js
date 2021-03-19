@@ -1,14 +1,19 @@
 const express = require('express');
+const mongoose=require('mongoose');
 const router = express.Router();
 let UserProfile = require('../model/model_profile.js');
+let UserAccount = require('../model/model_account.js');
 let Queue = require('../model/model_queue.js');
+
+router.use(express.json());
+router.use(express.urlencoded());
 
 router.get('/main', (req, res) => {
     res.send('running la');
 })
 
-function getProfile() {
-    UserProfile.findOne({ username: req.session.username }, function(err, result) {
+function getProfile(id) {
+    UserProfile.findOne({ account: id }).populate('userProfile').exec(function(err, result) {
         if (err) {
             console.log(err);
             return [];
@@ -16,16 +21,32 @@ function getProfile() {
         else {
             return result;
         }
-    })
+    });
 }
-var profile = getProfile();
+
 
 router.post('/match', (req, res) => {    //matching
     //insert into queue db
-    if (account !== []) {
+    if(!req.session.username){
+        return res.status(401).send();
+    }
+
+    function getAccount(){
+        UserAccount.findOne({username:req.session.username},function(err,result){
+            if(err){
+                console.log(err);
+            }else{
+                return result;
+            }
+        });
+    
+}
+
+    var account=getAccount();
+    var profile=getProfile(account.user_id);    if (profile !== []) {    //profile or account?
         const newQueue = new Queue({
-            _id: new mongoose.Types.ObjectID(),
-            userAccount: profile.account,
+            _id: new mongoose.Types.ObjectId(),
+            userAccount: account.user_id,
             //queueNumber: ,    //auto-increment...
             requiredGender: req.body.gender,
             requiredUni: req.body.uni,
