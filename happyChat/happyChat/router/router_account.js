@@ -1,0 +1,8 @@
+const express = require('express');
+const router = express.Router();
+
+router.get('/account', (req, res) => {
+    res.send('running la');
+})
+
+module.exports = router;
