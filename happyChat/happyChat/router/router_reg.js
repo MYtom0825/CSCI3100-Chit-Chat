@@ -8,8 +8,8 @@ let VerifyingAccount = require('../model/model_verifyaccount.js');
 var transporter = nodemailer.createTransport({      //to be modified..
     service: 'gmail',
     auth: {
-      user: 'youremail@gmail.com',
-      pass: 'yourpassword'
+        user: 'youremail@gmail.com',
+        pass: 'yourpassword'
     }
 });
 
@@ -22,11 +22,11 @@ function add(email) {
         _id: new mongoose.Types.ObjectId(),
         email: email
     });
-    
-    newAccount.save(function(err, record) {
-        if(err){
+
+    newAccount.save(function (err, record) {
+        if (err) {
             console.log('Account can\'t be save');
-        }else{
+        } else {
             return newAccount._id;
         }
     })
@@ -41,51 +41,45 @@ function sendEmail(email, id) {
         html: `<p>Please click to following link to create your own account!</p><p><a href="https://localhost:3000/create?id=${id}">Verify</a></p>`
     };
 
-    transporter.sendMail(mailOptions, function(error, info){
+    transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-        console.log(error);
+            console.log(error);
         }
         else {
-        console.log('Email sent: ' + info.response);
+            console.log('Email sent: ' + info.response);
         }
     });
 }
 
 router.post('/register', (req, res) => {
     var email = req.body.email;
-    var pos = email.indexOf('@');
 
-    if ( pos > -1 && email.includes('edu.hk', pos) ) {    // check if 'edu.hk' is included after @
-        //check if email exist in UserAccount
-        UserAccount.exists({ email: email }, function(err, result) {
-            if (err) {
-                console.log(err);
-            }
-            else if (result === true) {
-                res.send('Account registered!');
-            }
-            else {
-                //check if email exist in VerifyingAccount
-                VerifyingAccount.exists({ email: email }, function(err, result) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    else if (result === true) {
-                        res.send('Account Verifying!');
-                    }
-                    else {  //non exist email in mongodb
-                        var id = add(email);    //get objectID
-                        sendEmail(email, id);   //send email
-                        res.send('verification email sent');
-                    }
-                });
-            }
-        });
-    }
-    else {
-        res.send('Please input an university email address!');
-    }
+    //check if email exist in UserAccount
+    UserAccount.exists({ email: email }, function (err, result) {
+        if (err) {
+            console.log(err);
+        }
+        else if (result === true) {
+            res.send('Account registered!');
+        }
+        else {
+            //check if email exist in VerifyingAccount
+            VerifyingAccount.exists({ email: email }, function (err, result) {
+                if (err) {
+                    console.log(err);
+                }
+                else if (result === true) {
+                    res.send('Account Verifying!');
+                }
+                else {  //non exist email in mongodb
+                    var id = add(email);    //get objectID
+                    sendEmail(email, id);   //send email
+                    res.send('verification email sent');
+                }
+            });
+        }
+    });
     res.end();
 })
 
-module.exports = {router, nodemailer};
+module.exports = { router, nodemailer };
