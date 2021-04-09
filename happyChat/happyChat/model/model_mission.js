@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 var MissionSchema = mongoose.Schema({
     _id: {type:mongoose.Schema.Types.ObjectId},
     missionID:{type:Number},
-    topic:{type:String},
-    description:{type:String},
+    Name:{type:String},
+    Content:{type:String},
     token:{type:Number},
 });
 

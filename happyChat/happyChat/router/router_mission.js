@@ -15,7 +15,7 @@ router.get('/mission', (req, res) => {
            if(err){
                res.send(err)
            }else{
-               UserProfile.findById(result._id).populate('missionFinished').exec(function(err,missions){
+               UserProfile.findOne({account:result._id}).populate('missionFinished').exec(function(err,missions){
                if(err){
                    res.send(err);
                }else{
