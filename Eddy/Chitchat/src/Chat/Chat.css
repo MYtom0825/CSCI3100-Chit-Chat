@@ -1,0 +1,56 @@
+.chat_outerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #1a1a1d;
+}
+
+.chat_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+  height: 100%;
+  min-width: 100%;
+}
+
+.chating_container {
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+
+.namecard_container {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  min-height: 80vh;
+}
+
+.chatbox_container {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  min-height: 80vh;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .chat_outerContainer {
+    height: 100%;
+  }
+
+  .chat_container {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.confirmButton {
+  width: 50%;
+  padding: 5%;
+  font-size: 1.2em;
+}
+
+@media (min-width: 480px) and (max-width: 1200px) {
+  .chat_container {
+    width: 60%;
+  }
+}
