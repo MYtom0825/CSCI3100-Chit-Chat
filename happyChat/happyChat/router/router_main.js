@@ -120,6 +120,15 @@ router.post('/match', (req, res) => {   //filter
                         }
                     });
                     res.json(element);
+                    //send also 3 popup_quiz, ig, info(name, array of comment interest), chatroom
+                    //questions: [
+                    //{ id: "001", question: "Which food do you like more?", answer: ["Option A", "Option B"] },
+                    //{ id: "002", question: "Which animal do you like more?", answer: ["Option A", "Option B"] },
+                    //{ id: "003", question: "Which city do you like more?", answer: ["Option A", "Option B"] },
+                    //]
+                    //ig:
+                    //info: []
+                    //chatroom
                     break;
                     }
             });
