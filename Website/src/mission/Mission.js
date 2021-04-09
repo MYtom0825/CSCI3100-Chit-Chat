@@ -15,13 +15,15 @@ class Mission extends React.Component{
             missionFinished:[]
         }
     }
-    componentWillUnmount(){
-    axios.get('/mission').then(res=>res.json()).then(
-        
-    )
+    componentDidMount(){
+    axios.get('/mission').then(response=>response.data).then((data)=>{ //a sorted array of missionID must be returned
+        this.setState({missionFinished:data});
+        console.log(this.state.missionFinished);
+    })
     }
 
     render(){
+        const finishedMission=JSON.parse(missionFinished)
         const mission_list = [
                         {Name:"Create Ice-breaking Quiz", Content:"Think of some question for the Ice breaking quiz!",Link:"./home.html" },//0
                         {Name:"Hello", Content:"You are welcome", Link:"http://fb.com"},//1
@@ -41,9 +43,9 @@ class Mission extends React.Component{
                     <div className="mission_card">
                         <div className="table">
                             <div className="tr">
-                                {mission_list.map((mission_list)=>(
+                                {mission_list.map((mission_list,index)=>(
                                     <div className="tr">
-                                        <Mission_card name={mission_list.Name} content={mission_list.Content} link={mission_list.Link}/>
+                                        <Mission_card name={mission_list.Name} content={mission_list.Content} link={mission_list.Link} finished={finishedMission} index={index}/>
                                     </div>
                                 ))}
                             </div>
