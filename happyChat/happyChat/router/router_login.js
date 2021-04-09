@@ -26,9 +26,14 @@ router.post('/login', (req, res) => {   //login
     }
     if(bcrypt.compareSync(password,user.password)){
         req.session.username=user.username;
+        //get mongodb all user data
         //res.redirect('/');
         var data={
             'loginstate':2
+            'username': 
+            'email':
+            'Uni':
+            'major':
         };
         console.log("login successful");
         res.json(data);
