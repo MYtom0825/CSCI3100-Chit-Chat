@@ -10,7 +10,7 @@ class App extends React.Component {
         this.handleEmail = this.handleEmail.bind(this);
     }
     handleEmail(event) {
-        if (event.target.value.indexof('@') > -1 && email.includes('edu.hk', pos)) {
+        if (event.target.value.indexof('@') > -1 && event.target.value.includes('edu.hk', pos)) {
             this.setState({emailerrormessage: ""});
         }else{
             this.setState({usernameerrormessage: "Please input an university email address!"});
