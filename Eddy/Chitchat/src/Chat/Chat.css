@@ -21,9 +21,11 @@
 }
 
 .namecard_container {
+  padding: 5%;
+  border: 2px solid rgb(176, 176, 177);
   grid-column-start: 1;
   grid-column-end: 2;
-  min-height: 80vh;
+  min-height: 100vh;
 }
 
 .chatbox_container {

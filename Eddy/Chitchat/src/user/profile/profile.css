@@ -5,17 +5,17 @@
   top: 5%;
 }
 
-.profile_detail {
-  margin-left: 13%;
-  margin-right: 10%;
-  margin-top: 3%;
-  padding-top: 5%;
-  padding-left: 10%;
+.profile_detail{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 3% 10% 3% 13%;
+  padding: 5% 0 5% 10%;
   min-width: 10%;
   border: 2px solid rgb(176, 176, 177);
   border-radius: 15px;
   column-count: 2;
   right: 13%;
-  min-height: 600px;
+  min-height: 400px;
   text-align: left;
+  
 }
+
