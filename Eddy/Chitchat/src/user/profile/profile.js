@@ -4,19 +4,16 @@ import "./profile.css";
 import ProfileDetail from "./profileDetail";
 
 const profile = () => {
-  const user = [
-    {
-      name: "Tom",
-      gender: "Male",
-      picture: "",
-      description: "Hi I am use react",
-      major: "BEng",
-      university: "CU",
-      years: "3",
-      status: "A0",
-      interest: "nothing",
-    },
-  ];
+  const user = [{ name: "Tom",
+                gender: "Male",
+                picture: "",
+                description: "Hi I am using react",
+                facalty: "Engineering",
+                university: "CUHK",
+                years: "3",
+                status: "A0",
+                interest: ["Dancing","Pop music","Classic music"] 
+              }];
 
   return (
     <nav>
@@ -35,7 +32,7 @@ const profile = () => {
             gen={user.gender}
             pic={user.picture}
             des={user.description}
-            mj={user.major}
+            fac={user.facalty}
             u={user.university}
             yrs={user.years}
             sts={user.status}

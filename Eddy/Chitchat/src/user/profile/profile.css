@@ -1,21 +1,36 @@
 .profile_img {
   display: flex;
   border-radius: 50%;
-  margin-left: 45%;
-  top: 5%;
+
+}
+.profile_row::after{
+  content: "";
+  display: table;
+  clear: both;
+}
+.profile_colm25{
+
+  height: 100px;
+  float: left;        
+  width: 35%;
+  text-align: left;
+
 }
 
+.profile_colm75{
+
+  float: left;    
+  width: 55%;
+  height: 10%;
+}
 .profile_detail{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   margin: 3% 10% 3% 13%;
   padding: 5% 0 5% 10%;
-  min-width: 10%;
   border: 2px solid rgb(176, 176, 177);
   border-radius: 15px;
-  column-count: 2;
   right: 13%;
   min-height: 400px;
   text-align: left;
-  
+  min-width: 10%;
 }
-
