@@ -38,11 +38,11 @@ router.post('/match', (req, res) => {    //matching
 
     async function lookfor() {
         var account= await getAccount();
-        var profile= await getProfile(account.user_id);
+        var profile= await getProfile(account._id);
         if (profile !== []) {    //set new Queue with info inside profile
             const newQueue = new Queue({
                 _id: new mongoose.Types.ObjectId(),
-                userAccount: account.user_id,
+                userAccount: account._id,
                 //queueNumber: ,    //auto-increment...
                 requiredGender: gender,
                 requiredUni: uni,
@@ -77,6 +77,7 @@ router.post('/match', (req, res) => {    //matching
     if(!username){
         return res.status(401).send();
     }
+
     lookfor();
     
     const matchUsers = Queue.find({
