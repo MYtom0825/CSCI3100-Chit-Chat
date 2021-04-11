@@ -12,6 +12,7 @@ const User = () => {
   const [tomission, setgomission] = useState(false);
   const [toProfile, setgoProfile] = useState(true);
   const [toChat, setgoChat] = useState(false);
+  const [chatting, setchatting] = useState(false);
 
   const MissionGet = () => {
     setgomission((tomission) => (tomission = true));
@@ -34,14 +35,12 @@ const User = () => {
 
   return (
     <div className='app'>
-      <div>
-        <Menu toProf={ProfileGet} tomission={MissionGet} toChat={ChatGet} />
-      </div>
+      <div>{chatting ? "" : <Menu toProf={ProfileGet} tomission={MissionGet} toChat={ChatGet} />}</div>
       <div className='body'>
-        <TokenBlock />
+        {chatting ? "" : <TokenBlock />}
         {toProfile ? <Profile /> : ""}
         {tomission ? <Mission /> : ""}
-        {toChat ? <Matching_1 /> : ""}
+        {toChat ? <Matching_1 setchatting={setchatting} /> : ""}
       </div>
     </div>
   );

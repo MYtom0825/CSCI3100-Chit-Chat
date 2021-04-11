@@ -40,12 +40,14 @@ const Matching_1 = (props) => {
             ],
           };
           setpopupquiz(response);
+
           /*var response= JSON.parse(this.responseText);
            */
-
+          props.setchatting(true);
           setmatching(3);
         } else if (this.readyState == 4) {
           setmatching(3);
+          props.setchatting(true);
         }
       };
       xhttp.open("POST", "http://localhost:5000", true);
@@ -143,7 +145,7 @@ const Matching_1 = (props) => {
     );
   else if (matching == 1) return <Match_loading userPref={userPref} setmatching={setmatching} />;
   else if (matching == 3) return <Popup_quiz setmatching={setmatching} popupquiz={popupquiz} setuserResponse={setuserResponse} />;
-  else if (matching == 2) return <Chat setmatching={setmatching} userResponse={userResponse} />;
+  else if (matching == 2) return <Chat setmatching={setmatching} userResponse={userResponse} setchatting={props.setchatting} />;
 };
 
 export default Matching_1;

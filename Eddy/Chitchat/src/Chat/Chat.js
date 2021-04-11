@@ -20,7 +20,7 @@ var connectionOptions = {
   transports: ["websocket"],
 };
 
-const Chat = ({ setmatching, userResponse }) => {
+const Chat = ({ setmatching, userResponse, setchatting }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
@@ -94,6 +94,7 @@ const Chat = ({ setmatching, userResponse }) => {
       setMessages([...messages, message, message2]);
       setTimeout(function () {
         setmatching(0);
+        setchatting(false);
       }, 5000);
     }, 10000);
     /*
