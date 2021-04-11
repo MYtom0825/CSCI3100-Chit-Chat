@@ -6,6 +6,7 @@ import Menu from "./menu/Menu";
 import Profile from "./profile/profile.js";
 import Mission from "./mission/Mission";
 import Matching_1 from "./matching/matching_1";
+import TokenBlock from "../token/Token";
 
 const User = () => {
   const [tomission, setgomission] = useState(false);
@@ -37,6 +38,7 @@ const User = () => {
         <Menu toProf={ProfileGet} tomission={MissionGet} toChat={ChatGet} />
       </div>
       <div className='body'>
+        <TokenBlock />
         {toProfile ? <Profile /> : ""}
         {tomission ? <Mission /> : ""}
         {toChat ? <Matching_1 /> : ""}

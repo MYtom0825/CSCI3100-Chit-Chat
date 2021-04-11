@@ -62,7 +62,7 @@ class LoginPage extends React.Component {
               <h1>Sign in</h1>
               <input type='email' placeholder='University Email' id='userEmail' />
               <input type='password' placeholder='Password' id='userPW' />
-              <a href='#'>Forgot your password?</a>
+              <a href='./forgotpassword'>Forgot your password?</a>
               <button onClick={this.props.loginHandler}>Sign In</button>
             </form>
           </div>

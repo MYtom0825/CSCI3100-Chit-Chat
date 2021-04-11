@@ -20,7 +20,6 @@ class Match_loading extends React.Component {
       <div>
         <div className='mission_1'>
           <div className='grid_container'>
-            <div className='menu_bar'></div>
             <div className='matching_intro'>
               <Filter
                 gender={this.props.userPref.gender}
@@ -31,11 +30,11 @@ class Match_loading extends React.Component {
               />
             </div>
             <div className='loading_layout'>
-              <div class='loader'></div>
+              <div className='loader'></div>
               <h1>Queueing Time: </h1>
               <p className='remind'>You may reduce filter to have faster matching...</p>
               <button type='submit' className='submit'>
-                Return to filter selection
+                Return
               </button>
             </div>
           </div>

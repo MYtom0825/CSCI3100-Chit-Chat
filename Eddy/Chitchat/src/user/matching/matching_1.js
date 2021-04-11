@@ -48,20 +48,21 @@ const Matching_1 = (props) => {
           setmatching(3);
         }
       };
-      xhttp.open("GET", "http://localhost:5000", true);
+      xhttp.open("POST", "http://localhost:5000", true);
       xhttp.setRequestHeader("Access-Control-Allow-Headers", "*");
       xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
       // xhttp.setRequestHeader("X-PINGOTHER", "pingpong");
       //xhttp.setRequestHeader("Content-Type", "application/xml");
+      xhttp.setRequestHeader("Content-type", "application/json");
       console.log(userPref);
-      xhttp.send(userPref);
+      console.log(JSON.stringify(userPref));
+      xhttp.send(JSON.stringify(userPref));
     }
   };
   if (matching == 0)
     return (
       <div className='mission_1'>
-        <div className='grid_container'>
-          <div className='menu_bar'></div>
+        <div className='matching1_grid_container'>
           <div className='matching_intro'>
             <ul>
               <p>Welcome to the Matching Function!</p>

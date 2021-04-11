@@ -6,7 +6,8 @@ import Matching_1 from "./user/matching/matching_1.js";
 import Match_loading from "./user/matching/match_loading.js";
 import Name_card from "./user/matching/namecard.js";
 import Cookies from "universal-cookie";
-
+import ProfileRegisterForm from "./ProfileRegistrationForm/ProfileRegisterForm";
+import Forget_password from "./Forget_password/Forget_password.js";
 const cookies = new Cookies();
 
 const BACKEND = "http://localhost:3001/";
@@ -82,12 +83,18 @@ class App extends React.Component {
       return <LoginPage loginHandler={this.loginHandler} />; /*loadingHandler={this.loadingHandler} namecardHandler={this.namecardHandler} filterformHandler={this.filterformHandler}*/
     } else if (this.state.loc == "user") {
       return <User />;
+    } else if (this.state.loc == "registration") {
+      return <ProfileRegisterForm />;
     } /*else if (this.state.loc == "loading") {
       return <Match_loading />;
     } else if (this.state.loc == "filter") {
       return <filter />;  else if (this.state.loc == "namecard") {
       return <Name_card />;
-      } else return <Matching_1 />;*/
+      } else return <Matching_1 />;*/ else if (
+      this.state.loc == "forgotpassword"
+    ) {
+      return <Forget_password />;
+    }
   }
   componentDidMount() {
     /*
