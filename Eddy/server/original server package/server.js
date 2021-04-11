@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('session');
 const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment');
 const socketio = require('socket.io');
 const http = require('http');
 
@@ -29,6 +30,7 @@ app.use(mission);
 //mongodb
 mongoose.connect("mongodb+srv://chit_chat:1230123@cluster0.4syir.mongodb.net/chit_chat?retryWrites=true&w=majority",{useNewUrlParser: true});
 var db = mongoose.connection;
+
 db.on('error',console.error.log(console,'MongoDB connection failed'));
 db.once('succeed',()=>{console.log('Successful connection')});
 
