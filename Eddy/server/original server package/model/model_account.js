@@ -7,7 +7,7 @@ var UserAccountSchema = mongoose.Schema({
     email:{type:String,unique:true,require:true},
     onOffstatus:{type:String},
     userProfile:{type:mongoose.Schema.Types.ObjectId,ref:'UserProfile'},
-    misson:{type:mongoose.Schema.Types.ObjectId,ref:'Mission'},
+    missionFinished:[{type:Number}],
     report:{type:mongoose.Schema.Types.ObjectId,ref:'Report'},
     queue:{type:mongoose.Schema.Types.ObjectId,ref:'Queue'}
 });

@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 let UserAccount = require('../model/model_account.js');
 
+const { Mongoose } = require('mongoose');
 router.get('/login', (req, res) => {
     res.send('running la');
 })
@@ -22,7 +23,7 @@ router.post('/login', (req, res) => {   //login
             'loginstate':0
         };
         console.log("can't find user");
-        res.json(data);
+        return res.json(data);
     }
     if(bcrypt.compareSync(password,user.password)){
         req.session.username=user.username;
@@ -30,14 +31,23 @@ router.post('/login', (req, res) => {   //login
         var data={
             'loginstate':2
         };
+
+        user.missionFinished.push(0); //0=login mission
+        user.save({
+            if(error){
+                console.log(error);
+            }
+        });
+
         console.log("login successful");
-        res.json(data);
+        
+        return res.json(data);
     }else{
         var data={
             'loginstate':1
         };
         console.log("password incorrect");
-        res.json(data);
+        return res.json(data);
     }
     });
 
