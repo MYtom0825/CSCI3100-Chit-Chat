@@ -5,7 +5,7 @@ import "./ProfileRegisterForm.css";
 
 class ProfileRegisterForm extends React.Component{
     render(){
-        const user = { name: "Tom",
+        /*const user = { name: "Tom",
                 gender: "Male",
                 picture: "",
                 description: "Hi I am using react",
@@ -13,7 +13,8 @@ class ProfileRegisterForm extends React.Component{
                 university: "CUHK",
                 years: "3",
                 status: "A0",
-                interest: ["Dancing","Pop music","Classic music"] };
+                interest: ["Dancing","Pop music","Classic music"] };*/
+        var user = this.props.user;
         var facalties=[ "Engineering",
                         "Medicine",
                         "Law",
@@ -144,8 +145,12 @@ class ProfileRegisterForm extends React.Component{
                         })}
                         </div>
                     </div>
+
                </div>
-               
+               <div className="ProfileRegisterForm_row">
+                   <input type="submit" value="Submit" id="Submit" ></input>
+               </div>
+
             </div>
         )
     }
