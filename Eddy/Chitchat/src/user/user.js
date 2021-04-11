@@ -5,12 +5,11 @@ import "./user.css";
 import Menu from "./menu/Menu";
 import Profile from "./profile/profile.js";
 import Mission from "./mission/Mission";
-import Mission_card from "./mission/Mission_card";
 import Matching_1 from "./matching/matching_1";
 
 const User = () => {
   const [tomission, setgomission] = useState(false);
-  const [toProfile, setgoProfile] = useState(false);
+  const [toProfile, setgoProfile] = useState(true);
   const [toChat, setgoChat] = useState(false);
 
   const MissionGet = () => {

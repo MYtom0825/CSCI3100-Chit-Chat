@@ -20,7 +20,7 @@ var connectionOptions = {
   transports: ["websocket"],
 };
 
-const Chat = ({ setmatching }) => {
+const Chat = ({ setmatching, userResponse }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
@@ -31,6 +31,8 @@ const Chat = ({ setmatching }) => {
   const [confirmed, setconfirmed] = useState(false);
   const [share, setshare] = useState(false);
   const [countertime, setcountertime] = useState(1);
+  const [partnerresponse, setpartnerresponse] = useState({});
+  const [partnerResponseRendered, setpartnerResponseRendered] = useState(false);
 
   useEffect(() => {
     const name = cookies.get("Username");
@@ -40,7 +42,7 @@ const Chat = ({ setmatching }) => {
     setName(name);
     setRoom(room);
     socket.emit("join", { name, room }, () => {});
-    console.log(cookies.getAll().Username);
+    socket.emit("answer", { userResponse });
     return () => {
       //for unmount
       socket.disconnect();
@@ -53,6 +55,18 @@ const Chat = ({ setmatching }) => {
       setMessages([...messages, message]);
     });
   }, [messages]);
+
+  useEffect(() => {
+    socket.on("showquiz", (Partnerresponse) => {
+      setpartnerresponse({ ...partnerresponse, ...Partnerresponse });
+    });
+  }, [partnerresponse]);
+
+  useEffect(() => {
+    socket.on("shareAgain", () => {
+      socket.emit("answer", { userResponse });
+    });
+  });
 
   useEffect(() => {
     if (End) {
@@ -126,7 +140,7 @@ const Chat = ({ setmatching }) => {
   return (
     <div className='chating_container'>
       <div className='namecard_container'>
-        <Name_card />
+        <Name_card partnerresponse={partnerresponse} />
       </div>
       <div className='chatbox_container'>
         <div className='chat_outerContainer'>
