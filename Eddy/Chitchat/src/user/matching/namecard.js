@@ -8,7 +8,6 @@ class Name_card extends React.Component {
     super(props);
   }
   render() {
-    console.log(this.props.partnerresponse.userResponse);
     return (
       <div>
         <div className='namecard_card'>

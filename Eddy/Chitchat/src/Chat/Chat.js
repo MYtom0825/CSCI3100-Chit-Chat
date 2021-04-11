@@ -54,6 +54,7 @@ const Chat = ({ setmatching, userResponse }) => {
     socket.on("message", (message) => {
       setMessages([...messages, message]);
     });
+    console.log(messages);
   }, [messages]);
 
   useEffect(() => {
@@ -70,23 +71,26 @@ const Chat = ({ setmatching, userResponse }) => {
 
   useEffect(() => {
     if (End) {
+      console.log(messages);
       var confirmation = "Would you like to share your IG account to your partner?";
       var message = { user: "admin", text: confirmation };
-      console.log(message);
+
       setMessages([...messages, message]);
+      console.log(messages);
     }
   }, [End]);
 
   const timeIsUp = () => {
+    console.log("rendered timeisup");
     setEnd(true);
     setTimeout(function () {
       setconfirmed(true);
+      console.log("rendered 1st line");
+      console.log(messages);
       var confirmation = "You will be directed back to the matching page in 5 seconds.";
       var message = { user: "admin", text: confirmation };
-      console.log(message);
       var confirmation2 = "Hope you have enjoyed the chat^^!";
       var message2 = { user: "admin", text: confirmation2 };
-      console.log(message);
       setMessages([...messages, message, message2]);
       setTimeout(function () {
         setmatching(0);

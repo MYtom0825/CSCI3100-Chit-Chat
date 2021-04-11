@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 let UserAccount = require('../model/model_account.js');
-const UserProfile = require('../model/model_profile.js');
+
 
 router.use(session({secret:'random',resave:false,saveUninitialized:true}));
 
@@ -12,17 +12,15 @@ router.get('/mission', (req, res) => {
     }
 
     UserAccount.findOne({username:req.session.username},function(err,result){
+         const missionFinished=[];
            if(err){
                res.send(err)
            }else{
-               UserProfile.findOne({account:result._id}).populate('missionFinished').exec(function(err,missions){
-               if(err){
-                   res.send(err);
-               }else{
-                console.log('Json structure of an array data is sent.');
-                 res.json(JSON.stringify(missions));
-               }
-               });
+              missionFinished=result.missionFinished;
+              missionFinished.sort();
+             return res.json({
+                  missionFinishedID:missionFinished
+              });
            }
     });
 });
