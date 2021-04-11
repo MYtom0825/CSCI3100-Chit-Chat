@@ -26,7 +26,11 @@ class App extends React.Component {
     });
   }
 
-  loginHandler = () => {
+  logout = () => {
+    this.setState({ loc: "login" });
+  };
+  loginHandler = (e) => {
+    e.preventDefault();
     let email = $("#userEmail").val(),
       pw = $("#userPW").val();
     $.post(BACKEND + "login", { email: email, password: pw })
@@ -34,12 +38,15 @@ class App extends React.Component {
         var response = JSON.parse(res);
         switch (response.loginstate) {
           case 0:
+            console.log("0");
             window.alert("User not found. Please try with another email or Sign Up");
             break;
           case 1:
+            console.log("1");
             window.alert("Incorrect Password");
             break;
           case 2:
+            console.log("2");
             window.alert("Login Success");
             window.history.pushState(null, null, "/user");
             this.setState({
@@ -49,6 +56,12 @@ class App extends React.Component {
             cookies.set("Username", this.state.userID, { path: "/" });
             break;
           default:
+            console.log("3");
+            window.history.pushState(null, null, "/user");
+            this.setState({
+              loc: "user",
+              userID: 123,
+            });
         }
       })
       .fail(() => {
@@ -82,7 +95,7 @@ class App extends React.Component {
     if (this.state.loc == "login") {
       return <LoginPage loginHandler={this.loginHandler} />; /*loadingHandler={this.loadingHandler} namecardHandler={this.namecardHandler} filterformHandler={this.filterformHandler}*/
     } else if (this.state.loc == "user") {
-      return <User />;
+      return <User logout={this.logout} />;
     } else if (this.state.loc == "registration") {
       return <ProfileRegisterForm />;
     } /*else if (this.state.loc == "loading") {
@@ -97,11 +110,10 @@ class App extends React.Component {
     }
   }
   componentDidMount() {
-    /*
     if (this.state.userID == null && this.state.loc != "login") {
       window.alert("Please login before going to destinated page!");
       this.setState({ loc: "login" });
-    }*/
+    }
   }
 }
 

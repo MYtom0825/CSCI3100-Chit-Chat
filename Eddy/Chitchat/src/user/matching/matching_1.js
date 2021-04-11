@@ -4,6 +4,7 @@ import React, { Component, useState } from "react";
 import Match_loading from "./match_loading";
 import Chat from "../../Chat/Chat";
 import Popup_quiz from "./popup_quiz";
+import Filter_form from "./Filter_form";
 
 const Matching_1 = (props) => {
   const [matching, setmatching] = useState(0);
@@ -43,7 +44,7 @@ const Matching_1 = (props) => {
 
           /*var response= JSON.parse(this.responseText);
            */
-          props.setchatting(true);
+          //props.setchatting(true);
           setmatching(3);
         } else if (this.readyState == 4) {
           setmatching(3);
@@ -63,7 +64,8 @@ const Matching_1 = (props) => {
   };
   if (matching == 0)
     return (
-      <div className='mission_1'>
+      <Filter_form matchingStartHandler={matchingStartHandler} />
+      /*<div className='mission_1'>
         <div className='matching1_grid_container'>
           <div className='matching_intro'>
             <ul>
@@ -141,10 +143,10 @@ const Matching_1 = (props) => {
             </form>
           </div>
         </div>
-      </div>
+      </div>*/
     );
   else if (matching == 1) return <Match_loading userPref={userPref} setmatching={setmatching} />;
-  else if (matching == 3) return <Popup_quiz setmatching={setmatching} popupquiz={popupquiz} setuserResponse={setuserResponse} />;
+  else if (matching == 3) return <Popup_quiz userPref={userPref} setmatching={setmatching} popupquiz={popupquiz} setuserResponse={setuserResponse} />;
   else if (matching == 2) return <Chat setmatching={setmatching} userResponse={userResponse} setchatting={props.setchatting} />;
 };
 

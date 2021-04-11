@@ -17,23 +17,19 @@ class Mission extends React.Component {
       { Name: "Hello", Content: "You are welcome", Link: "http://fb.com" },
     ];
     return (
-      <div>
-        <div className="column">
+      <div className='mission'>
+        <div className='column'>
           <text_title>DAILY LOGIN</text_title>
-          <Calendar locale="en-US" />
+          <Calendar locale='en-US' />
         </div>
-        <div className="column">
+        <div className='column'>
           <text_title1>MISSION LIST</text_title1>
-          <div className="mission_card">
-            <div className="table">
-              <div className="tr">
+          <div className='mission_card'>
+            <div className='table'>
+              <div className='tr'>
                 {mission_list.map((mission_list) => (
-                  <div className="tr">
-                    <Mission_card
-                      name={mission_list.Name}
-                      content={mission_list.Content}
-                      link={mission_list.Link}
-                    />
+                  <div className='tr'>
+                    <Mission_card name={mission_list.Name} content={mission_list.Content} link={mission_list.Link} />
                   </div>
                 ))}
               </div>

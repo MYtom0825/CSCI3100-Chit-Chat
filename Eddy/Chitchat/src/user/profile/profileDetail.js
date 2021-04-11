@@ -17,7 +17,7 @@ const ProfileDetail = (props) => {
         <h1 className='profile_colm75'> {props.des}</h1>
       </div>
       <div className='profile_row'>
-        <h1 className='profile_colm25'>Facalty: </h1>
+        <h1 className='profile_colm25'>Faculty: </h1>
         <h1 className='profile_colm75'> {props.fac}</h1>
       </div>
       <div className='profile_row'>

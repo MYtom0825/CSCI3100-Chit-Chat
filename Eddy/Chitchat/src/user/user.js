@@ -8,7 +8,7 @@ import Mission from "./mission/Mission";
 import Matching_1 from "./matching/matching_1";
 import TokenBlock from "../token/Token";
 
-const User = () => {
+const User = (props) => {
   const [tomission, setgomission] = useState(false);
   const [toProfile, setgoProfile] = useState(true);
   const [toChat, setgoChat] = useState(false);
@@ -35,7 +35,7 @@ const User = () => {
 
   return (
     <div className='app'>
-      <div>{chatting ? "" : <Menu toProf={ProfileGet} tomission={MissionGet} toChat={ChatGet} />}</div>
+      <div>{chatting ? "" : <Menu logout={props.logout} toProf={ProfileGet} tomission={MissionGet} toChat={ChatGet} />}</div>
       <div className='body'>
         {chatting ? "" : <TokenBlock />}
         {toProfile ? <Profile /> : ""}

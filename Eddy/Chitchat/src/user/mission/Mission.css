@@ -7,7 +7,9 @@
   border-right: 10px solid rgb(250, 47, 233);
   min-height: 100vh;
 }
-
+.mission * {
+  box-sizing: border-box;
+}
 .mission_card {
   display: flex;
   margin-top: 10%;

@@ -46,7 +46,7 @@ class LoginPage extends React.Component {
     cookies.set("Username", Math.floor(Math.random() * 100).toString(), { path: "/" });
     cookies.set("UserIG", "IGAccount", { path: "/" });
     return (
-      <div>
+      <div className='login_page'>
         <div className={this.state.container} id='container'>
           <div className='form-container sign-up-container'>
             <form action='#'>
@@ -58,12 +58,12 @@ class LoginPage extends React.Component {
             </form>
           </div>
           <div className='form-container sign-in-container'>
-            <form action='#'>
+            <form>
               <h1>Sign in</h1>
               <input type='email' placeholder='University Email' id='userEmail' />
               <input type='password' placeholder='Password' id='userPW' />
               <a href='./forgotpassword'>Forgot your password?</a>
-              <button onClick={this.props.loginHandler}>Sign In</button>
+              <button onClick={(event) => this.props.loginHandler(event)}>Sign In</button>
             </form>
           </div>
           <div className='overlay-container'>
