@@ -4,6 +4,7 @@ const router = express.Router();
 let UserProfile = require('../model/model_profile.js');
 let UserAccount = require('../model/model_account.js');
 let Queue = require('../model/model_queue.js');
+let Quiz = require('../model/model_quiz.js');
 
 router.use(express.json());
 router.use(express.urlencoded());
@@ -13,6 +14,10 @@ router.get('/main', (req, res) => {
 })
 
 router.post('/match', (req, res) => {    //matching
+    if(!username){
+        return res.status(401).send();
+    }
+
     //insert into queue db
     function getProfile(id) {
         UserProfile.findOne({ account: id }).populate('userProfile').exec(function(err, result) {
@@ -36,13 +41,25 @@ router.post('/match', (req, res) => {    //matching
         });
     }
 
+    function getQuiz() {
+        Quiz.aggregate([{$sample:{size:3}}], function(err, result) {
+            if(err) {
+                console.log(err);
+            }
+            else {
+                return result;
+            }
+        });
+    }
+
     async function lookfor() {
-        var account= await getAccount();
-        var profile= await getProfile(account.user_id);
+        account = await getAccount();
+        profile = await getProfile(account._id);
+        quiz = await getQuiz();
         if (profile !== []) {    //set new Queue with info inside profile
             const newQueue = new Queue({
                 _id: new mongoose.Types.ObjectId(),
-                userAccount: account.user_id,
+                userAccount: account._id,
                 //queueNumber: ,    //auto-increment...
                 requiredGender: gender,
                 requiredUni: uni,
@@ -64,9 +81,6 @@ router.post('/match', (req, res) => {    //matching
         }
     }
 
-    //matcher's info
-    var username = req.session.username;
-
     //set filters
     var gender = req.body.gender;
     var uni = req.body.uni;
@@ -74,11 +88,20 @@ router.post('/match', (req, res) => {    //matching
     var year = req.body.year;
     var status = req.body.status;
 
-    if(!username){
-        return res.status(401).send();
-    }
+    var account;
+    var profile;
     lookfor();
     
+    function delQueue(id) {
+        Queue.deleteOne({userAccount: id},function(err) {
+            if(err){
+                console.log(err);
+            }else{
+                console.log(`User ${id} deleted from the queue`);
+            }
+        });
+    }
+
     const matchUsers = Queue.find({
             $and: [
                 { requiredGender: { gender, $exists: true, $ne: [] } }, 
@@ -91,8 +114,8 @@ router.post('/match', (req, res) => {    //matching
 
     if (matchUsers !== {}) {
     //check the one being matched if his filter also satisfied
-        matchUser.forEach(element => {
-            var profile=UserProfile.findById(element.user_id,function(err,result){
+        matchUsers.forEach(element => {
+            var profile=UserProfile.findById(element.user_id,function(err,result) {
                 if(err){
                     console.log(err);
                 }else{
@@ -106,23 +129,30 @@ router.post('/match', (req, res) => {    //matching
                 (element.requiredYear === null || profile.account.year === element.requiredYear) &&
                 (element.requiredStatus === null || profile.account.status === element.requiredStatus) ) 
             {
-                Queue.deleteOne({userAccount:element.user_id},function(err){
-                    if(err){
-                        console.log(err);
-                    }else{
-                        console.log('User deleted from the queue');
-                    }
-                });
-                res.json(element);
-                //send also 3 popup_quiz, ig, info(name, array of comment interest), chatroom
-                //questions: [
-                //{ id: "001", question: "Which food do you like more?", answer: ["Option A", "Option B"] },
-                //{ id: "002", question: "Which animal do you like more?", answer: ["Option A", "Option B"] },
-                //{ id: "003", question: "Which city do you like more?", answer: ["Option A", "Option B"] },
-                //]
-                //ig:
-                //info: []
-                //chatroom
+                delQueue(element.account._id);      //del matched user in Queue
+                delQueue(account._id);              //del user in Queue
+                var matchedProfile = getProfile(element.account._id);
+                let commonInterest = profile.interest.filter(x => matchedProfile.interest.includes(x));
+                var roomID = Math.random().toString(36).substr(8);
+
+                let json = {
+                    //account: account,
+                    questions: {
+                        id: quiz.quizID,
+                        question: quiz.question,
+                        answer: [quiz.answer1, quiz.answer2],
+                    },
+                    contact: {
+                        type: profile.contactType,
+                        contact: profile.contact,
+                    },
+                    info: {
+                        name: profile.nickname,
+                        commonInterest: commonInterest,
+                    },
+                    room: roomID,
+                };
+                res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
                 break;
             }
         });
