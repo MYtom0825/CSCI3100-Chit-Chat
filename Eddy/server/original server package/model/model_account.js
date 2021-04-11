@@ -9,7 +9,8 @@ var UserAccountSchema = mongoose.Schema({
     userProfile:{type:mongoose.Schema.Types.ObjectId,ref:'UserProfile'},
     missionFinished:[{type:Number}],
     report:{type:mongoose.Schema.Types.ObjectId,ref:'Report'},
-    queue:{type:mongoose.Schema.Types.ObjectId,ref:'Queue'}
+    queue:{type:mongoose.Schema.Types.ObjectId,ref:'Queue'},
+    token:{type:Number}
 });
 
 var UserAccount = mongoose.model('UserAccount',UserAccountSchema);
