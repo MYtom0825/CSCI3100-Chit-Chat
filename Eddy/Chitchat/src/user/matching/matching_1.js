@@ -57,7 +57,6 @@ const Matching_1 = (props) => {
       xhttp.send(userPref);
     }
   };
-  console.log("!!!!!!!!!!!!!!!!!!!!!" + userResponse);
   if (matching == 0)
     return (
       <div className='mission_1'>

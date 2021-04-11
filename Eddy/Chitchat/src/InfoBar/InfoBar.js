@@ -17,23 +17,23 @@ const InfoBar = ({ room, timeIsUp, countertime }) => {
   }
 
   useEffect(() => {
-    var x = setInterval(function () {
-      var now = new Date().getTime();
-      var distance = endtime - now;
-      //var distance = 0;
-      console.log("hello");
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      document.getElementsByClassName("chatboxtime")[0].innerHTML = minutes + "minutes " + seconds + "seconds left";
-      if (distance <= 1) {
+    if (endtime - new Date().getTime() > 0) {
+      var x = setInterval(function () {
+        var now = new Date().getTime();
+        var distance = endtime - now;
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        document.getElementsByClassName("chatboxtime")[0].innerHTML = minutes + "minutes " + seconds + "seconds left";
+        if (distance <= 1) {
+          clearInterval(x);
+          document.getElementsByClassName("chatboxtime")[0].innerHTML = " Time is up";
+          timeIsUp();
+        }
+      }, 1000);
+      return () => {
         clearInterval(x);
-        document.getElementsByClassName("chatboxtime")[0].innerHTML = " Time is up";
-        timeIsUp();
-      }
-    }, 1000);
-    return () => {
-      clearInterval(x);
-    };
+      };
+    }
   });
 
   return (
