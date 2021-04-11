@@ -21,7 +21,7 @@ io.on("connection", (socket) => {
     socket.broadcast.to(user.room).emit("message", { user: "admin", text: `${user.name}, has joined!` });
 
     socket.join(user.room);
-
+    socket.broadcast.to(user.room).emit("shareAgain");
     io.to(user.room).emit("roomData", { room: user.room, users: getUsersInRoom(user.room) });
   });
 
@@ -30,6 +30,10 @@ io.on("connection", (socket) => {
     socket.broadcast.to(user.room).emit("message", { user: "admin", text: `Your partner decided to share IG: ${message} ` });
   });
 
+  socket.on("answer", (userResponse) => {
+    const user = getUser(socket.id);
+    socket.broadcast.to(user.room).emit("showquiz", userResponse);
+  });
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
     io.to(user.room).emit("message", { user: user.name, text: message });

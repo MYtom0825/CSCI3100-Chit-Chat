@@ -90,10 +90,11 @@ class App extends React.Component {
       } else return <Matching_1 />;*/
   }
   componentDidMount() {
+    /*
     if (this.state.userID == null && this.state.loc != "login") {
       window.alert("Please login before going to destinated page!");
       this.setState({ loc: "login" });
-    }
+    }*/
   }
 }
 

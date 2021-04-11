@@ -57,6 +57,7 @@ const Matching_1 = (props) => {
       xhttp.send(userPref);
     }
   };
+  console.log("!!!!!!!!!!!!!!!!!!!!!" + userResponse);
   if (matching == 0)
     return (
       <div className='mission_1'>
@@ -142,7 +143,7 @@ const Matching_1 = (props) => {
     );
   else if (matching == 1) return <Match_loading userPref={userPref} setmatching={setmatching} />;
   else if (matching == 3) return <Popup_quiz setmatching={setmatching} popupquiz={popupquiz} setuserResponse={setuserResponse} />;
-  else if (matching == 2) return <Chat setmatching={setmatching} />;
+  else if (matching == 2) return <Chat setmatching={setmatching} userResponse={userResponse} />;
 };
 
 export default Matching_1;

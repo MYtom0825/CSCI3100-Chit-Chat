@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
     console.log("recieved");
     //res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
     res.send("server is up and running");
-  }, 100000);
+  }, 100);
 });
 
 module.exports = router;

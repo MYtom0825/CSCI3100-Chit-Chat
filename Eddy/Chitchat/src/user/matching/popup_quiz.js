@@ -15,7 +15,7 @@ const Popup_quiz = ({ setmatching, popupquiz, setuserResponse }) => {
         {popupquiz.questions.map((x) => (
           <div>
             <p>{x.question}</p>
-            <input type='radio' id={x.answer[0]} name={x.id} value={x.answer[0]} />
+            <input type='radio' id={x.answer[0]} name={x.id} value={x.answer[0]} defaultChecked />
             <label htmlFor={x.answer[0]}>{x.answer[0]}</label>
             <br />
             <input type='radio' id={x.answer[1]} name={x.id} value={x.answer[1]} />
