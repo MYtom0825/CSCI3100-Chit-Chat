@@ -1,11 +1,11 @@
 import React from "react";
-import './App.css';
+import './Pop_up_quiz.css';
 
-import Menu from "./Menu/Menu";
-import Filter from "./Filter/Filter";
-import Timer from "./Timer/Timer";
+import Menu from "./../Menu/Menu";
+import Filter from "./../Filter/Filter";
+import Timer from "./../Timer/Timer";
 
-class App extends React.Component{
+class Pop_up_quiz extends React.Component{
   filter = {
     gender: "Male",
     university: "CUHK",
@@ -14,11 +14,11 @@ class App extends React.Component{
     status: "Available"
   }
 
-  questions = [{
-    Q1: ["Chocolate", "Candy"],
-    Q2: ["Hiking", "Reading"],
-    Q3: ["Japan", "Korea"]
-  }]
+  questions = [
+    ["Q1","Chocolate", "Candy"],
+    ["Q2", "Hiking", "Reading"],
+    ["Q3", "Japan", "Korea"]
+  ]
 
 
   render(){
@@ -26,7 +26,6 @@ class App extends React.Component{
       <div>
       <div className="mission_1">
       <div className="grid_container">
-        <div className="menu_bar"></div>
         <div className="matching_intro">
           <Filter gender={this.filter.gender}
                   university={this.filter.university}
@@ -42,29 +41,21 @@ class App extends React.Component{
             <form className="pop_up_quiz">
               <p>You have 2 minutes to answer the following questions.</p>
               <Timer/>
-              <h1 className="question">Q1. I prefer</h1>
-              <div className="radio-container">
-                <input type="radio" id={this.questions[0].Q1[0]} name="Q1" value={this.questions[0].Q1[0]}/>
-                <label for={this.questions[0].Q1[0]}>{this.questions[0].Q1[0]}</label>
-                <input type="radio" id={this.questions[0].Q1[1]} name="Q1" value={this.questions[0].Q1[1]}/>
-                <label for={this.questions[0].Q1[1]}>{this.questions[0].Q1[1]}</label><br></br>
-              </div>
-              <h1 className="question">Q2. I prefer</h1>
-              <div className="radio-container">
-                <input type="radio" id={this.questions[0].Q2[0]} name="Q2" value={this.questions[0].Q2[0]}/>
-                <label for={this.questions[0].Q2[0]}>{this.questions[0].Q2[0]}</label>
-                <input type="radio" id={this.questions[0].Q1[1]} name="Q2" value={this.questions[0].Q2[1]}/>
-                <label for={this.questions[0].Q2[1]}>{this.questions[0].Q2[1]}</label><br></br>
-              </div>
-              <h1 className="question">Q3. I prefer</h1>
-              <div className="radio-container">
-                <input type="radio" id={this.questions[0].Q3[0]} name="Q3" value={this.questions[0].Q3[0]}/>
-                <label for={this.questions[0].Q3[0]}>{this.questions[0].Q3[0]}</label>
-                <input type="radio" id={this.questions[0].Q3[1]} name="Q3" value={this.questions[0].Q3[1]}/>
-                <label for={this.questions[0].Q3[1]}>{this.questions[0].Q3[1]}</label><br></br>
-              </div>
+              {this.questions.map((x) => (
+                <div className="question">
+                  <div className="pop-up-radio-container">
+                  <p>{x[0]}</p>
+                  <input type='radio' id={x[1]} value={x[1]} name={x[1]}/>
+                  <label for={x[1]}>{x[1]}</label>
+                  <input type='radio' id={x[2]} value={x[2]} name={x[2]}/>
+                  <label for={x[2]}>{x[2]}</label>
+                  <br />
+                  </div>
+                </div>
+              )
+              )}
               <br></br>
-              <button className="submit">Submit</button>
+              <button className="pop_up_submit">Submit</button>
             </form>
           </div>
         </div>
@@ -75,4 +66,4 @@ class App extends React.Component{
   }
 }
 
-export default App;
+export default Pop_up_quiz;
