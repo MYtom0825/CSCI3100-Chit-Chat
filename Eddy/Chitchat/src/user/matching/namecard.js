@@ -21,9 +21,6 @@ class Name_card extends React.Component {
           <h3 className='namecard_info'>Answer to the Pop-up Quiz:</h3>
           {this.props.partnerresponse.userResponse ? this.props.partnerresponse.userResponse.map((answer) => <li className='namecard_info'>{answer}</li>) : ""}
           <div></div>
-          <p>
-            <cardbutton>Contact</cardbutton>
-          </p>
         </div>
       </div>
     );
