@@ -5,15 +5,39 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            emailerrormessage: ''
+            emailerrormessage: ""
         };
-        this.handleEmail = this.handleEmail.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
-    handleEmail(event) {
-        if (event.target.value.indexof('@') > -1 && event.target.value.includes('edu.hk', pos)) {
-            this.setState({emailerrormessage: ""});
-        }else{
-            this.setState({usernameerrormessage: "Please input an university email address!"});
+
+    handleChange(event) {
+        let lastAtPos = event.target.value.lastIndexOf('@');
+        let lastDotPos = event.target.value.lastIndexOf('.');
+
+        if (!(lastAtPos > 0 && event.target.value.includes('edu.hk', lastAtPos) && 
+              lastAtPos < lastDotPos && event.target.value.indexOf('@@') == -1 && 
+              lastDotPos > 2 && (event.target.value.length - lastDotPos) > 2))
+        {
+            this.setState({emailerrormessage: "Please input an university email address!"});
+        }
+    }
+
+    handleValidation(state) {
+        if (state({emailerrormessage: ""})) {
+            return true;
+        }
+        return false;
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+
+        if(this.handleValidation(this.state)) {
+           alert("Form submitted! Please check your university email for registration!");
+        }
+        else {
+            alert("Form has errors.");
         }
     }
 
@@ -21,11 +45,11 @@ class App extends React.Component {
         return (
             <div className="">
                 <div className="">
-                    <form action="#">
+                    <form action="#" onSubmit={this.handleSubmit}>
                         <h1>Verify Email</h1>
-                        <input type="email" placeholder="University Email" onChange={this.handleEmail} />
+                        <input type="email" placeholder="University Email" onChange={this.handleChange} />
                         <span style={{color:"red"}}>{this.state.emailerrormessage}</span>
-                        <button>Verify</button>
+                        <button value="submit">Verify</button>
                     </form>
                 </div>
             </div>

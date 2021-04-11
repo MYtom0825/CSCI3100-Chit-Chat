@@ -12,15 +12,8 @@ router.get('/main', (req, res) => {
     res.send('running la');
 })
 
-
-
-
 router.post('/match', (req, res) => {    //matching
     //insert into queue db
-    if(!req.session.username){
-        return res.status(401).send();
-    }
-
     function getProfile(id) {
         UserProfile.findOne({ account: id }).populate('userProfile').exec(function(err, result) {
             if (err) {
@@ -33,7 +26,7 @@ router.post('/match', (req, res) => {    //matching
         });
     }
 
-    function getAccount(){
+    function getAccount() {
         UserAccount.findOne({username:req.session.username},function(err,result){
             if(err){
                 console.log(err);
@@ -41,41 +34,36 @@ router.post('/match', (req, res) => {    //matching
                 return result;
             }
         });
-    
-}
- async function lookfor(){
-     var account= await getAccount();
-     var profile= await getProfile(account.user_id);
-     if (profile !== []) {    //set new Queue with info inside profile
-        const newQueue = new Queue({
-            _id: new mongoose.Types.ObjectId(),
-            userAccount: account.user_id,
-            //queueNumber: ,    //auto-increment...
-            requiredGender: req.body.gender,
-            requiredUni: req.body.uni,
-            requiredMajor: req.body.major,
-            requiredYear: req.body.year,
-            requiredStatus: req.body.status
-        });
-
-        newQueue.save(function(err, record) {
-            if(err){
-                console.log('Queue can\'t be save');
-            }else{
-                console.log('Queue saved');
-            }
-        })
     }
-    else {
-        console.log('no profile get');
+
+    async function lookfor() {
+        var account= await getAccount();
+        var profile= await getProfile(account.user_id);
+        if (profile !== []) {    //set new Queue with info inside profile
+            const newQueue = new Queue({
+                _id: new mongoose.Types.ObjectId(),
+                userAccount: account.user_id,
+                //queueNumber: ,    //auto-increment...
+                requiredGender: gender,
+                requiredUni: uni,
+                requiredMajor: major,
+                requiredYear: year,
+                requiredStatus: status
+            });
+
+            newQueue.save(function(err, record) {
+                if(err){
+                    console.log('Queue can\'t be save');
+                }else{
+                    console.log('Queue saved');
+                }
+            })
+        }
+        else {
+            console.log('no profile get');
+        }
     }
- }
 
- lookfor();
-    
-});
-
-router.post('/match', (req, res) => {   //filter
     //matcher's info
     var username = req.session.username;
 
@@ -86,18 +74,23 @@ router.post('/match', (req, res) => {   //filter
     var year = req.body.year;
     var status = req.body.status;
 
-    const matchUsers = Queue.find({
-                    $and: [
-                        { requiredGender: { gender, $exists: true, $ne: [] } }, 
-                        { requiredUni: { uni, $exists: true, $ne: [] } }, 
-                        { requiredMajor: { major, $exists: true, $ne: [] } },
-                        { requiredYear: { year, $exists: true, $ne: [] } },
-                        { requiredStatus: { status, $exists: true, $ne: [] } }
-                    ]
-                    }).sort({ queueNumber: 1 });
+    if(!username){
+        return res.status(401).send();
+    }
+    lookfor();
     
+    const matchUsers = Queue.find({
+            $and: [
+                { requiredGender: { gender, $exists: true, $ne: [] } }, 
+                { requiredUni: { uni, $exists: true, $ne: [] } }, 
+                { requiredMajor: { major, $exists: true, $ne: [] } },
+                { requiredYear: { year, $exists: true, $ne: [] } },
+                { requiredStatus: { status, $exists: true, $ne: [] } }
+            ]
+    }).sort({ queueNumber: 1 });
+
     if (matchUsers !== {}) {
-        //check the one being matched if his filter also satisfied
+    //check the one being matched if his filter also satisfied
         matchUser.forEach(element => {
             var profile=UserProfile.findById(element.user_id,function(err,result){
                 if(err){
@@ -108,35 +101,36 @@ router.post('/match', (req, res) => {   //filter
                 }
             });
             if ( (element.requiredGender === null || profile.account.gender === element.requiredGender) &&
-                 (element.requiredUni === null || profile.account.uni === element.requiredUni) &&
-                 (element.requiredMajor === null || profile.account.major === element.requiredMajor) &&
-                 (element.requiredYear === null || profile.account.year === element.requiredYear) &&
-                 (element.requiredStatus === null || profile.account.status === element.requiredStatus) ) {
-                    Queue.deleteOne({userAccount:element.user_id},function(err){
-                        if(err){
-                            console.log(err);
-                        }else{
-                            console.log('User deleted from the queue');
-                        }
-                    });
-                    res.json(element);
-                    //send also 3 popup_quiz, ig, info(name, array of comment interest), chatroom
-                    //questions: [
-                    //{ id: "001", question: "Which food do you like more?", answer: ["Option A", "Option B"] },
-                    //{ id: "002", question: "Which animal do you like more?", answer: ["Option A", "Option B"] },
-                    //{ id: "003", question: "Which city do you like more?", answer: ["Option A", "Option B"] },
-                    //]
-                    //ig:
-                    //info: []
-                    //chatroom
-                    break;
+                (element.requiredUni === null || profile.account.uni === element.requiredUni) &&
+                (element.requiredMajor === null || profile.account.major === element.requiredMajor) &&
+                (element.requiredYear === null || profile.account.year === element.requiredYear) &&
+                (element.requiredStatus === null || profile.account.status === element.requiredStatus) ) 
+            {
+                Queue.deleteOne({userAccount:element.user_id},function(err){
+                    if(err){
+                        console.log(err);
+                    }else{
+                        console.log('User deleted from the queue');
                     }
-            });
-        }
-        else {
-            console.log('no matched user');
-        }
-    });
+                });
+                res.json(element);
+                //send also 3 popup_quiz, ig, info(name, array of comment interest), chatroom
+                //questions: [
+                //{ id: "001", question: "Which food do you like more?", answer: ["Option A", "Option B"] },
+                //{ id: "002", question: "Which animal do you like more?", answer: ["Option A", "Option B"] },
+                //{ id: "003", question: "Which city do you like more?", answer: ["Option A", "Option B"] },
+                //]
+                //ig:
+                //info: []
+                //chatroom
+                break;
+            }
+        });
+    }
+    else {
+    console.log('no matched user');
+    }
+});
 
 //popup quiz, after answered then send to backend.
 //send common interest and ig and answer to frontend for broadcast...
