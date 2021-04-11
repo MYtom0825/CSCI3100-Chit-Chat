@@ -11,7 +11,8 @@
 }
 
 a[type="ProfileRegisterForm_colm"],
-div[type="ProfileRegisterForm_colm"]{
+div[type="ProfileRegisterForm_colm"],
+label[type="ProfileRegisterForm_colm"]{
     padding: 20px;
     border: 10px solid rgba(255, 0, 0, 0);
     font-size: 20px;
@@ -38,9 +39,7 @@ div[type="ProfileRegisterForm_colm"]{
     height: 10%;
 }
 
-input[type=ProfileRegisterForm_input],
-textarea[type=ProfileRegisterForm_text],
-select[type=ProfileRegisterForm_select]{
+.ProfileRegisterForm_input{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     width: 100%;
     padding: 12px;
@@ -49,3 +48,4 @@ select[type=ProfileRegisterForm_select]{
     resize: vertical;
     font-size: 15px;
 }
+
