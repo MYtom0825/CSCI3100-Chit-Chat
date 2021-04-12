@@ -9,12 +9,17 @@ import Mission_card from "./Mission_card";
 class Mission extends React.Component {
   render() {
     const mission_list = [
-      {
+      /**{
         Name: "Create Ice-breaking Quiz",
         Content: "Think of some question for the Ice breaking quiz!",
         Link: "./home.html",
       },
       { Name: "Hello", Content: "You are welcome", Link: "http://fb.com" },
+      **/
+      {Name:"Daily Login", Content:"Log in daily",Link:""},//0
+      {Name:"Hello", Content:"You are welcome", Link:"http://fb.com"},//1
+      {Name:"Create Ice-breaking Quiz", Content:"Think of some question for the Ice breaking quiz!",Link:"./home.html" },//2
+      {Name:"Likes",Content:"How many you got likes from others?",Link:""}//3
     ];
     return (
       <div className='mission'>
