@@ -21,7 +21,7 @@ class profile extends React.Component {
       },
     ];
     return (
-      <nav>
+      <div >
         <div style={{ padding: "5px 0 0 45%" }}>
           <img className='profile_img' src='https://placeimg.com/400/400/tech' alt='test' width='300' height='300'></img>
         </div>
@@ -31,9 +31,9 @@ class profile extends React.Component {
           ))}
         </div>
         <div className='ProfileRegisterForm_row'>
-          <input type='submit' value='Edit' id='Submit'></input>
+          <button className="button_frame">Edit</button>
         </div>
-      </nav>
+      </div>
     );
   }
 }
