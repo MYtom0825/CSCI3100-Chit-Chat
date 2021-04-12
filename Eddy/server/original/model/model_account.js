@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 var UserAccountSchema = mongoose.Schema({
-    _id:{type: mongoose.Schema.Types.ObjectId,unique: true},
+    _id:{type: mongoose.Schema.Types.ObjectId},
     username:{type:String,unique:true,require:true},
     password:{type:String,require:true},
     email:{type:String,unique:true,require:true},

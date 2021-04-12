@@ -6,7 +6,7 @@ let VerifyingAccount = require('../model/model_verifyaccount.js');
 const mongoose = require('mongoose');
 
 router.use(express.json());
-router.use(express.urlencoded());
+router.use(express.urlencoded({extended:true}));
 
 router.get('/create/:id', (req, res) => {
     res.send('running la');

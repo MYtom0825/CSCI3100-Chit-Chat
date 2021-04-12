@@ -10,8 +10,9 @@ var QueueSchema = mongoose.Schema({
     requiredYear:{type:Number},
     requiredStatus:{type:String}
 })
+autoIncrement.initialize(mongoose.connection);
+QueueSchema.plugin(autoIncrement.plugin, { model: 'Queue', field: 'queueNumber' ,startAt: 1, incrementBy:1});
 
-QueueSchema.plugin(autoIncrement.plugin, { model: 'Queue', field: 'queueNumber' });
 var Queue = mongoose.model('Queue',QueueSchema);
 
 module.exports = Queue;

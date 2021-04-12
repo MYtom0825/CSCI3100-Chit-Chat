@@ -7,7 +7,7 @@ let Queue = require('../model/model_queue.js');
 let Quiz = require('../model/model_quiz.js');
 
 router.use(express.json());
-router.use(express.urlencoded());
+router.use(express.urlencoded({extended:true}));
 
 router.get('/main', (req, res) => {
     res.send('running la');
@@ -152,8 +152,8 @@ router.post('/match', (req, res) => {    //matching
                     },
                     room: roomID,
                 };
-                res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
-                break;
+                return res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
+                
             }
         });
     }
