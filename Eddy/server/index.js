@@ -1,16 +1,40 @@
-const express = require("express");
-const socketio = require("socket.io");
-const http = require("http");
+const express = require('express');
+const session = require('express-session');
+const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment');
+const socketio = require('socket.io');
+const http = require('http');
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./users.js");
 
 const PORT = process.env.PORT || 5000;
 
-const router = require("./router");
-
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+
+//import files
+const home = require('./router/router_home.js');
+const reg = require('./router/router_reg.js');
+const create = require('./router/router_create.js');
+const login = require('./router/router_login.js');
+const main = require('./router/router_main.js');
+const mission = require('./router/router_mission.js');
+
+app.use(session({secret: 'secret', resave:false, saveUninitialized:true}));
+app.use(home);
+app.use(reg);
+app.use(create);
+app.use(login);
+app.use(main);
+app.use(mission);
+
+//mongodb
+mongoose.connect("mongodb+srv://chit_chat:1230123@cluster0.4syir.mongodb.net/chit_chat?retryWrites=true&w=majority",{useNewUrlParser: true,useCreateIndex:true,useUnifiedTopology:true});
+var db = mongoose.connection;
+autoIncrement.initialize(db);
+db.on('error',()=>console.log('MongoDB connection failed'));
+db.once('open',()=>{console.log('Successful connection to MongoDB')});
 
 io.on("connection", (socket) => {
   socket.on("join", ({ name, room }, callback) => {
