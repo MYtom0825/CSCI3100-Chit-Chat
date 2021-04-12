@@ -24,12 +24,12 @@ router.get('/create/:id', (req, res) => {
     })
 });
 
-router.post('/create/:id', (req, res) => {
+router.post('/create/:id', async (req, res) => {
     //insert into UserAccount
     if(req.body.password==null){
         console.log('password is empty');
     }else{
-    const hash = bcrypt.hash(req.body.password,10);
+    const hash = await bcrypt.hash(req.body.password,10);
     var newUserAccount = new UserAccount({
             _id: new mongoose.Types.ObjectId(),
             email : req.body.email,
@@ -37,7 +37,7 @@ router.post('/create/:id', (req, res) => {
             password: hash
             });
      
-    newUserAccount.save(function(err){
+     newUserAccount.save(function(err){
       if(err){
           console.log('New account can\'t be created');
       }else{
