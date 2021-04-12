@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
 let UserAccount = require('../model/model_account.js');
+let sendEmail = require('../send_email.js');
 
 const { Mongoose } = require('mongoose');
 router.get('/login', (req, res) => {
@@ -70,7 +71,22 @@ router.post('/login', (req, res) => {   //login
 })
 
 router.post('/forgotpw', (req, res) => {    //forgot password
-    
+    var email = req.body.email;
+
+    UserAccount.findOne({ email: email }, function(err, result) {
+        if (err) {
+            consolg.log(err);
+            res.send('Account can\'t be found');
+        }
+        else {
+            var randomPw = Math.random().toString(36).substr(8);
+            var subject = 'Recovery of Your Happy Chat Account Password';
+            var html = `<p>Your password is: </p><p><strong>${randomPw}</strong></p>`;
+            sendEmail.sendEmail(email, subject, html);   //send email
+            consolg.log('forgot password email sent');
+        }
+    });
+
 })
 
 module.exports = router;

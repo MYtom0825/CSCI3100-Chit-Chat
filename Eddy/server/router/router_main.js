@@ -129,14 +129,12 @@ router.post('/match', (req, res) => {    //matching
                 (element.requiredYear === null || profile.account.year === element.requiredYear) &&
                 (element.requiredStatus === null || profile.account.status === element.requiredStatus) ) 
             {
-                delQueue(element.account._id);      //del matched user in Queue
-                delQueue(account._id);              //del user in Queue
                 var matchedProfile = getProfile(element.account._id);
                 let commonInterest = profile.interest.filter(x => matchedProfile.interest.includes(x));
                 var roomID = Math.random().toString(36).substr(8);
 
                 let json = {
-                    //account: account,
+                    userId: [account._id, element.account._id],
                     questions: {
                         id: quiz.quizID,
                         question: quiz.question,
@@ -152,13 +150,16 @@ router.post('/match', (req, res) => {    //matching
                     },
                     room: roomID,
                 };
+                delQueue(element.account._id);      //del matched user in Queue
+                delQueue(account._id);              //del user in Queue
+                console.log(json);
                 return res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
                 
             }
         });
     }
     else {
-    console.log('no matched user');
+        console.log('no matched user');
     }
 });
 
