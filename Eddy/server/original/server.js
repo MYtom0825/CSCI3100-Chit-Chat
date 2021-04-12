@@ -32,7 +32,7 @@ mongoose.connect("mongodb+srv://chit_chat:1230123@cluster0.4syir.mongodb.net/chi
 var db = mongoose.connection;
 autoIncrement.initialize(db);
 db.on('error',()=>console.log('MongoDB connection failed'));
-db.once('open',()=>{console.log('Successful connection')});
+db.once('open',()=>{console.log('Successful connection to MongoDB')});
 
 //socket.io
 io.on("connection", (socket) => {
