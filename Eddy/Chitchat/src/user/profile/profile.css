@@ -10,15 +10,15 @@
     clear: both;
 }
 .profile_colm25{
-
+    color:purple;
     height: 100px;
     float: left;        
     width: 35%;
     text-align: left;
 
 }
-input[type=submit] {
-    margin-bottom: 20px;
+.button_frame{
+    margin: 0 15px 20px 0;
     background-color: #de2ee4;
     color: white;
     padding: 12px 20px;
@@ -28,11 +28,11 @@ input[type=submit] {
     float: right;
   }
   
-  input[type=submit]:hover {
+.button_frame:hover {
     background-color: #b934b9;
   }
 .profile_colm75{
-
+    color:purple;
     float: left;    
     width: 55%;
     height: 10%;
@@ -41,7 +41,7 @@ input[type=submit] {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     margin: 3% 10% 0 13%;
     padding: 5% 0 5% 10%;
-    border: 2px solid rgb(176, 176, 177);
+    border: 5px solid rgb(240, 14, 248);
     border-radius: 15px;
     right: 13%;
     min-height: 400px;
