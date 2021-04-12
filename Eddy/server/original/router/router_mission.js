@@ -15,7 +15,7 @@ router.get('/mission', (req, res) => {
     UserAccount.findOne({username:req.session.username},function(err,result){
          const missionFinished=[];
            if(err){
-               res.send(err)
+            res.send(err)
            }else{
               missionFinished=result.missionFinished;
               missionFinished.sort();
