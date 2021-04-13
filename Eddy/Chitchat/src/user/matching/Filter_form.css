@@ -2,6 +2,14 @@
   font-family: "Montserrat", sans-serif;
 }
 
+.filter_form_title{
+  color: purple;
+}
+
+h2.filter_form_title{
+  font-size: 35px;
+}
+
 .filter_form_grid_container {
   display: grid;
   grid-template-columns: 30% auto;
