@@ -1,6 +1,6 @@
 import React, { useState, Component } from "react";
 import "./Mission.css";
-import axios from "axios";
+import $ from "jquery";
 //import Component
 import Calendar from "react-calendar";
 import "./Calendar.css";
@@ -10,18 +10,18 @@ class Mission extends React.Component {
   constructor() {
     super();
     this.state = {
-      missionFinished: [0, 1],
+      missionFinished: [],
     };
   }
   componentDidMount() {
-    /*axios
-      .get("/mission")
-      .then((response) => response.data)
-      .then((data) => {
-        //a sorted array of missionID must be returned
-        this.setState({ missionFinished: data.missionFinishedID });
-        console.log(this.state.missionFinished);
-      });*/
+    $.get("http://localhost:5000/mission")
+      .done((res) => {
+        var finished = res.missionFinishedID;
+        this.setState({ missionFinished: finished });
+      })
+      .fail(() => {
+        this.setState({ missionFinished: [1, 2] });
+      });
   }
 
   render() {
