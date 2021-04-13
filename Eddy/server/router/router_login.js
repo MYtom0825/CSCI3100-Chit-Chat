@@ -33,13 +33,21 @@ router.post('/login', (req, res) => {   //login
             'loginstate':2
         };
 
-        user.missionFinished.push(0); //0=login mission
-        user.save({
+        var missionFinished= new UserAccount({
+            _id: new mongoose.Types.ObjectId(),
+            UserAccount: user._id,
+            missionID:0,
+            Name:'Daily Login',
+            Content:'Log in daily',
+            token:5
+        });
+
+        missionFinished.save((error)=>{
             if(error){
                 console.log(error);
             }
         });
-
+        
         console.log("login successful");
         
         return res.json(data);
