@@ -32,16 +32,15 @@ const Matching_1 = (props) => {
       setuserPref(userPref);
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () {
+        var response = {
+          questions: [
+            { id: "001", question: "Which food do you like more?", answer: ["Option A", "Option B"] },
+            { id: "002", question: "Which animal do you like more?", answer: ["Option A", "Option B"] },
+            { id: "003", question: "Which city do you like more?", answer: ["Option A", "Option B"] },
+          ],
+        };
+        setpopupquiz(response);
         if (this.readyState == 4 && this.status == 200) {
-          var response = {
-            questions: [
-              { id: "001", question: "Which food do you like more?", answer: ["Option A", "Option B"] },
-              { id: "002", question: "Which animal do you like more?", answer: ["Option A", "Option B"] },
-              { id: "003", question: "Which city do you like more?", answer: ["Option A", "Option B"] },
-            ],
-          };
-          setpopupquiz(response);
-
           /*var response= JSON.parse(this.responseText);
            */
           //props.setchatting(true);

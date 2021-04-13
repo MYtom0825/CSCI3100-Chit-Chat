@@ -4,34 +4,30 @@ import "./profile.css";
 import ProfileDetail from "./profileDetail";
 
 class profile extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
-    //var user = [];
-    //user[0] = this.props.user;
-    const user = [
-      {
-        name: "Tom",
-        gender: "Male",
-        picture: "",
-        description: "Hi I am using react",
-        facalty: "Engineering",
-        university: "CUHK",
-        years: "3",
-        status: "A0",
-        interest: ["Dancing", "Pop music", "Classic music"],
-      },
-    ];
     return (
-      <div >
+      <div>
         <div style={{ padding: "5px 0 0 45%" }}>
           <img className='profile_img' src='https://placeimg.com/400/400/tech' alt='test' width='300' height='300'></img>
         </div>
         <div className='profile_detail'>
-          {user.map((user) => (
-            <ProfileDetail na={user.name} gen={user.gender} pic={user.picture} des={user.description} fac={user.facalty} u={user.university} yrs={user.years} sts={user.status} int={user.interest} />
-          ))}
+          <ProfileDetail
+            na={this.props.user.name}
+            gen={this.props.user.gender}
+            pic={this.props.user.picture}
+            des={this.props.user.description}
+            fac={this.props.user.facalty}
+            u={this.props.user.university}
+            yrs={this.props.user.years}
+            sts={this.props.user.status}
+            int={this.props.user.interest}
+          />
         </div>
         <div className='ProfileRegisterForm_row'>
-          <button className="button_frame">Edit</button>
+          <button className='button_frame'>Edit</button>
         </div>
       </div>
     );

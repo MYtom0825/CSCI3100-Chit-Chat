@@ -10,7 +10,7 @@ import ProfileRegisterForm from "./ProfileRegistrationForm/ProfileRegisterForm";
 import Forget_password from "./Forget_password/Forget_password.js";
 const cookies = new Cookies();
 
-const BACKEND = "http://localhost:3001/";
+const BACKEND = "http://localhost:5000/";
 
 class App extends React.Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class App extends React.Component {
     this.state = {
       loc: window.location.pathname.split("/")[1] || "login", //localhost:3000/user
       userID: null,
+      user: null,
     };
     window.addEventListener("popstate", () => {
       this.setState({
@@ -66,11 +67,31 @@ class App extends React.Component {
       })
       .fail(() => {
         window.history.pushState(null, null, "/user");
+        const user = {
+          name: "Tom",
+          gender: "Male",
+          picture: "",
+          description: "Hi I am using react",
+          facalty: "Engineering",
+          university: "CUHK",
+          years: "3",
+          status: "A0",
+          interest: ["Dancing", "Pop music", "Classic music"],
+        };
         this.setState({
           loc: "user",
           userID: 123,
+          user: user,
         });
+        console.log(this.state.user);
       });
+  };
+
+  backToLogin = () => {
+    window.history.pushState(null, null, "/login");
+    this.setState({
+      loc: "login",
+    });
   };
   /*
   loadingHandler = () => {
@@ -95,7 +116,7 @@ class App extends React.Component {
     if (this.state.loc == "login") {
       return <LoginPage loginHandler={this.loginHandler} />; /*loadingHandler={this.loadingHandler} namecardHandler={this.namecardHandler} filterformHandler={this.filterformHandler}*/
     } else if (this.state.loc == "user") {
-      return <User logout={this.logout} />;
+      return <User logout={this.logout} user={this.state.user} />;
     } else if (this.state.loc == "registration") {
       return <ProfileRegisterForm />;
     } /*else if (this.state.loc == "loading") {
@@ -106,14 +127,14 @@ class App extends React.Component {
       } else return <Matching_1 />;*/ else if (
       this.state.loc == "forgotpassword"
     ) {
-      return <Forget_password />;
+      return <Forget_password backToLogin={this.backToLogin} />;
     }
   }
   componentDidMount() {
-    if (this.state.userID == null && this.state.loc != "login") {
+    /*if (this.state.userID == null && this.state.loc != "login") {
       window.alert("Please login before going to destinated page!");
       this.setState({ loc: "login" });
-    }
+    }*/
   }
 }
 

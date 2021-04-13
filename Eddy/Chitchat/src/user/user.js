@@ -38,9 +38,9 @@ const User = (props) => {
       <div>{chatting ? "" : <Menu logout={props.logout} toProf={ProfileGet} tomission={MissionGet} toChat={ChatGet} />}</div>
       <div className='body'>
         {chatting ? "" : <TokenBlock />}
-        {toProfile ? <Profile /> : ""}
-        {tomission ? <Mission /> : ""}
-        {toChat ? <Matching_1 setchatting={setchatting} /> : ""}
+        {toProfile ? <Profile user={props.user} /> : ""}
+        {tomission ? <Mission user={props.user} /> : ""}
+        {toChat ? <Matching_1 setchatting={setchatting} user={props.user} /> : ""}
       </div>
     </div>
   );

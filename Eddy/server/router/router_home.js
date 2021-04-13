@@ -1,8 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const cors = require("cors");
 
-router.get('/', (req, res) => {
-    res.send('running la');
-})
+router.use(cors());
+
+router.get("/", (req, res) => {
+  res.send("running la");
+});
 
 module.exports = router;

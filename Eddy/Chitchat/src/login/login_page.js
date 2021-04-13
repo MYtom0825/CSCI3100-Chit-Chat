@@ -25,21 +25,29 @@ class LoginPage extends React.Component {
     });
   };
 
-  signUpEventHandler = () => {
+  signUpEventHandler = (e) => {
     let username = $("#regUsername").val(),
       email = $("#regEmail").val(),
       pw = $("#regPW").val();
-    $.post("http://localhost:3001/register", {
-      username: username,
-      email: email,
-      password: pw,
-    })
-      .done((res) => {
-        window.alert(res);
+    if (username == "" || email == "" || pw == "") {
+      window.alert("Please input all the field.");
+    } else if (!(email.includes("@") && email.includes(".com"))) {
+      window.alert("Wrong Email Format!");
+    } else {
+      $.post("http://localhost:3001/register", {
+        username: username,
+        email: email,
+        password: pw,
       })
-      .fail(() => {
-        window.alert('Request has been sent to "http://localhost:3001/register"');
-      });
+        .done((res) => {
+          window.alert(res);
+          e.preventDefault();
+        })
+        .fail(() => {
+          window.alert('Request has been sent to "http://localhost:3001/register"');
+          e.preventDefault();
+        });
+    }
   };
 
   render() {
@@ -49,12 +57,18 @@ class LoginPage extends React.Component {
       <div className='login_page'>
         <div className={this.state.container} id='container'>
           <div className='form-container sign-up-container'>
-            <form action='#'>
+            <form>
               <h1>Create Account</h1>
-              <input type='text' placeholder='Name' id='regUsername' />
-              <input type='email' placeholder='University Email' id='regEmail' />
-              <input type='password' placeholder='Password' id='regPW' />
-              <button onClick={this.signUpEventHandler}>Sign Up</button>
+              <input type='text' placeholder='Name' id='regUsername' required />
+              <input type='email' placeholder='University Email' id='regEmail' required />
+              <input type='password' placeholder='Password' id='regPW' required />
+              <button
+                onClick={(event) => {
+                  this.signUpEventHandler(event);
+                }}
+              >
+                Sign Up
+              </button>
             </form>
           </div>
           <div className='form-container sign-in-container'>
