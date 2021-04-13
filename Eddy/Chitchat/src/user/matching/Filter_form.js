@@ -18,7 +18,7 @@ class Filter_form extends React.Component {
             <h2 className="filter_form_title">Welcome to the Matching Function!</h2>
             <p>You may pay tokens to add filter for your matching.</p>
             <br />
-            <h3>Charges are below:</h3>
+            <h3 className="filter_form_title">Charges are below:</h3>
             <br />
             <p>Basic Charge: 2 tokens</p>
             <br />
@@ -33,7 +33,7 @@ class Filter_form extends React.Component {
             <p>Status: 3 tokens</p>
             <br />
 
-            <h3>Enjoy the Chat!</h3>
+            <h3 className="filter_form_title">Enjoy the Chat!</h3>
           </div>
           <div className='matching_form_holder'>
             <form className='matching_form'>
