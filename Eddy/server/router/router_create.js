@@ -12,25 +12,32 @@ router.use(cors());
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
-router.get("/registration/:id", (req, res) => {
-  res.send("running la");
-
-  VerifyingAccount.FindById(req.param.id, function (err, record) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send({ email: record.email }); //send json data to frontend
-    }
-  });
-});
-
 router.post("/registration/:id", async (req, res) => {
+  function getEmail() {
+    VerifyingAccount.findByIdAndRemove({ _id: req.params.id }, function (err, record) {
+      if (err) {
+        console.log(err);
+      } else {
+        return record.email;
+      }
+    });
+  }
+
   //insert into UserAccount
   const user_id = new mongoose.Types.ObjectId();
   const profile_id = new mongoose.Types.ObjectId();
 
   var salt="";
   var hash="";
+  var email = '';
+
+  try {
+    email = await getEmail();
+  }
+  catch (err) {
+    console.log(err);
+  }
+console.log(email);
   try{
    salt= await bcrypt.genSaltSync(10);
   }catch(err){
@@ -47,7 +54,7 @@ router.post("/registration/:id", async (req, res) => {
 
   var newUserAccount = new UserAccount({
     _id: user_id,
-    email: req.body.email,
+    email: email,
     username: req.body.username,
     password: hash,
     onOffstatus: "off",
@@ -60,7 +67,7 @@ router.post("/registration/:id", async (req, res) => {
     account: user_id,
     picture: req.body.profilePic,
     nickName: req.body.profileName,
-    gender: req.body.gender,
+    //gender: req.body.gender,
     university: req.body.university,
     faculty: req.body.faculty,
     major: req.body.major,
@@ -68,8 +75,7 @@ router.post("/registration/:id", async (req, res) => {
     status: req.body.status,
     interest: req.body.interest, //array of interests
     createdTime: Date.now(),
-    contactType: req.body.contactType, //ig/fb/...
-    contact: req.body.contact, //id
+    contact: req.body.contact, //ig
   });
 
   try{

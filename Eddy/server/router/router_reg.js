@@ -8,12 +8,10 @@ const cors = require("cors");
 
 router.use(cors());
 
-router.get("/register", (req, res) => {
-  console.log("running la");
-});
-
 router.post("/register", (req, res) => {
+  var username = req.body.username;
   var email = req.body.email;
+  var password = req.body.password;
 
   //check if email exist in UserAccount
   UserAccount.exists({ email: email }, function (err, result) {
@@ -31,9 +29,13 @@ router.post("/register", (req, res) => {
         } else {
           //non exist email in mongodb
           console.log(email);
+          console.log(username);
+          console.log(password);
           const newAccount = new VerifyingAccount({
             _id: new mongoose.Types.ObjectId(),
             email: email,
+            username: username,
+            password: password
           });
 
           newAccount.save(function (err, record) {
