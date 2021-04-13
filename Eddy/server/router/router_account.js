@@ -4,7 +4,7 @@ const cors = require("cors");
 
 router.use(cors());
 
-router.get("/account", (req, res) => {
+router.post("/account", (req, res) => {
   res.send("running la");
 });
 
