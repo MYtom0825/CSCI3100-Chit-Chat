@@ -2,12 +2,12 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const router = express.Router();
 let UserAccount = require("../model/model_account.js");
+let Mission=require('../model/model_mission.js');
 let sendEmail = require("../send_email.js");
 const cors = require("cors");
 
 router.use(cors());
 
-const { Mongoose } = require("mongoose");
 
 router.post("/login", (req, res) => {
   //login
@@ -19,7 +19,7 @@ router.post("/login", (req, res) => {
                      1 => password incorrect
                      2 => login successful
         */
-    if (err) {
+    if (error) {
       var data = {
         loginstate: 0,
       };
@@ -33,23 +33,24 @@ router.post("/login", (req, res) => {
         loginstate: 2,
       };
 
-      var missionFinished = new UserAccount({
-        _id: new mongoose.Types.ObjectId(),
-        UserAccount: user._id,
-        missionID: 0,
-        Name: "Daily Login",
-        Content: "Log in daily",
-        token: 5,
-      });
-
-      missionFinished.save((error) => {
-        if (error) {
-          console.log(error);
-        }
+      Mission.exists({useraccount:user,missionID:0},function(err,exist){
+        var missionFinished = new Mission({
+            _id: new mongoose.Types.ObjectId(),
+            useraccount: user._id,
+            missionID: 0,
+            Name: "Daily Login",
+            Content: "Log in daily",
+            token: 5,
+          });
+    
+          missionFinished.save((error) => {
+            if (error) {
+              console.log(error);
+            }
+          });
       });
 
       console.log("login successful");
-
       return res.json(data);
     } else {
       var data = {
