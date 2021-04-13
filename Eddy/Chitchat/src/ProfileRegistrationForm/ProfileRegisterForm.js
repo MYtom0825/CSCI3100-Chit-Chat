@@ -10,7 +10,7 @@ class ProfileRegisterForm extends React.Component {
       nickName = $("#ProfileName").val(),
       year = $("#Year").val(),
       gender = $("input[name='gender']:checked").val(),
-      description = $("#Description").val(),
+      desc = $("#Description").val(),
       faculty = $("#Faculty").val(),
       university = $("#University").val(),
       status = $("input[name='status']:checked").val(),
@@ -22,7 +22,7 @@ class ProfileRegisterForm extends React.Component {
     var parameters = { "interest[]": interest };
     let objectID = window.location.pathname.split("/")[2];
 
-    $.post("http://localhost:5000/registration/" + objectID, { userName, picture, nickName, year, gender, description, faculty, university, status, interest });
+    $.post("http://localhost:5000/registration/" + objectID, { userName, picture, nickName, year, gender, desc, faculty, university, status, interest });
   };
   render() {
     const user = {

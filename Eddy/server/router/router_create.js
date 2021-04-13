@@ -21,6 +21,7 @@ router.post("/registration/:id", async (req, res) => {
 
   const existdUserName = await UserAccount.findOne({ username: req.body.username });
   if (existdUserName) {
+    console.log(existdUserName);
     return res.send("username taken");
   } else {
     VerifyingAccount.findByIdAndRemove({ _id: req.params.id }, async function (err, record) {
@@ -52,7 +53,7 @@ router.post("/registration/:id", async (req, res) => {
         var newUserAccount = new UserAccount({
           _id: user_id,
           email: record.email,
-          username: req.body.username,
+          username: req.body.userName,
           password: hash,
           userProfile: profile_id,
           token: 0,

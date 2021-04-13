@@ -42,7 +42,7 @@ router.post("/login", (req, res) => {
 
         var data = {
           loginstate: 2,
-          name: user.userProfile.nickname,
+          name: user.userProfile.nickName,
           gender: user.userProfile.gender,
           picture: user.userProfile.picture,
           description: user.userProfile.description,

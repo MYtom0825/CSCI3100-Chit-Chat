@@ -19,9 +19,9 @@ class profile extends React.Component {
             gen={this.props.user.gender}
             pic={this.props.user.picture}
             des={this.props.user.description}
-            fac={this.props.user.facalty}
+            fac={this.props.user.faculty}
             u={this.props.user.university}
-            yrs={this.props.user.years}
+            yrs={this.props.user.year}
             sts={this.props.user.status}
             int={this.props.user.interest}
           />
