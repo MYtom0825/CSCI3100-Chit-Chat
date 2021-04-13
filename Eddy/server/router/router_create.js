@@ -24,16 +24,31 @@ router.get("/registration/:id", (req, res) => {
   });
 });
 
-router.post("/registration/:id", (req, res) => {
+router.post("/registration/:id", async (req, res) => {
   //insert into UserAccount
-  const hash = bcrypt.hash(req.body.password, 10);
   const user_id = new mongoose.Types.ObjectId();
   const profile_id = new mongoose.Types.ObjectId();
+
+  var salt="";
+  var hash="";
+  try{
+   salt= await bcrypt.genSaltSync(10);
+  }catch(err){
+      console.log("sssss");
+      console.log(err);
+      
+  }
+  try{
+      hash = await bcrypt.hashSync(req.body.password,salt);
+     }catch(err){
+         console.log("xxxxxxx");
+         console.log(err);
+     }
 
   var newUserAccount = new UserAccount({
     _id: user_id,
     email: req.body.email,
-    username: req.body.password,
+    username: req.body.username,
     password: hash,
     onOffstatus: "off",
     userProfile: profile_id,
@@ -57,21 +72,23 @@ router.post("/registration/:id", (req, res) => {
     contact: req.body.contact, //id
   });
 
-  newUserAccount.save(function (err, result) {
-    if (err) {
-      console.log("New account can't be created");
-    } else {
-      console.log("user account successfully created");
-    }
-  });
+  try{
+    await newUserAccount.save()
+    console.log("user account successfully created");
+}catch(err){
+    console.log("user account can't be created");
+    console.log(err);
+}
 
-  newUserProfile.save(function (err, result) {
-    if (err) {
-      console.log("New profile can't be created");
-    } else {
-      console.log("user profile successfully created");
-    }
-  });
+try{
+    await newUserProfile.save()
+    console.log("user profile successfully created");
+}catch(err){
+    console.log("user profile can't be created");
+    console.log(err);
+}
+
+return res.send("Created");
 });
 
 module.exports = router;
