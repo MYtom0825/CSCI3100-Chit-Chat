@@ -6,16 +6,17 @@ let UserAccount = require('../model/model_account.js');
 let sendEmail = require('../send_email.js');
 
 const { Mongoose } = require('mongoose');
+const Mission = require('../original/model/model_mission.js');
 router.get('/login', (req, res) => {
     res.send('running la');
 })
 
-router.post('/login', (req, res) => {   //login
+router.post('/login',  (req, res) => {   //login
     var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
     
-    UserAccount.findOne({username:username},function(error,user){
+    UserAccount.findOne({username:username},async function(error,user){
         /*loginstate:0 => can't find user
                      1 => password incorrect
                      2 => login successful
@@ -34,21 +35,38 @@ router.post('/login', (req, res) => {   //login
         var data={
             'loginstate':2
         };
-
-        var missionFinished= new UserAccount({
-            _id: new mongoose.Types.ObjectId(),
-            UserAccount: user._id,
-            missionID:0,
-            Name:'Daily Login',
-            Content:'Log in daily',
-            token:5
-        });
-
-        missionFinished.save((error)=>{
-            if(error){
-                console.log(error);
+       
+        await Mission.exists({useraccount:user._id,missionID:0},function(err,exist){
+            if(err){
+                console.log(err);
+            }else if(exist==false){
+                var missionFinished= new UserAccount({
+                    _id: new mongoose.Types.ObjectId(),
+                    UserAccount: user._id,
+                    missionID:0,
+                    Name:'Daily Login',
+                    Content:'Log in daily',
+                    token:5
+                });
+                user.token+=5;
+                user.save((err)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                });
+                missionFinished.save((error)=>{
+                    if(error){
+                        console.log("can't save");
+                        console.log(error);
+                    }else{
+                        console.log("mission completed and saved");
+                    }
+                });
             }
+
+            return ;
         });
+        
 
         console.log("login successful");
         
