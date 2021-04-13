@@ -34,11 +34,9 @@ const ProfileDetail = (props) => {
       </div>
       <div className='profile_row'>
         <h1 className='profile_colm25'>Interests: </h1>
-        <h1 className='profile_colm75'>
-          {props.int.map(function (interest) {
-            return <p> {interest} </p>;
+        {props.int.map(function (interest) {
+            return <h1 className='profile_colm75'> {interest} </h1>;
           })}
-        </h1>
       </div>
     </div>
   );
