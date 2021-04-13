@@ -29,7 +29,7 @@ class Forget_password extends React.Component {
     return (
       <div className='forget_password_container'>
         <div className='forget_password_header'>
-          <h1>Forgot your password?</h1>
+          <h1 className='forget_password_title'>Forgot your password?</h1>
           <p>Don't worry! Fill in your university email and we will send you a link to reset your password.</p>
         </div>
         <form>
