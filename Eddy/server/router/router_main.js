@@ -44,53 +44,36 @@ router.post("/match", (req, res) => {
   }
 
   function getQuiz() {
-    Quiz.aggregate([{ $sample: { size: 3 } }], function (err, result) {
-      if (err) {
-        console.log(err);
-      } else {
-        return result;
-      }
+    var cnt = 0;
+    Quiz.aggregate([{ $sample: { size: 3 } }]).foreach((element) => {
+      quiz[cnt] = element;
+      cnt++;
     });
+    return quiz;
   }
 
   async function lookfor() {
     account = await getAccount();
     profile = await getProfile(account._id);
     quiz = await getQuiz();
-    if (profile !== []) {
-      //set new Queue with info inside profile
-      const newQueue = new Queue({
-        _id: new mongoose.Types.ObjectId(),
-        userAccount: account._id,
-        //queueNumber: ,    //auto-increment...
-        requiredGender: gender,
-        requiredUni: uni,
-        requiredMajor: major,
-        requiredYear: year,
-        requiredStatus: status,
-      });
-
-      newQueue.save(function (err, record) {
-        if (err) {
-          console.log("Queue can't be save");
-        } else {
-          console.log("Queue saved");
-        }
-      });
-    } else {
-      console.log("no profile get");
-    }
   }
 
   //set filters
-  var gender = req.body.gender;
-  var uni = req.body.uni;
-  var major = req.body.major;
-  var year = req.body.year;
-  var status = req.body.status;
+  var filterGender = req.body.gender;
+  var filterUni = req.body.uni;
+  var filterMajor = req.body.major;
+  var filterYear = req.body.year;
+  var filterStatus = req.body.status;
 
   var account;
   var profile;
+  var quiz;
+  var profileGender = profile.gender;
+  var profileUni = profile.uni;
+  var profileMajor = profile.major;
+  var profileYear = profile.year;
+  var profileStatus = profile.status;
+
   lookfor();
 
   function delQueue(id) {
@@ -105,61 +88,100 @@ router.post("/match", (req, res) => {
 
   const matchUsers = Queue.find({
     $and: [
-      { requiredGender: { gender, $exists: true, $ne: [] } },
-      { requiredUni: { uni, $exists: true, $ne: [] } },
-      { requiredMajor: { major, $exists: true, $ne: [] } },
-      { requiredYear: { year, $exists: true, $ne: [] } },
-      { requiredStatus: { status, $exists: true, $ne: [] } },
+      { requiredGender: { profileGender, $exists: true, $ne: [] } },
+      { requiredUni: { profileUni, $exists: true, $ne: [] } },
+      { requiredMajor: { profileMajor, $exists: true, $ne: [] } },
+      { requiredYear: { profileYear, $exists: true, $ne: [] } },
+      { requiredStatus: { profileStatus, $exists: true, $ne: [] } },
     ],
-  }).sort({ queueNumber: 1 });
+  }).populate('userAccount').populate('userProfile').sort({ queueNumber: 1 });
 
-  if (matchUsers !== {}) {
-    //check the one being matched if his filter also satisfied
+  if (matchUsers !== {}) {     //there are users in queue that current user satisfy his requirement
+    //check if the matched user also satisfy current user's requirement
     matchUsers.forEach((element) => {
-      var profile = UserProfile.findById(element.user_id, function (err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("User found!");
-          return result;
-        }
-      });
       if (
-        (element.requiredGender === null || profile.account.gender === element.requiredGender) &&
-        (element.requiredUni === null || profile.account.uni === element.requiredUni) &&
-        (element.requiredMajor === null || profile.account.major === element.requiredMajor) &&
-        (element.requiredYear === null || profile.account.year === element.requiredYear) &&
-        (element.requiredStatus === null || profile.account.status === element.requiredStatus)
+        (filterGender === null || element.userProfile.gender === filterGender) &&
+        (filterUni === null || element.userProfile.uni === filterUni) &&
+        (filterMajor === null || element.userProfile.major === filterMajor) &&
+        (filterYear === null || element.userProfile.year === filterYear) &&
+        (filterStatus === null || element.userProfile.status === filterStatus)
       ) {
-        var matchedProfile = getProfile(element.account._id);
-        let commonInterest = profile.interest.filter((x) => matchedProfile.interest.includes(x));
-        var roomID = Math.random().toString(36).substr(8);
+        let commonInterest = profile.interest.filter((x) => element.userProfile.interest.includes(x));
 
         let json = {
-          userId: [account._id, element.account._id],
-          questions: {
-            id: quiz.quizID,
-            question: quiz.question,
-            answer: [quiz.answer1, quiz.answer2],
-          },
-          contact: {
-            type: profile.contactType,
-            contact: profile.contact,
-          },
+          questions: [
+            {id: quiz[0].quizID, question: quiz[0].question, answer: [quiz[0].answer1, quiz[0].answer2]},
+            {id: quiz[1].quizID, question: quiz[1].question, answer: [quiz[1].answer1, quiz[1].answer2]},
+            {id: quiz[2].quizID, question: quiz[2].question, answer: [quiz[2].answer1, quiz[2].answer2]}
+          ],
+          contact: element.userProfile.contact,
           info: {
-            name: profile.nickname,
+            name: element.userProfile.nickname,
+            gender: element.userProfile.gender,
+            picture: element.userProfile.picture,
+            description: element.userProfile.description,
+            faculty: element.userProfile.faculty,
+            university: element.userProfile.university,
+            year: element.userProfile.year,
+            status: element.userProfile.status,
             commonInterest: commonInterest,
           },
           room: roomID,
         };
         delQueue(element.account._id); //del matched user in Queue
-        delQueue(account._id); //del user in Queue
         console.log(json);
         return res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
       }
     });
   } else {
     console.log("no matched user");
+    //set new Queue with info inside profile
+    const newQueue = new Queue({
+      _id: new mongoose.Types.ObjectId(),
+      userAccount: account._id,
+      userProfile: profile._id,
+      room: Math.random().toString(36).substr(8),
+      requiredGender: gender,
+      requiredUni: uni,
+      requiredMajor: major,
+      requiredYear: year,
+      requiredStatus: status,
+    });
+
+    newQueue.save(function (err, record) {
+      if (err) {
+        console.log("Queue can't be save");
+      } else {
+        console.log("Queue saved");
+        //wait until updated
+        const queueExist = Queue.exists({ userProfile: profile._id });
+        while (queueExist) {}
+        account = await getAccount();
+        const matched = UserAccount.findOne({ username: account.onOffStatus }).populate('userProfile')
+        let json = {
+          questions: [
+            {id: quiz[0].quizID, question: quiz[0].question, answer: [quiz[0].answer1, quiz[0].answer2]},
+            {id: quiz[1].quizID, question: quiz[1].question, answer: [quiz[1].answer1, quiz[1].answer2]},
+            {id: quiz[2].quizID, question: quiz[2].question, answer: [quiz[2].answer1, quiz[2].answer2]}
+          ],
+          contact: element.userProfile.contact,
+          info: {
+            name: element.userProfile.nickname,
+            gender: element.userProfile.gender,
+            picture: element.userProfile.picture,
+            description: element.userProfile.description,
+            faculty: element.userProfile.faculty,
+            university: element.userProfile.university,
+            year: element.userProfile.year,
+            status: element.userProfile.status,
+            commonInterest: commonInterest,
+          },
+          room: roomID,
+        };
+        console.log(json);
+        return res.send(json);
+      }
+    });
   }
 });
 
