@@ -168,8 +168,6 @@ div#container form {
 
 .overlay {
   background: #e23cdd;
-  background: -webkit-linear-gradient(to right, #ec55e7, #ec55e7);
-  background: linear-gradient(to right, #ffadff, #e23cdd);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
@@ -203,6 +201,7 @@ div#container form {
 
 .overlay-left {
   transform: translateX(-20%);
+  background: linear-gradient(to right, #fc86fc, #f056eb);
 }
 
 .container.right-panel-active .overlay-left {
@@ -212,7 +211,7 @@ div#container form {
 .overlay-right {
   right: 0;
   transform: translateX(0);
-  background: linear-gradient(to right, #f056eb, #ffadff);
+  background: linear-gradient(to right, #f056eb, #fc86fc);
 }
 
 .container.right-panel-active .overlay-right {
