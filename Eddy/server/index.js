@@ -21,9 +21,9 @@ const create = require("./router/router_create.js");
 const login = require("./router/router_login.js");
 const main = require("./router/router_main.js");
 const mission = require("./router/router_mission.js");
-const router = require("./router.js");
+//const router = require("./router.js");
 
-app.use(router);
+//app.use(router);
 
 
 app.use(session({ secret: "secret", resave: false, saveUninitialized: true }));

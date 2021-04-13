@@ -13,9 +13,9 @@ var UserProfileSchema = mongoose.Schema({
     major:{type:String},
     year:{type:Number},
     status:{type:String},
+    description:{type:String},
     interest:[{type:String}], //array of interests
     createdTime:{type:Date},
-    contactType:{type:String},
     contact:{type:String}
 
 });

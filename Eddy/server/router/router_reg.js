@@ -8,12 +8,9 @@ const cors = require("cors");
 
 router.use(cors());
 
-router.get("/register", (req, res) => {
-  console.log("running la");
-});
-
 router.post("/register", (req, res) => {
   var email = req.body.email;
+  var password = req.body.password;
 
   //check if email exist in UserAccount
   UserAccount.exists({ email: email }, function (err, result) {
@@ -31,9 +28,11 @@ router.post("/register", (req, res) => {
         } else {
           //non exist email in mongodb
           console.log(email);
+          console.log(password);
           const newAccount = new VerifyingAccount({
             _id: new mongoose.Types.ObjectId(),
             email: email,
+            password: password
           });
 
           newAccount.save(function (err, record) {
@@ -43,7 +42,7 @@ router.post("/register", (req, res) => {
               console.log(`saved!!!   ${record._id}`);
               var id = record._id;
               var subject = "Verification of Your Happy Chat University Account";
-              var html = `<p>Please click to following link to create your own account!</p><p><a href="https://localhost:5000/registration?id=${id}">Verify</a></p>`;
+              var html = `<p>Please click to following link to create your own account!</p><p><a href="https://localhost:3000/registration/${id}">Verify</a></p>`;
               sendEmail.sendEmail(email, subject, html); //send email
               console.log("verification email sent");
             }
