@@ -5,34 +5,39 @@ class Filter_form extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  university = ['CUHK', 'HKU', 'HKUST', 'CityU', 'PolyU', 'BU'];
+  
+  major = ['Science', 'Social Science', 'Engineering', 'Business'];
+
   render() {
     return (
       <div className='mission_1'>
         <div className='filter_form_grid_container'>
           <div className='filter_form_matching_intro'>
-            <h2 style={{color:"purple"}}>Welcome to the Matching Function!</h2>
+            <h2 className="filter_form_title">Welcome to the Matching Function!</h2>
             <p>You may pay tokens to add filter for your matching.</p>
             <br />
-            <h3 style={{color:"purple"}}>Charges are below:</h3>
+            <h3>Charges are below:</h3>
             <br />
-            <p >Basic Charge: 2 tokens</p>
+            <p>Basic Charge: 2 tokens</p>
             <br />
-            <p >Gender:2 tokens</p>
+            <p>Gender:2 tokens</p>
             <br />
-            <p >University: 2 tokens</p>
+            <p>University: 2 tokens</p>
             <br />
-            <p >Major: 2 tokens</p>
+            <p>Major: 2 tokens</p>
             <br />
-            <p >Year: 2 tokens</p>
+            <p>Year: 2 tokens</p>
             <br />
-            <p >Status: 3 tokens</p>
+            <p>Status: 3 tokens</p>
             <br />
 
-            <h3 style={{color:"purple"}}>Enjoy the Chat!</h3>
+            <h3>Enjoy the Chat!</h3>
           </div>
           <div className='matching_form_holder'>
             <form className='matching_form'>
-              <h1 style={{color:"purple"}}>What kind of people do you want to look for?</h1>
+              <h1 className="filter_form_title">What kind of people do you want to look for?</h1>
               <div class='filter-form-radio-container'>
                 <input id='Gender_M' name='gender' type='radio' value='Male' />
                 <label for='Gender_M'>Male</label>
@@ -42,20 +47,16 @@ class Filter_form extends React.Component {
               <label for='university'>University:</label>
               <select id='university' name='university'>
                 <option value=''>University</option>
-                <option value='CUHK'>CUHK</option>
-                <option value='HKU'>HKU</option>
-                <option value='HKUST'>HKUST</option>
-                <option value='CityU'>CityU</option>
-                <option value='PolyU'>PolyU</option>
-                <option value='BU'>BU</option>
+                {this.university.map((x) => (
+                    <option value={x}>{x}</option>
+                ))}
               </select>
               <label for='major'>Major:</label>
               <select id='major' name='major'>
                 <option value=''>Major</option>
-                <option value='Science'>Science</option>
-                <option value='Social Science'>Social Science</option>
-                <option value='Engineering'>Engineering</option>
-                <option value='Business'>Business</option>
+                {this.major.map((x) => (
+                    <option value={x}>{x}</option>
+                ))}
               </select>
               <div class='filter-form-radio-container'>
                 <input id='year1' name='year' type='radio' value='1' />

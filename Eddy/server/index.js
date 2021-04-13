@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
 const socketio = require('socket.io');
@@ -22,6 +23,8 @@ const main = require('./router/router_main.js');
 const mission = require('./router/router_mission.js');
 
 app.use(session({secret: 'secret', resave:false, saveUninitialized:true}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(home);
 app.use(reg);
 app.use(create);
@@ -72,6 +75,5 @@ io.on("connection", (socket) => {
     }
   });
 });
-app.use(router);
 
 server.listen(PORT, () => console.log(`Server has started on port ${PORT}`));
