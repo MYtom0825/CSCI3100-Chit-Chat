@@ -148,7 +148,7 @@ router.post("/match", (req, res) => {
       requiredStatus: status,
     });
 
-    newQueue.save(function (err, record) {
+    newQueue.save(async function (err, record) {
       if (err) {
         console.log("Queue can't be save");
       } else {

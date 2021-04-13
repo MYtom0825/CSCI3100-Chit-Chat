@@ -115,6 +115,7 @@ router.post("/forgotpw", (req, res) => {
       res.send("Account can't be found");
     } else {
       var randomPw = Math.random().toString(36).substr(8);
+      
       var subject = "Recovery of Your Happy Chat Account Password";
       var html = `<p>Your password is: </p><p><strong>${randomPw}</strong></p>`;
       sendEmail.sendEmail(email, subject, html); //send email
