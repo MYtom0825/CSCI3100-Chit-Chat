@@ -63,15 +63,15 @@ router.post("/login", (req, res) => {
               console.log(error);
             }
           });
-          user.token+=5;
-          user.save((err)=>{
-            if(err){
+          user.token += 5;
+          user.save((err) => {
+            if (err) {
               console.log("token can't be added to the account");
-            }else{
+            } else {
               console.log("token added to the account");
             }
           })
-        }else if(exist == true){
+        } else if (exist == true) {
           console.log("mission completed before");
         }
       });
@@ -108,14 +108,13 @@ router.post("/login", (req, res) => {
 router.post("/forgotpw", (req, res) => {
   //forgot password
   var email = req.body.email;
+  var randomPw = Math.random().toString(36).substr(8);
 
-  UserAccount.findOne({ email: email }, function (err, result) {
+  UserAccount.findOneAndUpdate({ email: email }, { password: randomPw }, function (err, result) {
     if (err) {
       consolg.log(err);
       res.send("Account can't be found");
     } else {
-      var randomPw = Math.random().toString(36).substr(8);
-      
       var subject = "Recovery of Your Happy Chat Account Password";
       var html = `<p>Your password is: </p><p><strong>${randomPw}</strong></p>`;
       sendEmail.sendEmail(email, subject, html); //send email
