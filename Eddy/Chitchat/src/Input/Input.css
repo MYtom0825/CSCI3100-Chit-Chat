@@ -1,6 +1,7 @@
 .chatInput_form {
   display: flex;
   border-top: 2px solid #d3d3d3;
+  min-height: 30vh;
 }
 
 .chatInput_input {
