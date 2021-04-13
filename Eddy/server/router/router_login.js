@@ -34,6 +34,9 @@ router.post("/login", (req, res) => {
       };
 
       Mission.exists({useraccount:user,missionID:0},function(err,exist){
+        if(err){
+          console.log("mission exist error");
+        }else if(exist==false){
         var missionFinished = new Mission({
             _id: new mongoose.Types.ObjectId(),
             useraccount: user._id,
@@ -48,6 +51,9 @@ router.post("/login", (req, res) => {
               console.log(error);
             }
           });
+        }else if(exist == true){
+          console.log("mission completed before");
+        }
       });
 
       console.log("login successful");
