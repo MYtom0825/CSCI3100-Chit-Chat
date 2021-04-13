@@ -13,8 +13,7 @@ router.post("/login", (req, res) => {
   //login
   var email = req.body.email;
   var password = req.body.password;
-  var username=req.body.username;
-  UserAccount.findOne({ username: username }, function (error, user) {
+  UserAccount.findOne({ email: email }, function (error, user) {
     /*loginstate:0 => can't find user
                      1 => password incorrect
                      2 => login successful
