@@ -6,9 +6,9 @@ class Filter_form extends React.Component {
     super(props);
   }
 
-  university = ['CUHK', 'HKU', 'HKUST', 'CityU', 'PolyU', 'BU'];
+  university = ["CUHK", "HKU", "LingU", "CityU", "HKUST", "PolyU", "BU", "EduU", "OU", "HSU"];
   
-  major = ['Science', 'Social Science', 'Engineering', 'Business'];
+  faculty = ["Engineering", "Medicine", "Law", "Social Science", "Science", "Busness Administration", "Art", "Education"];
 
   render() {
     return (
@@ -51,10 +51,10 @@ class Filter_form extends React.Component {
                     <option value={x}>{x}</option>
                 ))}
               </select>
-              <label for='major'>Major:</label>
-              <select id='major' name='major'>
-                <option value=''>Major</option>
-                {this.major.map((x) => (
+              <label for='faculty'>Faculty:</label>
+              <select id='faculty' name='faculty'>
+                <option value=''>Faculty</option>
+                {this.faculty.map((x) => (
                     <option value={x}>{x}</option>
                 ))}
               </select>
