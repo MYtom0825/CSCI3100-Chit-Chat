@@ -11,7 +11,7 @@ router.get('/register', (req, res) => {
 
 router.post('/register', (req, res) => {
     var email = req.body.email;
-
+    console.log(email);
     //check if email exist in UserAccount
     UserAccount.exists({ email: email }, function (err, result) {
         if (err) {

@@ -14,7 +14,7 @@ router.get('/main', (req, res) => {
 })
 
 router.post('/match', (req, res) => {    //matching
-    if(!username){
+    if(!req.session.username){
         return res.status(401).send();
     }
 
@@ -67,7 +67,7 @@ router.post('/match', (req, res) => {    //matching
     var account;
     var profile;
     lookfor();
-    
+
     function delQueue(id) {
         Queue.deleteOne({userAccount: id},function(err) {
             if(err){
@@ -125,14 +125,13 @@ router.post('/match', (req, res) => {    //matching
                     room: element.room,
                 };
                 delQueue(element.account._id);      //del matched user in Queue
-                delQueue(account._id);              //del user in Queue
                 console.log(json);
                 res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
                 
             }
         });
     }
-    else {
+    else {      //no matched user, keep waiting until new user matched current user
         console.log('no matched user');
 
         const newQueue = new Queue({            //save current user into queue to wait for matching
@@ -151,6 +150,8 @@ router.post('/match', (req, res) => {    //matching
                 console.log('Queue can\'t be save');
             }else{
                 console.log('Queue saved');
+                //keep waiting
+                res.redirect('../loading');
             }
         })
     }

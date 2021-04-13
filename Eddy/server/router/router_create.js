@@ -1,18 +1,21 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
+const mongoose = require('mongoose');
 let UserAccount = require('../model/model_account.js');
 let UserProfile = require('../model/model_profile.js');
 let VerifyingAccount = require('../model/model_verifyaccount.js');
-const mongoose = require('mongoose');
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
 router.get('/registration/:id', (req, res) => {
+    console.log("get!");
     res.send('running la');
+});
 
-    VerifyingAccount.FindById(req.param.id, function (err, record) {
+async function getEmail(id) {
+    VerifyingAccount.FindById(id, function (err, record) {
         if (err) {
             console.log(err);
         }
@@ -20,10 +23,11 @@ router.get('/registration/:id', (req, res) => {
             res.send({ email: record.email }); //send json data to frontend
         }
     });
-});
+}
 
 router.post('/registration/:id',  async (req, res) => {
     //insert into UserAccount
+    console.log("post!");
     var salt="";
     var hash="";
     try{
@@ -43,10 +47,11 @@ router.post('/registration/:id',  async (req, res) => {
     
     const user_id =  new mongoose.Types.ObjectId();
     const profile_id =  new mongoose.Types.ObjectId();
-
+    var email = await getEmail(req.param.id);
+    console.log("Ahere?!");
     var newUserAccount = new UserAccount({
         _id: user_id,
-        email: req.body.email,
+        email: email,
         username: req.body.username,
         password: hash,
         onOffstatus: 'off',
@@ -71,7 +76,7 @@ router.post('/registration/:id',  async (req, res) => {
         contact: req.body.contact           //id
     });
 
-
+    console.log("Bhere?!");
     try{
         await newUserAccount.save()
         console.log("user account successfully created");
