@@ -13,11 +13,16 @@ router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
 router.post("/registration/:id", async (req, res) => {
+  var happy = JSON.stringify(req.body);
+  console.log(happy);
+  var n = happy.indexOf("interest");
+  var happy2 = happy.slice(0, n + 8) + happy.slice(n + 10);
+  happy = JSON.parse(happy2).interest;
+
   const existdUserName = await UserAccount.findOne({ username: req.body.username });
   if (existdUserName) {
     return res.send("username taken");
-  }
-  else {
+  } else {
     VerifyingAccount.findByIdAndRemove({ _id: req.params.id }, async function (err, record) {
       if (err) {
         console.log(err);
@@ -36,7 +41,6 @@ router.post("/registration/:id", async (req, res) => {
         } catch (err) {
           console.log("sssss");
           console.log(err);
-
         }
         try {
           hash = await bcrypt.hashSync(record.password, salt);
@@ -53,26 +57,26 @@ router.post("/registration/:id", async (req, res) => {
           userProfile: profile_id,
           token: 0,
         });
-
+        console.log(req.body.interest);
         var newUserProfile = new UserProfile({
           _id: profile_id,
           account: user_id,
           picture: req.body.profilePic,
-          nickName: req.body.profileName,
-          //gender: req.body.gender,
+          nickName: req.body.nickName,
+          gender: req.body.gender,
           university: req.body.university,
           faculty: req.body.faculty,
           major: req.body.major,
           year: req.body.year,
           status: req.body.status,
           description: req.body.desc,
-          interest: req.body.interest, //array of interests
+          interest: happy, //array of interests
           createdTime: Date.now(),
           contact: req.body.contact, //ig
         });
 
         try {
-          await newUserAccount.save()
+          await newUserAccount.save();
           console.log("user account successfully created");
         } catch (err) {
           console.log("user account can't be created");
@@ -80,7 +84,7 @@ router.post("/registration/:id", async (req, res) => {
         }
 
         try {
-          await newUserProfile.save()
+          await newUserProfile.save();
           console.log("user profile successfully created");
         } catch (err) {
           console.log("user profile can't be created");
@@ -91,7 +95,6 @@ router.post("/registration/:id", async (req, res) => {
       }
     });
   }
-
 });
 
 module.exports = router;

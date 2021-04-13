@@ -28,8 +28,7 @@ class LoginPage extends React.Component {
   signUpEventHandler = (e) => {
     let email = $("#regEmail").val().toString(),
       pw = $("#regPW").val();
-    console.log(email);
-    console.log(pw);
+
     let lastAtPos = email.lastIndexOf("@");
     let lastDotPos = email.lastIndexOf(".");
     if (email == "" || pw == "") {
@@ -43,7 +42,7 @@ class LoginPage extends React.Component {
         password: pw,
       })
         .done((res) => {
-          window.alert("Email-verification has been sent to your Universal Email.");
+          window.alert("Email-verification has been sent to your University Email!");
           e.preventDefault();
         })
         .fail(() => {
