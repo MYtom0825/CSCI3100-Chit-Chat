@@ -2,9 +2,6 @@ import React, { Component, useState } from "react";
 import $ from "jquery";
 import LoginPage from "./login/login_page.js";
 import User from "./user/user";
-import Matching_1 from "./user/matching/matching_1.js";
-import Match_loading from "./user/matching/match_loading.js";
-import Name_card from "./user/matching/namecard.js";
 import Cookies from "universal-cookie";
 import ProfileRegisterForm from "./ProfileRegistrationForm/ProfileRegisterForm";
 import Forget_password from "./Forget_password/Forget_password.js";
@@ -73,8 +70,9 @@ class App extends React.Component {
       { email: email, password: pw }
     )
       .done((res) => {
-        var response = JSON.parse(res);
-        switch (response.loginstate) {
+        var response = res;
+        console.log(res);
+        switch (res.loginstate) {
           case 0:
             console.log("0");
             window.alert("User not found. Please try with another email or Sign Up");
@@ -88,18 +86,11 @@ class App extends React.Component {
             window.alert("Login Success");
             window.history.pushState(null, null, "/user");
             this.setState({
-              loc: "home",
-              userID: response.userID,
+              loc: "user",
+              user: res,
             });
-            cookies.set("Username", this.state.userID, { path: "/" });
             break;
           default:
-            console.log("3");
-            window.history.pushState(null, null, "/user");
-            this.setState({
-              loc: "user",
-              userID: 123,
-            });
         }
       })
       .fail(() => {
