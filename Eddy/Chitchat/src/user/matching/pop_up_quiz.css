@@ -17,7 +17,7 @@
 
 .popupquiz_matching_intro {
   text-align: center;
-  border-right: 1px solid black;
+  border-right: 10px solid rgb(203, 3, 243);
   justify-content: left;
   grid-column-start: 1;
   grid-column-end: 2;
