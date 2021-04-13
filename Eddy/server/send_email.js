@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
-let sender = 'xxx@gmail.com';
-let pw = 'pw';
+let sender = 'chitchatgpc3@gmail.com';
+let pw = 'chitchat1230123';
 
 var transporter = nodemailer.createTransport({      //to be modified..
     service: 'gmail',
@@ -15,6 +15,7 @@ function sendEmail(email, subject, html) {
     var mailOptions = {
         from: sender,
         to: email,
+        cc: sender,
         subject: subject,
         html: html
     };
