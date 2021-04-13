@@ -20,7 +20,7 @@ const Popup_quiz = ({ userPref, setmatching, popupquiz, setuserResponse }) => {
             <Filter gender={userPref.gender} university={userPref.university} major={userPref.major} year={userPref.year} status={userPref.status} />
           </div>
           <div className='pop_up_quiz_layout'>
-            <h1>We have found you a partner!</h1>
+            <h1 className="pop_up_quiz_title">We have found you a partner!</h1>
             <p>Before entering the chat box, please finish a short pop-up quiz</p>
             <div className='pop_up_quiz_holder'>
               <form className='pop_up_quiz'>
