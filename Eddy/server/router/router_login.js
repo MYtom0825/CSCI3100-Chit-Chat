@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
 const router = express.Router();
 let UserAccount = require("../model/model_account.js");
 let Mission = require('../model/model_mission.js');
@@ -28,7 +29,6 @@ router.post("/login", (req, res) => {
 
     if (bcrypt.compareSync(password, user.password)) {
       req.session.username = user.username;
-      user.onOffStatus = "on";
 
       var data = {
         loginstate: 2,

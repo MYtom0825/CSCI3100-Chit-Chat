@@ -50,7 +50,6 @@ router.post("/registration/:id", async (req, res) => {
           email: record.email,
           username: req.body.username,
           password: hash,
-          onOffstatus: "off",
           userProfile: profile_id,
           token: 0,
         });
