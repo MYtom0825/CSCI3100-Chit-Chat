@@ -24,6 +24,11 @@ router.post("/login", (req, res) => {
                      2 => login successful
         */
       if (error) {
+        console.log(err);
+        res.send("fail");
+        return;
+      }
+      if (!user) {
         var data = {
           loginstate: 0,
         };
