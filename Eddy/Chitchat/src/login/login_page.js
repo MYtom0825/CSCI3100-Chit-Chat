@@ -26,8 +26,10 @@ class LoginPage extends React.Component {
   };
 
   signUpEventHandler = (e) => {
-    let email = $("#regEmail").val(),
+    let email = $("#regEmail").val().toString(),
       pw = $("#regPW").val();
+    console.log(email);
+    console.log(pw);
     let lastAtPos = email.lastIndexOf("@");
     let lastDotPos = email.lastIndexOf(".");
     if (email == "" || pw == "") {

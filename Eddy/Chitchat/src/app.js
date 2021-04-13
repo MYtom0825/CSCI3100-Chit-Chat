@@ -34,7 +34,44 @@ class App extends React.Component {
     e.preventDefault();
     let email = $("#userEmail").val(),
       pw = $("#userPW").val();
-    $.post(BACKEND + "login", { email: email, password: pw })
+    var details = {
+      email: email,
+      password: pw,
+    };
+
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+    console.log(
+      formBody
+    ); /*
+    $.ajax({
+      url: "http://localhost:5000/login",
+      type: "post",
+      data: { email: email, password: pw },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "Access-Control-Allow-Headers": "*", //If your header name has spaces or any other char not appropriate
+        "Access-Control-Allow-Origin": "*", //for object property name, use quoted notation shown in second
+      },
+      success: function (data) {
+        console.log(data);
+      },
+    });*/
+    /*fetch("http://localhost:5000/login/" + formBody, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      },
+      body: formBody,
+    });*/ $.post(
+      BACKEND + "login",
+      { email: email, password: pw }
+    )
       .done((res) => {
         var response = JSON.parse(res);
         switch (response.loginstate) {
