@@ -33,17 +33,17 @@ class Mission extends React.Component {
     ];
     return (
       <div>
-        <div className='column'>
-          <text_title>DAILY LOGIN</text_title>
-          <Calendar locale='en-US' />
+        <div className="mission_column" type="colm_35">                            
+          <text_title type="mission">DAILY LOGIN</text_title>   
+          <Calendar locale="en-US"/>
         </div>
-        <div className='column'>
-          <text_title1>MISSION LIST</text_title1>
+        <div className='mission_column' type="colm_65">
+          <text_title1 type="mission">MISSION LIST</text_title1>
           <div className='mission_card'>
-            <div className='table'>
-              <div className='tr'>
+            <div className='mission_table'>
+              <div className='mission_tr'>
                 {mission_list.map((mission_list) => (
-                  <div className='tr'>
+                  <div className='mission_tr'>
                     <Mission_card name={mission_list.Name} content={mission_list.Content} link={mission_list.Link} finished={this.state.missionFinished} index={mission_list.index} />
                   </div>
                 ))}
