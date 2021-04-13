@@ -8,13 +8,6 @@ const cors = require("cors");
 
 router.use(cors());
 
-<<<<<<< Updated upstream
-router.post('/register', (req, res) => {
-    var email = req.body.email;
-    console.log(email);
-    //check if email exist in UserAccount
-    UserAccount.exists({ email: email }, function (err, result) {
-=======
 router.get("/register", (req, res) => {
   console.log("running la");
 });
@@ -31,7 +24,6 @@ router.post("/register", (req, res) => {
     } else {
       //check if email exist in VerifyingAccount
       VerifyingAccount.exists({ email: email }, function (err, result) {
->>>>>>> Stashed changes
         if (err) {
           console.log(err);
         } else if (result === true) {
