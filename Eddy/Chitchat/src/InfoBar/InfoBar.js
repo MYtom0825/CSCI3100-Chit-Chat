@@ -46,7 +46,7 @@ const InfoBar = ({ room, timeIsUp, countertime }) => {
         <h3 className='chatboxtime'>4 minutes 59 seconds left</h3>
       </div>
       <div className='infoBar_RightInnerContainer'>
-        <button className='report_button'> report</button>
+        <button className='report_button'> Report</button>
       </div>
     </div>
   );
