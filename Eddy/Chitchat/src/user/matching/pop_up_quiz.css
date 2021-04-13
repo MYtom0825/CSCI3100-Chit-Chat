@@ -2,6 +2,14 @@
   font-family: "Montserrat", sans-serif;
 }
 
+.pop_up_quiz_title{
+  color: purple;
+}
+
+.pop_up_quiz_title h2{
+  color: purple;
+}
+
 .grid_container {
   display: grid;
   grid-template-columns: 30% auto;

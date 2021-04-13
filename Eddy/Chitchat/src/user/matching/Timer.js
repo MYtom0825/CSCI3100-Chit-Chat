@@ -38,7 +38,7 @@ class Timer extends Component {
             <div>
                 { minutes === 0 && seconds === 0
                     ? <h1>Times up</h1> //need to be modify, go back to home page??
-                    : <h1>Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
+                    : <h1 className="pop_up_quiz_title">Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
                 }
             </div>
         )
