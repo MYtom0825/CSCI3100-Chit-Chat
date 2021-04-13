@@ -2,7 +2,6 @@
 .mission_card{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   display: flex;
-  margin-top: 10%;
   max-height: 50vh;
   width: 90vh;
   border: 10px solid rgba(15, 177, 218, 0);
