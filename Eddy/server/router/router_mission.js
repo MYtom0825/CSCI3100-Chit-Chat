@@ -2,6 +2,7 @@ const express = require("express");
 const session = require("express-session");
 const router = express.Router();
 let UserAccount = require("../model/model_account.js");
+let Mission=require('../model/model_mission.js');
 const cors = require("cors");
 
 router.use(cors());
@@ -14,13 +15,26 @@ router.get("/mission", (req, res) => {
     return res.status(401).send();
   }
 
+  
+
   UserAccount.findOne({ username: req.session.username }, function (err, result) {
     const missionFinished = [];
+     
+    function missionFind(useraccount){
+      Mission.find({useraccount:useraccount}).sort({missionID:'ascending'}).exec(function(err,missionArray){
+        if(err){
+          console.log("mission find error");
+          console.log(err);
+        }else{
+          return missionArray;
+        }
+        });
+    }
+
     if (err) {
       res.send(err);
     } else {
-      missionFinished = result.missionFinished;
-      missionFinished.sort();
+        missionFinished = missionFind(result._id);
       return res.json({
         missionFinishedID: missionFinished,
       });
