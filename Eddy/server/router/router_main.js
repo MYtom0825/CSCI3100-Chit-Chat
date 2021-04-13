@@ -55,38 +55,14 @@ router.post('/match', (req, res) => {    //matching
     async function lookfor() {
         account = await getAccount();
         profile = await getProfile(account._id);
-        quiz = await getQuiz();
-        if (profile !== []) {    //set new Queue with info inside profile
-            const newQueue = new Queue({
-                _id: new mongoose.Types.ObjectId(),
-                userAccount: account._id,
-                //queueNumber: ,    //auto-increment...
-                requiredGender: gender,
-                requiredUni: uni,
-                requiredMajor: major,
-                requiredYear: year,
-                requiredStatus: status
-            });
-
-            newQueue.save(function(err, record) {
-                if(err){
-                    console.log('Queue can\'t be save');
-                }else{
-                    console.log('Queue saved');
-                }
-            })
-        }
-        else {
-            console.log('no profile get');
-        }
     }
 
     //set filters
-    var gender = req.body.gender;
-    var uni = req.body.uni;
-    var major = req.body.major;
-    var year = req.body.year;
-    var status = req.body.status;
+    var filterGender = req.body.gender;
+    var filterUni = req.body.uni;
+    var filterMajor = req.body.major;
+    var filterYear = req.body.year;
+    var filterStatus = req.body.status;
 
     var account;
     var profile;
@@ -102,36 +78,34 @@ router.post('/match', (req, res) => {    //matching
         });
     }
 
-    const matchUsers = Queue.find({
-            $and: [
-                { requiredGender: { gender, $exists: true, $ne: [] } }, 
-                { requiredUni: { uni, $exists: true, $ne: [] } }, 
-                { requiredMajor: { major, $exists: true, $ne: [] } },
-                { requiredYear: { year, $exists: true, $ne: [] } },
-                { requiredStatus: { status, $exists: true, $ne: [] } }
-            ]
-    }).sort({ queueNumber: 1 });
+    var userGender = profile.gender;
+    var userUni = profile.uni;
+    var userMajor = profile.major;
+    var userYear = profile.year;
+    var userStatus = profile.status;
 
-    if (matchUsers !== {}) {
-    //check the one being matched if his filter also satisfied
+
+    const matchUsers = Queue.find({     //find matched users which requirement match the current user
+            $and: [
+                { requiredGender: { userGender, $exists: true, $ne: [] } }, 
+                { requiredUni: { userUni, $exists: true, $ne: [] } }, 
+                { requiredMajor: { userMajor, $exists: true, $ne: [] } },
+                { requiredYear: { userYear, $exists: true, $ne: [] } },
+                { requiredStatus: { userStatus, $exists: true, $ne: [] } }
+            ]
+    }).populate('userProfile').populate('userAccount').sort({ queueNumber: 1 });
+
+    if (matchUsers !== {}) {        //if there exist that current user matches the requirement of users in queue
+        //check if matched user also satisfy current user's requirement
         matchUsers.forEach(element => {
-            var profile=UserProfile.findById(element.user_id,function(err,result) {
-                if(err){
-                    console.log(err);
-                }else{
-                    console.log('User found!');
-                    return result;
-                }
-            });
-            if ( (element.requiredGender === null || profile.account.gender === element.requiredGender) &&
-                (element.requiredUni === null || profile.account.uni === element.requiredUni) &&
-                (element.requiredMajor === null || profile.account.major === element.requiredMajor) &&
-                (element.requiredYear === null || profile.account.year === element.requiredYear) &&
-                (element.requiredStatus === null || profile.account.status === element.requiredStatus) ) 
+            if ( (filterGender === null || element.userProfile.gender === filterGender) &&
+                 (filterUni === null || element.userProfile.uni === filterUni) &&
+                 (filterMajor === null || element.userProfile.major === filterMajor) &&
+                 (filterYear === null || element.userProfile.year === filterYear) &&
+                 (filterStatus === null || element.userProfile.status === filterStatus) )
             {
-                var matchedProfile = getProfile(element.account._id);
-                let commonInterest = profile.interest.filter(x => matchedProfile.interest.includes(x));
-                var roomID = Math.random().toString(36).substr(8);
+                let commonInterest = profile.interest.filter(x => element.userProfile.interest.includes(x));
+                let quiz = getQuiz();
 
                 let json = {
                     userId: [account._id, element.account._id],
@@ -148,18 +122,37 @@ router.post('/match', (req, res) => {    //matching
                         name: profile.nickname,
                         commonInterest: commonInterest,
                     },
-                    room: roomID,
+                    room: element.room,
                 };
                 delQueue(element.account._id);      //del matched user in Queue
                 delQueue(account._id);              //del user in Queue
                 console.log(json);
-                return res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
+                res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
                 
             }
         });
     }
     else {
         console.log('no matched user');
+
+        const newQueue = new Queue({            //save current user into queue to wait for matching
+            _id: new mongoose.Types.ObjectId(),
+            userAccount: account._id,
+            room: Math.random().toString(36).substr(8),
+            requiredGender: filterGender,
+            requiredUni: filterUni,
+            requiredMajor: filterMajor,
+            requiredYear: filterYear,
+            requiredStatus: filterStatus
+        });
+
+        newQueue.save(function(err, record) {
+            if(err){
+                console.log('Queue can\'t be save');
+            }else{
+                console.log('Queue saved');
+            }
+        })
     }
 });
 
