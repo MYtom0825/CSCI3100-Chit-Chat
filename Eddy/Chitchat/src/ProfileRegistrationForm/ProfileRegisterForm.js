@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Year from "../react-calendar/dist/umd/DecadeView/Year";
 import "./ProfileRegisterForm.css";
 
 class ProfileRegisterForm extends React.Component {
@@ -11,14 +12,15 @@ class ProfileRegisterForm extends React.Component {
       facalty: "Engineering",
       university: "CUHK",
       years: "3",
-      status: "A0",
+      status: "Available",
       interest: ["Dancing", "Pop music", "Classic music"],
     };
     //var user = this.props.user;
     var facalties = ["Engineering", "Medicine", "Law", "Social Science", "Science", "Busness Administration", "Art", "Education"];
     var genders = ["Hidden", "Male", "Female"];
     var universities = ["CUHK", "HKU", "LingU", "CityU", "HKUST", "PolyU", "BU", "EduU", "OU", "HSU"];
-    var status = ["A", "O", "OBA", "U"];
+    var years = ["1", "2", "3", "4", "5", "6"];
+    var Status = ["Available", "Occupied"];
     var interests1 = ["Dancing", "Pop music", "Classic music", "Track and field", "Ball game", "Water sport", "Extreme sport", "Movie", "Reading"];
     var interests2 = ["Drinking", "Singing", "Yoga", "Meditation", "Mobile game", "Video game", "Programming ", "Travel", "Eating"];
 
@@ -43,11 +45,20 @@ class ProfileRegisterForm extends React.Component {
         </div>
         <div className='ProfileRegisterForm_row'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-            Status:{" "}
+            Year:{" "}
           </label>
-          <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <input className='ProfileRegisterForm_input' id='Content' name='Status' defaultValue={user.status}></input>
-          </div>
+          <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
+            <select className='ProfileRegisterForm_input' id='Year' name='Year'>
+              <option value='Nan'></option>
+              {years.map(function (year) {
+                return (
+                  <option value={year} selected={year == user.years}>
+                    {year}
+                  </option>
+                );
+              })}
+            </select>
+          </a>
         </div>
         <div className='ProfileRegisterForm_row'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
@@ -110,8 +121,15 @@ class ProfileRegisterForm extends React.Component {
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             Status:{" "}
           </label>
-          <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <input className='ProfileRegisterForm_input' id='Status' name='Status' defaultValue={user.status}></input>
+          <a className='ProfileRegisterForm_colm75' style={{ padding: "0" }} type='ProfileRegisterForm_colm'>
+            {Status.map(function (status) {
+              return (
+                <a className='ProfileRegisterForm_colm30' type='ProfileRegisterForm_colm' id='status'>
+                  <input type='radio' id={status} name='status' defaultChecked={status == user.status}></input>
+                  <a> {status}</a>
+                </a>
+              );
+            })}
           </a>
         </div>
 
