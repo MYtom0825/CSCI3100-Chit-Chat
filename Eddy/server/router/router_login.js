@@ -13,7 +13,7 @@ router.post("/login", (req, res) => {
   //login
   var email = req.body.email;
   var password = req.body.password;
-
+  var username=req.body.username;
   UserAccount.findOne({ username: username }, function (error, user) {
     /*loginstate:0 => can't find user
                      1 => password incorrect
@@ -26,6 +26,7 @@ router.post("/login", (req, res) => {
       console.log("can't find user");
       return res.json(data);
     }
+    
     if (bcrypt.compareSync(password, user.password)) {
       req.session.username = user.username;
       //res.redirect('/');
