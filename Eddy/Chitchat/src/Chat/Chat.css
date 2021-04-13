@@ -19,6 +19,7 @@
 .chating_container {
   display: grid;
   grid-template-columns: 30% 70%;
+  margin-left: -80px;
 }
 
 .namecard_container {
