@@ -17,7 +17,7 @@ class Mission extends React.Component{
     }
     componentDidMount(){
     axios.get('/mission').then(response=>response.data).then((data)=>{ //a sorted array of missionID must be returned
-        this.setState({missionFinished:data});
+        this.setState({missionFinished:data.missionFinishedID});
         console.log(this.state.missionFinished);
     })
     }

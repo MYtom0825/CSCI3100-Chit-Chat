@@ -1,5 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
 const router = express.Router();
 let UserAccount = require('../model/model_account.js');
 let sendEmail = require('../send_email.js');
@@ -19,11 +20,12 @@ router.post('/login', (req, res) => {   //login
                      1 => password incorrect
                      2 => login successful
         */ 
-    if(err){
+    if(error){
         var data={
             'loginstate':0
         };
         console.log("can't find user");
+        console.log(error);
         return res.json(data);
     }
     if(bcrypt.compareSync(password,user.password)){
@@ -47,7 +49,7 @@ router.post('/login', (req, res) => {   //login
                 console.log(error);
             }
         });
-        
+
         console.log("login successful");
         
         return res.json(data);
