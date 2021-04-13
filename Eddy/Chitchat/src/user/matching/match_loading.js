@@ -2,6 +2,7 @@ import React from "react";
 import "./match_loading.css";
 
 import Filter from "./Filter";
+import Loading_time from "./Loading_time";
 
 class Match_loading extends React.Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class Match_loading extends React.Component {
             </div>
             <div className='loading_layout'>
               <div className='loader'></div>
-              <h1>Queueing Time: </h1>
+              <Loading_time />
               <p className='remind'>You may reduce filter to have faster matching...</p>
               <button type='submit' className='submit'>
                 Return
