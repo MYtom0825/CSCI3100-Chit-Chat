@@ -38,7 +38,7 @@ const Popup_quiz = ({ userPref, setmatching, popupquiz, setuserResponse }) => {
                   </div>
                 ))}
                 <br></br>
-                <button onClick={(event) => popupquizHandler(event)}>Submit</button>
+                <button onClick={(event) => popupquizHandler(event)} className='pop_up_submit'>Submit</button>
               </form>
             </div>
           </div>
