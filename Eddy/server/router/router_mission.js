@@ -18,7 +18,7 @@ router.get("/mission", (req, res) => {
   
 
   UserAccount.findOne({ username: req.session.username }, function (err, result) {
-    const missionFinished = [];
+    var missionFinished=[];
      
     function missionFind(useraccount){
 
