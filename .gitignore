@@ -133,3 +133,5 @@ node_modules
 node_modules
 server/original/node_modules
 .gitignore
+Eddy/Chitchat/node_modules
+Eddy/server/node_modules
