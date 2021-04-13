@@ -29,7 +29,6 @@ router.post("/login", (req, res) => {
 
     if (bcrypt.compareSync(password, user.password)) {
       req.session.username = user.username;
-      user.onOffStatus = "on";
 
       var data = {
         loginstate: 2,

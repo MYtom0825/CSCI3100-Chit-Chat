@@ -157,7 +157,7 @@ router.post("/match", (req, res) => {
         const queueExist = Queue.exists({ userProfile: profile._id });
         while (queueExist) {}
         account = await getAccount();
-        const matched = UserAccount.findOne({ username: account.onOffStatus }).populate('userProfile')
+        const matched = UserAccount.findOne({ username: account.MatchedUser }).populate('userProfile')
         let json = {
           questions: [
             {id: quiz[0].quizID, question: quiz[0].question, answer: [quiz[0].answer1, quiz[0].answer2]},
