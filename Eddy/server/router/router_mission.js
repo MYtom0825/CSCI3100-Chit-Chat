@@ -21,20 +21,24 @@ router.get("/mission", (req, res) => {
     const missionFinished = [];
      
     function missionFind(useraccount){
+
       Mission.find({useraccount:useraccount}).sort({missionID:'ascending'}).exec(function(err,missionArray){
         if(err){
           console.log("mission find error");
           console.log(err);
         }else{
-          return missionArray;
+           missionArray.forEach(element=>missionFinished.push(element.missionID));
+           return;
         }
         });
+
     }
+
 
     if (err) {
       res.send(err);
     } else {
-        missionFinished = missionFind(result._id);
+        missionFind(result._id);
       return res.json({
         missionFinishedID: missionFinished,
       });
