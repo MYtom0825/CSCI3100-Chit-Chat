@@ -1,51 +1,62 @@
-.ProfileRegisterForm_Container{
-    width: 100%;
-    padding: 30px;
-    background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0.507), rgb(97, 8, 214, 0.342), rgb(245, 0, 184, 0.342));
+.ProfileRegisterForm_Container {
+  width: 100%;
+  padding: 30px;
+  background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0.507), rgb(97, 8, 214, 0.342), rgb(245, 0, 184, 0.342));
 }
 
-.ProfileRegisterForm_row::after{
-    content: "";
-    display: table;
-    clear: both;
+.ProfileRegisterForm_row::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 a[type="ProfileRegisterForm_colm"],
 div[type="ProfileRegisterForm_colm"],
-label[type="ProfileRegisterForm_colm"]{
-    padding: 20px;
-    border: 10px solid rgba(255, 0, 0, 0);
-    font-size: 20px;
+label[type="ProfileRegisterForm_colm"] {
+  padding: 20px;
+  border: 10px solid rgba(255, 0, 0, 0);
+  font-size: 20px;
 }
 
-.ProfileRegisterForm_colm30{
-    float: left;        
-    width: 30%;
-    
-    padding: 10px;
+.ProfileRegisterForm_button {
+  color: white;
+  background-color: blueviolet;
+  padding: 5px;
+  border-radius: 5px;
+  float: right;
+}
+.ProfileRegisterForm_button:hover {
+  color: rgb(227, 45, 233);
+  background-color: white;
 }
 
-.ProfileRegisterForm_colm25{
-    height: 100px;
-    float: left;        
-    width: 35%;
-    text-align: right;
-    padding: 100px;
+.ProfileRegisterForm_colm30 {
+  float: left;
+  width: 30%;
+
+  padding: 10px;
 }
 
-.ProfileRegisterForm_colm75{
-    float: left;    
-    width: 55%;
-    height: 10%;
+.ProfileRegisterForm_colm25 {
+  height: 100px;
+  float: left;
+  width: 35%;
+  text-align: right;
+  padding: 100px;
 }
 
-.ProfileRegisterForm_input{
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    resize: vertical;
-    font-size: 15px;
+.ProfileRegisterForm_colm75 {
+  float: left;
+  width: 55%;
+  height: 10%;
 }
 
+.ProfileRegisterForm_input {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+  font-size: 15px;
+}

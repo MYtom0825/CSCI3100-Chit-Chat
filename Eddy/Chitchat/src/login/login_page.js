@@ -26,25 +26,26 @@ class LoginPage extends React.Component {
   };
 
   signUpEventHandler = (e) => {
-    let username = $("#regUsername").val(),
-      email = $("#regEmail").val(),
+    let email = $("#regEmail").val(),
       pw = $("#regPW").val();
-    if (username == "" || email == "" || pw == "") {
+    let lastAtPos = email.lastIndexOf("@");
+    let lastDotPos = email.lastIndexOf(".");
+    if (email == "" || pw == "") {
       window.alert("Please input all the field.");
-    } else if (!(email.includes("@") && email.includes(".com"))) {
+    } else if (!(lastAtPos > 0 && email.includes("edu.hk", lastAtPos) && lastAtPos < lastDotPos && email.indexOf("@@") == -1 && lastDotPos > 2 && email.length - lastDotPos > 2)) {
       window.alert("Wrong Email Format!");
+      e.preventDefault();
     } else {
-      $.post("http://localhost:3001/register", {
-        username: username,
+      $.post("http://localhost:5000/register", {
         email: email,
         password: pw,
       })
         .done((res) => {
-          window.alert(res);
+          window.alert("Email-verification has been sent to your Universal Email.");
           e.preventDefault();
         })
         .fail(() => {
-          window.alert('Request has been sent to "http://localhost:3001/register"');
+          window.alert("Request Failed. Please try again later!");
           e.preventDefault();
         });
     }
@@ -59,7 +60,6 @@ class LoginPage extends React.Component {
           <div className='form-container sign-up-container'>
             <form>
               <h1>Create Account</h1>
-              <input type='text' placeholder='Name' id='regUsername' required />
               <input type='email' placeholder='University Email' id='regEmail' required />
               <input type='password' placeholder='Password' id='regPW' required />
               <button

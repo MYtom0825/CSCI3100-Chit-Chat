@@ -1,8 +1,32 @@
 import React, { Component } from "react";
+import $ from "jquery";
 
 import "./ProfileRegisterForm.css";
 
 class ProfileRegisterForm extends React.Component {
+  setProfile = (e) => {
+    let ProfilePic = $("#ProfilePic").val(),
+      ProfileName = $("#ProfileName").val(),
+      Year = $("#Year").val(),
+      gender = $("input[name='gender']:checked").val(),
+      Description = $("#Description").val(),
+      Faculty = $("#Faculty").val(),
+      University = $("#University").val(),
+      status = $("#status").val(),
+      ProfileIG = $("#ProfileIG").val(),
+      interest = $("#interest").val();
+
+    console.log(ProfilePic);
+    console.log(ProfileName);
+    console.log(Year);
+    console.log(gender);
+    console.log(Description);
+    console.log(Faculty);
+    console.log(University);
+    console.log(status);
+    console.log(ProfileIG);
+    console.log(interest);
+  };
   render() {
     const user = {
       name: "Tom",
@@ -17,7 +41,7 @@ class ProfileRegisterForm extends React.Component {
     };
     //var user = this.props.user;
     var facalties = ["Engineering", "Medicine", "Law", "Social Science", "Science", "Busness Administration", "Art", "Education"];
-    var genders = ["Hidden", "Male", "Female"];
+    var genders = ["Male", "Female"];
     var universities = ["CUHK", "HKU", "LingU", "CityU", "HKUST", "PolyU", "BU", "EduU", "OU", "HSU"];
     var years = ["1", "2", "3", "4", "5", "6"];
     var Status = ["Available", "Occupied"];
@@ -85,10 +109,10 @@ class ProfileRegisterForm extends React.Component {
         </div>
         <div className='ProfileRegisterForm_row'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-            Facalty:{" "}
+            Faculty:{" "}
           </label>
           <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <select className='ProfileRegisterForm_input' id='Facalty' name='Facalty'>
+            <select className='ProfileRegisterForm_input' id='Faculty' name='Faculty'>
               <option value='Nan'></option>
               {facalties.map(function (facalty) {
                 return (
@@ -105,7 +129,7 @@ class ProfileRegisterForm extends React.Component {
             University:{" "}
           </label>
           <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <select className='ProfileRegisterForm_input' id='Facalty' name='Facalty'>
+            <select className='ProfileRegisterForm_input' id='University' name='University'>
               <option value='Nan'></option>
               {universities.map(function (university) {
                 return (
@@ -132,7 +156,15 @@ class ProfileRegisterForm extends React.Component {
             })}
           </a>
         </div>
-
+        <div className='ProfileRegisterForm_row'>
+          <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
+            IG Account
+          </label>
+          <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
+            <input className='ProfileRegisterForm_input' id='ProfileIG' name='ProfileIG' defaultValue={user.IG}></input>
+            <br></br>
+          </div>
+        </div>
         <div className='ProfileRegisterForm_row'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             Interests:{" "}
@@ -161,7 +193,15 @@ class ProfileRegisterForm extends React.Component {
           </div>
         </div>
         <div className='ProfileRegisterForm_row'>
-          <button type='submit' value='Submit' id='Submit'>
+          <button
+            type='submit'
+            value='Submit'
+            id='Submit'
+            className='ProfileRegisterForm_button'
+            onClick={(event) => {
+              this.setProfile(event);
+            }}
+          >
             Submit
           </button>
         </div>
