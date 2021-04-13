@@ -23,7 +23,7 @@ class Mission extends React.Component{
     }
 
     render(){
-        const finishedMission=JSON.parse(missionFinished)
+        const finishedMission=this.state.missionFinished;
         const mission_list = [
                         {Name:"Daily Login", Content:"Log in daily",Link:""},//0
                         {Name:"Hello", Content:"You are welcome", Link:"http://fb.com"},//1

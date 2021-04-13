@@ -51,6 +51,14 @@ router.post("/login", (req, res) => {
               console.log(error);
             }
           });
+          user.token+=5;
+          user.save((err)=>{
+            if(err){
+              console.log("token can't be added to the account");
+            }else{
+              console.log("token added to the account");
+            }
+          })
         }else if(exist == true){
           console.log("mission completed before");
         }
