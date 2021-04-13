@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
-let sender = 'changth85@gmail.com';
-let pw = 'a96210381';
+let sender = 'xxx@gmail.com';
+let pw = 'pw';
 
 var transporter = nodemailer.createTransport({      //to be modified..
     service: 'gmail',
