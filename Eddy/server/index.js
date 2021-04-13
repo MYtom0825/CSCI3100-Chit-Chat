@@ -25,7 +25,7 @@ const router = require("./router.js");
 
 app.use(router);
 
-/*
+
 app.use(session({ secret: "secret", resave: false, saveUninitialized: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,7 +34,7 @@ app.use(reg);
 app.use(create);
 app.use(login);
 app.use(main);
-app.use(mission);*/
+app.use(mission);
 
 //mongodb
 mongoose.connect("mongodb+srv://chit_chat:1230123@cluster0.4syir.mongodb.net/chit_chat?retryWrites=true&w=majority", { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
