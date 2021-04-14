@@ -32,7 +32,7 @@ const Matching_1 = (props) => {
     if (userPref.year) fee += 2;
     if (userPref.gender) fee += 2;
     if (userPref.status) fee += 3;
-    if (props.user.token < fee){
+    if (props.token < fee){
       window.alert("You do not have enough tokens! Please reset your filter.")
     }
     else{
