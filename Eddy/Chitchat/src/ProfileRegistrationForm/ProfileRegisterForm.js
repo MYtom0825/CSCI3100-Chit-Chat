@@ -49,15 +49,15 @@ class ProfileRegisterForm extends React.Component {
 
     return (
       <div className='ProfileRegisterForm_Container'>
-        <form onSubmit={(event)=>{this.setProfile(event)}}>
-          <div className='ProfileRegisterForm_row'>
+        <form>
+          {/*<div className='ProfileRegisterForm_row'>
             <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
               Profile Picture:{" "}
             </label>
             <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
               <input type='file' id='ProfilePic' name='ProfilePic'></input>
             </a>
-          </div>
+    </div>*/}
           <div className='ProfileRegisterForm_row required'>
             <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
               Name:
@@ -222,10 +222,12 @@ class ProfileRegisterForm extends React.Component {
               className='ProfileRegisterForm_button'
               onClick={(event) => {
                 let interest = $("input[class='interest']:checked").val();
-                if (interest == null) {
+                if (interest != null) {
+                  this.setProfile(event);
+                } else {
                   window.alert("Please choose at least one interest.");
                   event.preventDefault();
-                } 
+                }
               }}
             >
               Submit
