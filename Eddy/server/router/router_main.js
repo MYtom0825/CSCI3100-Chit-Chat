@@ -87,6 +87,7 @@ router.post("/match", (req, res) => {
         else {
           profile = result;
           console.log(profile);
+          //if 
           var profileGender = profile.gender;
           var profileUni = profile.university;
           var profileFaculty = profile.faculty;
@@ -97,6 +98,8 @@ router.post("/match", (req, res) => {
           console.log(profileFaculty);
           console.log(profileYear);
           console.log(profileStatus);
+
+          const query = `{ require }`;
 
           Queue.find({
             requiredGender: { $in: [profileGender, ""] },
@@ -158,57 +161,36 @@ router.post("/match", (req, res) => {
                       console.log(matchUsers[i].quizId[1]);
                       let commonInterest = profile.interest.filter((x) => matchUsers[i].userProfile.interest.includes(x));
                       console.log("Bhere???");
-                      Quiz.find({ 
-                        $or: [ 
-                          { quizID: matchUsers[i].quizId[0] }, 
-                          { quizID: matchUsers[i].quizId[1] },
-                          { quizID: matchUsers[i].quizId[2] }
-                        ] }, function (err, result) {
-                        if (err) {
-                          console.log(err);
-                        }
-                        else {
-                          quiz = result;
-                          console.log(quiz);
-                          let json = {
-                            questions: [
-                              { id: "001", question: "Which food do you like more?", answer: ["Option A", "Option B"] },
-                              { id: "002", question: "Which animal do you like more?", answer: ["Option A", "Option B"] },
-                              { id: "003", question: "Which city do you like more?", answer: ["Option A", "Option B"] },
-                            ],
-                            contact: matchUsers[i].userProfile.contact,
-                            info: {
-                              name: matchUsers[i].userProfile.nickName,
-                              gender: matchUsers[i].userProfile.gender,
-                              picture: matchUsers[i].userProfile.picture,
-                              description: matchUsers[i].userProfile.description,
-                              faculty: matchUsers[i].userProfile.faculty,
-                              university: matchUsers[i].userProfile.university,
-                              year: matchUsers[i].userProfile.year,
-                              status: matchUsers[i].userProfile.status,
-                              commonInterest: commonInterest,
-                            },
-                            room: matchUsers[i].room,
-                          };
-                          console.log("Chere???");
-                          updateQueue(matchUsers[i].userProfile._id, profile._id); //del matched user in Queue
-                          console.log(json);
-                          return res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
-                        }
-                      });
+                      let json = {
+                        questions: [
+                          { id: "001", question: "Which food do you like more?", answer: ["Option A", "Option B"] },
+                          { id: "002", question: "Which animal do you like more?", answer: ["Option A", "Option B"] },
+                          { id: "003", question: "Which city do you like more?", answer: ["Option A", "Option B"] },
+                        ],
+                        contact: matchUsers[i].userProfile.contact,
+                        info: {
+                          name: matchUsers[i].userProfile.nickName,
+                          gender: matchUsers[i].userProfile.gender,
+                          picture: matchUsers[i].userProfile.picture,
+                          description: matchUsers[i].userProfile.description,
+                          faculty: matchUsers[i].userProfile.faculty,
+                          university: matchUsers[i].userProfile.university,
+                          year: matchUsers[i].userProfile.year,
+                          status: matchUsers[i].userProfile.status,
+                          commonInterest: commonInterest,
+                        },
+                        room: matchUsers[i].room,
+                      };
+                      console.log("Chere???");
+                      updateQueue(matchUsers[i].userProfile._id, profile._id); //del matched user in Queue
+                      console.log(json);
+                      return res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
 
                     }
                     console.log("WTFhere???");
                   }
                 } else {
-                  Quiz.aggregate([{ $sample: { size: 3 } }], function (err, result) {
-                    if (err) {
-                      console.log(err);
-                    }
-                    else {
-                      quiz = result;
-                      console.log(quiz);
-                      console.log("no matched user");
+                  console.log("no matched user");
                       //set new Queue with info inside profile
                       const newQueue = new Queue({
                         _id: new mongoose.Types.ObjectId(),
@@ -235,15 +217,13 @@ router.post("/match", (req, res) => {
                               if (err) {
                                 console.log(err);
                               }
-                              else if(result==true) {
-                                queueExist = false;
-                              }else if(result==false){
-                                queueExist=true;
+                              else{
+                                queueExist=result;
                               }
                             });
                           }
                           while (queueExist);
-                          Queue.findOne({ userProfile: profile._id })
+                          Queue.findOneAndDelete({ userProfile: profile._id })
                             .populate("matchedProfile")
                             .exec(function (err, result) {
                               if (err) {
@@ -279,9 +259,6 @@ router.post("/match", (req, res) => {
 
                         }
                       });
-                    }
-
-                  });
 
                 }
               }
