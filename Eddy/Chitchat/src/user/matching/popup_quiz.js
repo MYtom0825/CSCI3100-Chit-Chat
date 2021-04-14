@@ -5,6 +5,13 @@ import "./pop_up_quiz.css";
 import Timer from "./Timer";
 
 const Popup_quiz = ({ userPref, setmatching, popupquiz, setuserResponse }) => {
+  const timeout = () =>{
+    var userResponse = [];
+    popupquiz.questions.map((x) => userResponse.push($(`input[name=${x.id}]:checked`).val()));
+    setuserResponse(userResponse);
+    setmatching(2);
+  }
+
   const popupquizHandler = (e) => {
     e.preventDefault();
     var userResponse = [];
@@ -25,7 +32,7 @@ const Popup_quiz = ({ userPref, setmatching, popupquiz, setuserResponse }) => {
             <div className='pop_up_quiz_holder'>
               <form className='pop_up_quiz'>
                 <p>You have 2 minutes to answer the following questions.</p>
-                <Timer />
+                <Timer timeout={timeout}/>
                 {popupquiz.questions.map((x) => (
                   <div>
                     <p>{x.question}</p>
