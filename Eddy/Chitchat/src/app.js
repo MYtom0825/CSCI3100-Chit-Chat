@@ -150,7 +150,7 @@ class App extends React.Component {
       return <LoginPage loginHandler={this.loginHandler} />; /*loadingHandler={this.loadingHandler} namecardHandler={this.namecardHandler} filterformHandler={this.filterformHandler}*/
     } else if (this.state.loc == "user" && this.state.user != null) {
       return <User logout={this.logout} user={this.state.user} DeductToken={this.DeductToken} />;
-    } else if (this.state.loc == "registration") {
+    } else if (this.state.loc == "registration" && window.location.pathname.split("/")[2] != undefined && window.location.pathname.split("/")[2] != "") {
       return <ProfileRegisterForm backToLogin={this.backToLogin} />;
     } /*else if (this.state.loc == "loading") {
       return <Match_loading />;
