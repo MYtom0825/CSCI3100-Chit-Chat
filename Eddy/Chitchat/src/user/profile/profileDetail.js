@@ -4,6 +4,9 @@ import "./profile.css";
 const ProfileDetail = (props) => {
   return (
     <div>
+      <div className='profile_titlerow'>
+        <h1 className='profile_title'>Your Profile</h1>
+      </div>
       <div className='profile_row'>
         <h1 className='profile_colm25'>Name: </h1>
         <h1 className='profile_colm75'> {props.na}</h1>
