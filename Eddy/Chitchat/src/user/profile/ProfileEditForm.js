@@ -24,6 +24,7 @@ class ProfileEditForm extends React.Component {
     let objectID = window.location.pathname.split("/")[2];
 
     $.post("http://localhost:5000/registration/" + objectID, { userName, picture, nickName, year, gender, desc, faculty, university, status, interest, contact, PW });
+    window.alert("Success. Your update would be valid starting from your next Login!");
   };
   render() {
     /* name: "Tom",
@@ -46,8 +47,12 @@ class ProfileEditForm extends React.Component {
 
     return (
       <div className='ProfileRegisterForm_Container'>
-        <form onSubmit={(event)=>{this.setProfile(event);
-                  this.props.backToProfile();}}>
+        <form
+          onSubmit={(event) => {
+            this.setProfile(event);
+            this.props.backToProfile();
+          }}
+        >
           {/*<div className='ProfileRegisterForm_row'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             Profile Picture:{" "}
@@ -210,7 +215,7 @@ class ProfileEditForm extends React.Component {
                 if (interest == null) {
                   window.alert("Please choose at least one interest.");
                   event.preventDefault();
-                } 
+                }
               }}
             >
               Submit
