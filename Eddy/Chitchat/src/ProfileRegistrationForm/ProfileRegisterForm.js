@@ -5,28 +5,31 @@ import "./ProfileRegisterForm.css";
 
 class ProfileRegisterForm extends React.Component {
   setProfile = (e) => {
-    let picture = "picture",
-      userName = $("#ProfileName").val(),
-      nickName = $("#ProfileName").val(),
-      year = $("#Year").val(),
+    let ProfilePic = $("#ProfilePic").val(),
+      ProfileName = $("#ProfileName").val(),
+      Year = $("#Year").val(),
       gender = $("input[name='gender']:checked").val(),
-      desc = $("#Description").val(),
-      faculty = $("#Faculty").val(),
-      university = $("#University").val(),
-      status = $("input[name='status']:checked").val(),
-      contact = $("#ProfileIG").val();
-    let interest = [];
-    $("input[class='interest']:checked").each(function (i) {
-      interest[i] = $(this).val();
-    });
-    var parameters = { "interest[]": interest };
-    let objectID = window.location.pathname.split("/")[2];
+      Description = $("#Description").val(),
+      Faculty = $("#Faculty").val(),
+      University = $("#University").val(),
+      status = $("#status").val(),
+      ProfileIG = $("#ProfileIG").val(),
+      interest = $("#interest").val();
 
-    $.post("http://localhost:5000/registration/" + objectID, { userName, picture, nickName, year, gender, desc, faculty, university, status, interest });
+    console.log(ProfilePic);
+    console.log(ProfileName);
+    console.log(Year);
+    console.log(gender);
+    console.log(Description);
+    console.log(Faculty);
+    console.log(University);
+    console.log(status);
+    console.log(ProfileIG);
+    console.log(interest);
   };
   render() {
     const user = {
-      /* name: "Tom",
+      name: "Tom",
       gender: "Male",
       picture: "",
       description: "Hi I am using react",
@@ -34,7 +37,7 @@ class ProfileRegisterForm extends React.Component {
       university: "CUHK",
       years: "3",
       status: "Available",
-      interest: ["Dancing", "Pop music", "Classic music"],*/
+      interest: ["Dancing", "Pop music", "Classic music"],
     };
     //var user = this.props.user;
     var facalties = ["Engineering", "Medicine", "Law", "Social Science", "Science", "Busness Administration", "Art", "Education"];
@@ -89,7 +92,7 @@ class ProfileRegisterForm extends React.Component {
             {genders.map(function (gender) {
               return (
                 <a className='ProfileRegisterForm_colm30' type='ProfileRegisterForm_colm' id='Gender'>
-                  <input type='radio' id={gender} name='gender' value={gender} defaultChecked={gender == user.gender}></input>
+                  <input type='radio' id={gender} name='gender' defaultChecked={gender == user.gender}></input>
                   <a> {gender}</a>
                 </a>
               );
@@ -146,7 +149,7 @@ class ProfileRegisterForm extends React.Component {
             {Status.map(function (status) {
               return (
                 <a className='ProfileRegisterForm_colm30' type='ProfileRegisterForm_colm' id='status'>
-                  <input type='radio' id={status} value={status} name='status' defaultChecked={status == user.status}></input>
+                  <input type='radio' id={status} name='status' defaultChecked={status == user.status}></input>
                   <a> {status}</a>
                 </a>
               );
@@ -171,18 +174,7 @@ class ProfileRegisterForm extends React.Component {
               {interests1.map(function (interest) {
                 return (
                   <div style={{ padding: "10px" }} type='ProfileRegisterForm_colm' id='Interest'>
-                    <input
-                      type='checkbox'
-                      className='interest'
-                      id={interest}
-                      name={interest}
-                      value={interest}
-                      defaultChecked={() => {
-                        if (user != null) {
-                          user.interest.find((user_interest) => user_interest == interest);
-                        }
-                      }}
-                    ></input>
+                    <input type='checkbox' id={interest} name={interest} value={interest} defaultChecked={user.interest.find((user_interest) => user_interest == interest)}></input>
                     <a> {interest}</a>
                   </div>
                 );
@@ -192,18 +184,7 @@ class ProfileRegisterForm extends React.Component {
               {interests2.map(function (interest) {
                 return (
                   <div style={{ padding: "10px" }} type='ProfileRegisterForm_colm' id='Interest'>
-                    <input
-                      type='checkbox'
-                      className='interest'
-                      id={interest}
-                      name={interest}
-                      value={interest}
-                      defaultChecked={() => {
-                        if (user != null) {
-                          user.interest.find((user_interest) => user_interest == interest);
-                        }
-                      }}
-                    ></input>
+                    <input type='checkbox' id={interest} name={interest} value={interest} defaultChecked={user.interest.find((user_interest) => user_interest == interest)}></input>
                     <a> {interest}</a>
                   </div>
                 );
