@@ -235,8 +235,10 @@ router.post("/match", (req, res) => {
                               if (err) {
                                 console.log(err);
                               }
-                              else {
+                              else if(result==true) {
                                 queueExist = false;
+                              }else if(result==false){
+                                queueExist=true;
                               }
                             });
                           }
