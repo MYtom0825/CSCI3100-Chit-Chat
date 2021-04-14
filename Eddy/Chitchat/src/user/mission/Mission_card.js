@@ -11,8 +11,8 @@ class Mission_card extends React.Component {
     };
   }
   render() {
-    let finished;
-    if (this.props.finished.includes(this.props.index)) {
+    var finished;
+    if (this.state.finishedMission.includes(this.props.index)) {
       finished = (
         <td>
           <p>finished</p>

@@ -8,13 +8,12 @@ router.use(cors());
 
 router.get("/mission", (req, res) => {
   //show the progress of user's mission
-  console.log(req.body);
 
-  if (!req.body.username) {
+  if (!req.query.username) {
     return res.status(401).send();
   }
 
-  UserAccount.findOne({ username: req.body.username }, function (err, result) {
+  UserAccount.findOne({ username: req.query.username }, function (err, result) {
     if (err) {
       res.send(err);
     } else if (result == null) {

@@ -7,7 +7,6 @@ let UserAccount = require("../model/model_account.js");
 let Mission = require("../model/model_mission.js");
 let sendEmail = require("../send_email.js");
 const cors = require("cors");
-const store=new session.MemoryStore();
 router.use(cors());
 
 router.post("/login", (req, res) => {
@@ -108,7 +107,6 @@ router.post("/login", (req, res) => {
 
       if (user && bcrypt.compareSync(password, user.password)) {
         req.session.username = user.username;
-        req.session.save();
         console.log(req.session.username);
 
         console.log(req.session.id);
