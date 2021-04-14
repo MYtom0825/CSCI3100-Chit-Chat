@@ -46,7 +46,8 @@ class ProfileEditForm extends React.Component {
 
     return (
       <div className='ProfileRegisterForm_Container'>
-        <form>
+        <form onSubmit={(event)=>{this.setProfile(event);
+                  this.props.backToProfile();}}>
           {/*<div className='ProfileRegisterForm_row'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             Profile Picture:{" "}
@@ -206,13 +207,10 @@ class ProfileEditForm extends React.Component {
               className='ProfileRegisterForm_button'
               onClick={(event) => {
                 let interest = $("input[class='interest']:checked").val();
-                if (interest != null) {
-                  this.setProfile(event);
-                  this.props.backToProfile();
-                } else {
+                if (interest == null) {
                   window.alert("Please choose at least one interest.");
                   event.preventDefault();
-                }
+                } 
               }}
             >
               Submit
