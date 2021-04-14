@@ -21,6 +21,7 @@ const create = require("./router/router_create.js");
 const login = require("./router/router_login.js");
 const main = require("./router/router_main.js");
 const mission = require("./router/router_mission.js");
+const account = require("./router/router_account.js")
 //const router = require("./router.js");
 
 //app.use(router);
@@ -30,6 +31,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(home);
 app.use(reg);
+app.use(account);
 app.use(create);
 app.use(login);
 app.use(main);

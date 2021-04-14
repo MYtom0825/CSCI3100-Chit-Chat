@@ -180,7 +180,14 @@ router.post("/match", (req, res) => {
                           //wait until updated
                           const queueExist = true;
                           do {
-                            Queue.exists({ matchedProfile: { $exists: true, $ne: null } });
+                            Queue.exists({ matchedProfile: { $exists: true, $ne: null } }, function (err, result) {
+                              if (err) {
+                                console.log(err);
+                              }
+                              else {
+                                queueExist = false;
+                              }
+                            });
                           }
                           while (queueExist);
                           Queue.findOne({ userProfile: profile._id })
