@@ -175,11 +175,7 @@ class ProfileEditForm extends React.Component {
                       id={interest}
                       name={interest}
                       value={interest}
-                      defaultChecked={() => {
-                        if (user != null) {
-                          user.interest.find((user_interest) => user_interest == interest);
-                        }
-                      }}
+                      defaultChecked={user.interest.includes(interest)}
                     ></input>
                     <a> {interest}</a>
                   </div>
@@ -196,11 +192,7 @@ class ProfileEditForm extends React.Component {
                       id={interest}
                       name={interest}
                       value={interest}
-                      defaultChecked={() => {
-                        if (user != null) {
-                          user.interest.find((user_interest) => user_interest == interest);
-                        }
-                      }}
+                      defaultChecked={user.interest.includes(interest)}
                     ></input>
                     <a> {interest}</a>
                   </div>
