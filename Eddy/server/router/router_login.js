@@ -117,23 +117,25 @@ router.post("/login", (req, res) => {
 
 router.post("/forgotpw", (req, res) => {
   //forgot password
-  var email = req.body.email;
-
+  var email = req.body["email"];
+  console.log(email);
+  console.log("and");
+  console.log(req.body.email);
   UserAccount.findOne({ email: email }, function (err, result) {
     if (err) {
-      consolg.log(err);
+      console.log(err);
       res.send("Account can't be found");
     } else {
       var subject = "Reset of Your Happy Chat Account Password";
-      var html = `<p>Please click to following link to reset your password!</p><p><a href="localhost:3000/resetpw/${id}">Reset</a></p>`;
+      var html = `<p>Please click to following link to reset your password!</p><p><a href="localhost:3000/resetpw/${result._id}">Reset</a></p>`;
       sendEmail.sendEmail(email, subject, html); //send email
-      consolg.log("forgot password email sent");
+      console.log("forgot password email sent");
       res.send("Reset password email sent! Please check your email");
     }
   });
 });
 
-router.post("/resetpw/:id", (req, res) => {
+router.post("/resetpw/:id", async (req, res) => {
   var id = req.params.id;
   var pw = req.body["password"];
 
@@ -153,10 +155,9 @@ router.post("/resetpw/:id", (req, res) => {
     console.log(err);
   }
 
-
   UserAccount.findOneAndUpdate({ _id: id }, { password: hash }, function (err, result) {
     if (err) {
-      consolg.log(err);
+      console.log(err);
       res.send("Account can't be found");
     } else {
       res.send("Password has been reset!");
