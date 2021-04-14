@@ -24,6 +24,11 @@ class App extends React.Component {
     });
   }
 
+  DeductToken = (MinusToken) =>{
+    this.state.user.token -= MinusToken;
+    console.log("Token changed");
+  };
+
   logout = () => {
     this.setState({ loc: "login" });
   };
@@ -144,7 +149,7 @@ class App extends React.Component {
     if (this.state.loc == "login") {
       return <LoginPage loginHandler={this.loginHandler} />; /*loadingHandler={this.loadingHandler} namecardHandler={this.namecardHandler} filterformHandler={this.filterformHandler}*/
     } else if (this.state.loc == "user") {
-      return <User logout={this.logout} user={this.state.user} />;
+      return <User logout={this.logout} user={this.state.user} DeductToken={this.DeductToken}/>;
     } else if (this.state.loc == "registration") {
       return <ProfileRegisterForm />;
     } /*else if (this.state.loc == "loading") {
