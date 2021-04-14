@@ -37,7 +37,6 @@ const User = (props) => {
 
   const DeductToken = (MinusToken) =>{
     setToken((Token) => (Token -= MinusToken));
-    props.user.token = Token;
     console.log("Token changed");
   };
 
@@ -54,7 +53,7 @@ const User = (props) => {
         {chatting ? "" : <TokenBlock token={Token} />}
         {toProfile ? <Profile user={props.user} /> : ""}
         {tomission ? <Mission user={props.user} /> : ""}
-        {toChat ? <Matching_1 setchatting={setchatting} user={props.user} changeToken={DeductToken}/> : ""}
+        {toChat ? <Matching_1 setchatting={setchatting} user={props.user} changeToken={DeductToken} token={Token}/> : ""}
       </div>
     </div>
   );
