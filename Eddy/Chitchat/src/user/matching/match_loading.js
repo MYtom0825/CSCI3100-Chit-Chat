@@ -34,7 +34,7 @@ class Match_loading extends React.Component {
               <div className='loader'></div>
               <Loading_time />
               <p className='remind'>You may reduce filter to have faster matching...</p>
-              <button type='submit' className='submit'>
+              <button type='submit' className='submit' onClick={() => {this.props.setmatching(0)}}>
                 Return
               </button>
             </div>
