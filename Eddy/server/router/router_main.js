@@ -87,7 +87,7 @@ router.post("/match", (req, res) => {
         else {
           profile = result;
           console.log(profile);
-          if 
+          //if 
           var profileGender = profile.gender;
           var profileUni = profile.university;
           var profileFaculty = profile.faculty;
@@ -223,7 +223,7 @@ router.post("/match", (req, res) => {
                             });
                           }
                           while (queueExist);
-                          Queue.findOne({ userProfile: profile._id })
+                          Queue.findOneAndDelete({ userProfile: profile._id })
                             .populate("matchedProfile")
                             .exec(function (err, result) {
                               if (err) {
