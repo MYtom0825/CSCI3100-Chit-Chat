@@ -19,6 +19,15 @@ router.post("/registration/:id", async (req, res) => {
   happy = JSON.parse(happy2).interest;
   console.log(happy);
 
+  var salt = "";
+  var hash = "";
+  try {
+    salt = await bcrypt.genSaltSync(10);
+  } catch (err) {
+    console.log("sssss");
+    console.log(err);
+  }
+
   if (req.params.id != "undefined") {
     const existdUserName = await UserAccount.findOne({ username: req.body.username });
     if (existdUserName) {
@@ -33,8 +42,7 @@ router.post("/registration/:id", async (req, res) => {
           const user_id = new mongoose.Types.ObjectId();
           const profile_id = new mongoose.Types.ObjectId();
 
-          var salt = "";
-          var hash = "";
+          
 
           console.log(record.email);
           console.log(record.password);
@@ -98,15 +106,18 @@ router.post("/registration/:id", async (req, res) => {
       });
     }
   } else {
-    var account;
+    account = await UserAccount.findOne({ username: req.body.userName });
     if (!(req.body.PW == "" || req.body.PW == null || req.body.PW == undefined)) {
-      account = await UserAccount.findOneAndUpdate({ username: req.body.username }, { password: req.body.PW });
-    }
-    else {
-      account = await UserAccount.findOne({ username: req.body.username });
+      try {
+        hash = await bcrypt.hashSync(req.body.PW, salt);
+      } catch (err) {
+        console.log("xxxxxxx");
+        console.log(err);
+      }
+      await UserAccount.updateOne({ username: req.body.userName }, { password: hash });
     }
     
-    UserProfile.updateOne({ account: account._id }, { 
+    await UserProfile.updateOne({ account: account._id }, { 
       picture: req.body.picture,
       nickName: req.body.nickName,
       year: req.body.year,
@@ -118,7 +129,7 @@ router.post("/registration/:id", async (req, res) => {
       interest: happy,
       contact: req.body.contact,
     });
-
+    return res.send("Updated");
   }
 });
 
