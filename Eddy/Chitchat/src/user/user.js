@@ -37,6 +37,7 @@ const User = (props) => {
 
   const DeductToken = (MinusToken) =>{
     setToken((Token) => (Token -= MinusToken));
+    props.user.token = Token;
     console.log("Token changed");
   };
 
