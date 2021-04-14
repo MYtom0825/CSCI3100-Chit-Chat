@@ -221,4 +221,11 @@ router.post("/resetpw/:id", async (req, res) => {
   });
 });
 
+router.post("/logout", (req, res) => {
+  var username = req.body.username;
+  var token = req.body.token;
+
+  UserAccount.updateOne({ username: username }, { token: token });
+});
+
 module.exports = router;

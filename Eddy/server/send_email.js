@@ -25,7 +25,6 @@ function sendEmail(email, subject, html) {
         }
         else {
             console.log('Email sent: ' + info.response);
-            console.log(html);
         }
     });
 }
