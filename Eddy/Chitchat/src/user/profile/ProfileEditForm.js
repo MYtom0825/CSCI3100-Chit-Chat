@@ -210,6 +210,15 @@ class ProfileEditForm extends React.Component {
           </div>
         </div>
         <div className='ProfileRegisterForm_row'>
+          <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
+            Reset Password:
+          </label>
+          <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
+            <input className='ProfileRegisterForm_input' id='Profile_reset_password' name='Profile_reset_password' placeholder='Fill in if you want to reset your password'></input>
+            <br></br>
+          </div>
+        </div>
+        <div className='ProfileRegisterForm_row'>
           <button
             type='submit'
             value='Submit'
