@@ -148,7 +148,7 @@ class App extends React.Component {
   render() {
     if (this.state.loc == "login") {
       return <LoginPage loginHandler={this.loginHandler} />; /*loadingHandler={this.loadingHandler} namecardHandler={this.namecardHandler} filterformHandler={this.filterformHandler}*/
-    } else if (this.state.loc == "user") {
+    } else if (this.state.loc == "user" && this.state.user != null) {
       return <User logout={this.logout} user={this.state.user} DeductToken={this.DeductToken} />;
     } else if (this.state.loc == "registration") {
       return <ProfileRegisterForm backToLogin={this.backToLogin} />;
@@ -161,7 +161,7 @@ class App extends React.Component {
       this.state.loc == "forgotpassword"
     ) {
       return <Forget_password backToLogin={this.backToLogin} />;
-    }
+    } else return <LoginPage loginHandler={this.loginHandler} />;
   }
   componentDidMount() {
     /*if (this.state.userID == null && this.state.loc != "login") {
