@@ -187,14 +187,7 @@ router.post("/match", (req, res) => {
                     console.log("WTFhere???");
                   }
                 } else {
-                  Quiz.aggregate([{ $sample: { size: 3 } }], function (err, result) {
-                    if (err) {
-                      console.log(err);
-                    }
-                    else {
-                      quiz = result;
-                      console.log(quiz);
-                      console.log("no matched user");
+                  console.log("no matched user");
                       //set new Queue with info inside profile
                       const newQueue = new Queue({
                         _id: new mongoose.Types.ObjectId(),
@@ -263,9 +256,6 @@ router.post("/match", (req, res) => {
 
                         }
                       });
-                    }
-
-                  });
 
                 }
               }
