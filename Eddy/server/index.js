@@ -26,7 +26,7 @@ const account = require("./router/router_account.js")
 
 //app.use(router);
 
-app.use(session({ secret: "secretdasfdsagdsaqewqecxzc", resave: false, saveUninitialized: false ,cookie:{httpOnly:false}}));
+app.use(session({ secret: "secretdasfdsagdsaqewqecxzc", resave: false, saveUninitialized: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(home);
