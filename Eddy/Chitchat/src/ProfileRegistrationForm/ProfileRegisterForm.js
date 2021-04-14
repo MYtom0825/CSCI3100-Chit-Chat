@@ -70,7 +70,7 @@ class ProfileRegisterForm extends React.Component {
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             Year:{" "}
           </label>
-          <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
+          <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
             <select className='ProfileRegisterForm_input' id='Year' name='Year' required>
               <option value=''></option>
               {years.map(function (year) {
@@ -81,7 +81,7 @@ class ProfileRegisterForm extends React.Component {
                 );
               })}
             </select>
-          </div>
+          </a>
         </div>
         <div className='ProfileRegisterForm_row required'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
