@@ -225,7 +225,14 @@ router.post("/logout", (req, res) => {
   var username = req.body.username;
   var token = req.body.token;
 
-  UserAccount.updateOne({ username: username }, { token: token });
+  UserAccount.findOneAndUpdate({ username: username }, { token: token }, function (err, result) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      console.log("Logout!");
+    }
+  });
 });
 
 module.exports = router;
