@@ -6,25 +6,10 @@ import "./Mission.css";
 class Mission_card extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      finishedMission: this.props.finished,
-    };
   }
+
   render() {
-    let finished;
-    if (this.props.finished.includes(this.props.index)) {
-      finished = (
-        <td>
-          <p>finished</p>
-        </td>
-      );
-    } else {
-      finished = (
-        <td>
-          <p></p>
-        </td>
-      );
-    }
+    var finished;
     return (
       <div>
         <td>{this.props.name}</td>
@@ -32,7 +17,15 @@ class Mission_card extends React.Component {
         <td>
           <a href={this.props.link}>GO!(Yet designed)</a>
         </td>
-        {finished}
+        {this.props.finished.includes(this.props.index) ? (
+          <td>
+            <p>finished</p>
+          </td>
+        ) : (
+          <td>
+            <p></p>
+          </td>
+        )}
       </div> //finished is a label
     );
   }

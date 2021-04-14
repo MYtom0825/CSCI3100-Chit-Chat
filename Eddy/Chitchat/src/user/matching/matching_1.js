@@ -14,10 +14,14 @@ const Matching_1 = (props) => {
 
   const matchingStartHandler = (event) => {
     event.preventDefault();
+    var UserYear = $("input[name='year']:checked").val();
+    if (UserYear != undefined) {
+      UserYear = parseInt($("input[name='year']:checked").val());
+    }
     var userPref = {
       university: $("#university").val(),
       faculty: $("#faculty").val(),
-      year: parseInt($("input[name='year']:checked").val()), // why need to parseInt
+      year: UserYear,
       status: $("input[name='status']:checked").val(),
       gender: $("input[name='gender']:checked").val(),
       ownuni: props.user.university,
@@ -28,14 +32,13 @@ const Matching_1 = (props) => {
     };
     var fee = 2;
     if (userPref.university != "") fee += 2;
-    if (userPref.faculty != "") fee += 2;     
+    if (userPref.faculty != "") fee += 2;
     if (userPref.year) fee += 2;
     if (userPref.gender) fee += 2;
     if (userPref.status) fee += 3;
-    if (props.user.token < fee){
-      window.alert("You do not have enough tokens! Please reset your filter.")
-    }
-    else{
+    if (props.user.token < fee) {
+      window.alert("You do not have enough tokens! Please reset your filter.");
+    } else {
       if (window.confirm("This matching will consume you " + fee + " token. Press OK to start the matching!")) {
         props.changeToken(fee);
         setmatching(1);
@@ -52,7 +55,7 @@ const Matching_1 = (props) => {
           setpopupquiz(response);
           if (this.readyState == 4 && this.status == 200) {
             /*var response= JSON.parse(this.responseText);
-            */
+             */
             //props.setchatting(true);
 
             setmatching(3);
