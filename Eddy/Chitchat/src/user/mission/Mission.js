@@ -14,7 +14,7 @@ class Mission extends React.Component {
     };
   }
   componentDidMount() {
-    $.get("http://localhost:5000/mission", { username: this.props.username })
+    $.get("http://localhost:5000/mission", { username: this.props.user.name })
       .done((res) => {
         var finished = res.missionFinishedID;
         this.setState({ missionFinished: finished });
