@@ -25,7 +25,7 @@ class Match_loading extends React.Component {
               <Filter
                 gender={this.props.userPref.gender}
                 university={this.props.userPref.university}
-                major={this.props.userPref.faculty}
+                faculty={this.props.userPref.faculty}
                 year={this.props.userPref.year}
                 status={this.props.userPref.status}
               />
@@ -34,7 +34,13 @@ class Match_loading extends React.Component {
               <div className='loader'></div>
               <Loading_time />
               <p className='remind'>You may reduce filter to have faster matching...</p>
-              <button type='submit' className='submit' onClick={() => {this.props.setmatching(0)}}>
+              <button
+                type='submit'
+                className='submit'
+                onClick={() => {
+                  this.props.setmatching(0);
+                }}
+              >
                 Return
               </button>
             </div>
