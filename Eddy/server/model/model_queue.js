@@ -4,6 +4,7 @@ const autoIncrement = require('mongoose-auto-increment');
 var QueueSchema = mongoose.Schema({
     userProfile:{type:mongoose.Schema.Types.ObjectId,ref:'UserProfile'},
     matchedProfile:{type:mongoose.Schema.Types.ObjectId,ref:'UserProfile'},
+    quizId:[{type: Number}],
     queueNumber:{type:Number},
     room: {type:String},
     requiredGender:{type:String},

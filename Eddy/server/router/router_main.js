@@ -88,44 +88,37 @@ router.post("/match", (req, res) => {
         else {
           profile = result;
           console.log(profile);
-          Quiz.aggregate([{ $sample: { size: 3 } }], function (err, result) {
-            if (err) {
-              console.log(err);
-            }
-            else {
-              quiz = result;
-              console.log(quiz);
-              var profileGender = profile.gender;
-              var profileUni = profile.university;
-              var profileFaculty = profile.faculty;
-              var profileYear = profile.year;
-              var profileStatus = profile.status;
-  console.log(profileGender);
-  console.log(profileUni);
-  console.log(profileFaculty);
-  console.log(profileYear);
-  console.log(profileStatus);
+          var profileGender = profile.gender;
+          var profileUni = profile.university;
+          var profileFaculty = profile.faculty;
+          var profileYear = profile.year;
+          var profileStatus = profile.status;
+          console.log(profileGender);
+          console.log(profileUni);
+          console.log(profileFaculty);
+          console.log(profileYear);
+          console.log(profileStatus);
 
-              Queue.find({
-                  requiredGender: {$in: [profileGender, ""] } ,
-                  requiredUni: {$in: [profileUni, ""] },
-                  requiredFaculty: {$in: [profileFaculty, ""] },
-                  requiredYear: {$in: [profileYear, ""] },
-                  requiredStatus: {$in: [profileStatus, ""] }
-              })
-                .populate("userProfile")
-                .sort({ queueNumber: 1 })
-                .exec(function (err, result) {
-                  if (err) {
-                    console.log(err);
-                  }
-                  else {
-                    var matchUsers = result;
-                    if (matchUsers.length != 0) {
-                      //there are users in queue that current user satisfy his requirement
-                      //check if the matched user also satisfy current user's requirement
-                      for (var i = 0; i < matchUsers.length; i++) {
-                        console.log(matchUsers[i].user);
+          Queue.find({
+            requiredGender: { $in: [profileGender, ""] },
+            requiredUni: { $in: [profileUni, ""] },
+            requiredFaculty: { $in: [profileFaculty, ""] },
+            requiredYear: { $in: [profileYear, ""] },
+            requiredStatus: { $in: [profileStatus, ""] }
+          })
+            .populate("userProfile")
+            .sort({ queueNumber: 1 })
+            .exec(function (err, result) {
+              if (err) {
+                console.log(err);
+              }
+              else {
+                var matchUsers = result;
+                if (matchUsers.length != 0) {
+                  //there are users in queue that current user satisfy his requirement
+                  //check if the matched user also satisfy current user's requirement
+                  for (var i = 0; i < matchUsers.length; i++) {
+                    console.log(matchUsers[i].user);
                     console.log("andddddddd");
                     console.log(matchUsers[i].userProfile);
                     console.log("andddddddd");
@@ -139,7 +132,7 @@ router.post("/match", (req, res) => {
                     var aa = (matchUsers[i].userProfile.gender == filterGender);
                     var b = (filterUni == "");
                     var bb = (matchUsers[i].userProfile.university == filterUni);
-                    var c =(filterFaculty == "");
+                    var c = (filterFaculty == "");
                     var cc = (matchUsers[i].userProfile.faculty == filterFaculty);
                     var d = (filterYear == "");
                     var dd = (matchUsers[i].userProfile.year == filterYear);
@@ -155,16 +148,24 @@ router.post("/match", (req, res) => {
                     console.log(cc);
                     console.log(dd);
                     console.log(ee);
-                        if (
-                          (filterGender == "" || matchUsers[i].userProfile.gender == filterGender) &&
-                          (filterUni == "" || matchUsers[i].userProfile.university == filterUni) &&
-                          (filterFaculty == "" || matchUsers[i].userProfile.faculty == filterFaculty) &&
-                          (filterYear == "" || matchUsers[i].userProfile.year == filterYear) &&
-                          (filterStatus == "" || matchUsers[i].userProfile.status == filterStatus)
-                        ) {
-                          console.log("here???");
-                          let commonInterest = profile.interest.filter((x) => matchUsers[i].userProfile.interest.includes(x));
-                          console.log("Bhere???");
+                    if (
+                      (filterGender == "" || matchUsers[i].userProfile.gender == filterGender) &&
+                      (filterUni == "" || matchUsers[i].userProfile.university == filterUni) &&
+                      (filterFaculty == "" || matchUsers[i].userProfile.faculty == filterFaculty) &&
+                      (filterYear == "" || matchUsers[i].userProfile.year == filterYear) &&
+                      (filterStatus == "" || matchUsers[i].userProfile.status == filterStatus)
+                    ) {
+                      console.log("here???");
+                      console.log(matchUsers[i].quizId[1]);
+                      let commonInterest = profile.interest.filter((x) => matchUsers[i].userProfile.interest.includes(x));
+                      console.log("Bhere???");
+                      Quiz.find({ quizID: matchUsers[i].quizId[0], quizID: matchUsers[i].quizId[1], quizID: matchUsers[i].quizId[2] }, function (err, result) {
+                        if (err) {
+                          console.log(err);
+                        }
+                        else {
+                          quiz = result;
+                          console.log(quiz);
                           let json = {
                             questions: [
                               { id: quiz[0].quizID, question: quiz[0].question, answer: [quiz[0].answer1, quiz[0].answer2] },
@@ -190,15 +191,26 @@ router.post("/match", (req, res) => {
                           console.log(json);
                           return res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
                         }
-                        console.log("WTFhere???");
-                      }
-                    } else {
+                      });
+
+                    }
+                    console.log("WTFhere???");
+                  }
+                } else {
+                  Quiz.aggregate([{ $sample: { size: 3 } }], function (err, result) {
+                    if (err) {
+                      console.log(err);
+                    }
+                    else {
+                      quiz = result;
+                      console.log(quiz);
                       console.log("no matched user");
                       //set new Queue with info inside profile
                       const newQueue = new Queue({
                         _id: new mongoose.Types.ObjectId(),
                         userAccount: account._id,
                         userProfile: profile._id,
+                        quizId: [quiz[0].quizID, quiz[1].quizID, quiz[2].quizID],
                         room: Math.random().toString(36).substr(8),
                         requiredGender: filterGender,
                         requiredUni: filterUni,
@@ -262,12 +274,12 @@ router.post("/match", (req, res) => {
                         }
                       });
                     }
-                  }
-                });
 
-            }
+                  });
 
-          });
+                }
+              }
+            });
 
         }
       });
