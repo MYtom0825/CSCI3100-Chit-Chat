@@ -62,7 +62,7 @@ const Matching_1 = (props) => {
             setmatching(3);
           } else if (this.readyState == 4) {
             setmatching(3);
-            //props.setchatting(true);
+            props.setchatting(true);
           }
         };
         xhttp.open("POST", "http://localhost:5000/match", true);
