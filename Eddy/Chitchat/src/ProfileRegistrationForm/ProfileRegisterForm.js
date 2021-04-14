@@ -21,8 +21,9 @@ class ProfileRegisterForm extends React.Component {
     });
     var parameters = { "interest[]": interest };
     let objectID = window.location.pathname.split("/")[2];
-
+    window.alert("Change request has been sent!");
     $.post("http://localhost:5000/registration/" + objectID, { userName, picture, nickName, year, gender, desc, faculty, university, status, interest });
+    this.props.backToLogin();
   };
 
   render() {
@@ -49,190 +50,189 @@ class ProfileRegisterForm extends React.Component {
     return (
       <div className='ProfileRegisterForm_Container'>
         <form>
-        <div className='ProfileRegisterForm_row'>
-          <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-            Profile Picture:{" "}
-          </label>
-          <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <input type='file' id='ProfilePic' name='ProfilePic'></input>
-          </a>
-        </div>
-        <div className='ProfileRegisterForm_row required'>
-          <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-            Name:
-          </label>
-          <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <input className='ProfileRegisterForm_input' id='ProfileName' name='ProfileName' defaultValue={user.name} type='text' required></input>
-            <br></br>
+          <div className='ProfileRegisterForm_row'>
+            <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
+              Profile Picture:{" "}
+            </label>
+            <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
+              <input type='file' id='ProfilePic' name='ProfilePic'></input>
+            </a>
           </div>
-        </div>
-        <div className='ProfileRegisterForm_row required'>
-          <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-            Year:{" "}
-          </label>
-          <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <select className='ProfileRegisterForm_input' id='Year' name='Year' required>
-              <option value=''></option>
-              {years.map(function (year) {
-                return (
-                  <option value={year} selected={year == user.years}>
-                    {year}
-                  </option>
-                );
-              })}
-            </select>
-          </a>
-        </div>
-        <div className='ProfileRegisterForm_row required'>
-          <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-            Gender:{" "}
-          </label>
-          <a className='ProfileRegisterForm_colm75' style={{ padding: "0" }} type='ProfileRegisterForm_colm'>
-            {genders.map(function (gender) {
-              return (
-                <a className='ProfileRegisterForm_colm30' type='ProfileRegisterForm_colm' id='Gender'>
-                  <input type='radio' id={gender} name='gender' value={gender} defaultChecked={gender == user.gender} required></input>
-                  <a> {gender}</a>
-                </a>
-              );
-            })}
-          </a>
-        </div>
-        <div className='ProfileRegisterForm_row required'>
-          <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-            Description:{" "}
-          </label>
-          <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <textarea className='ProfileRegisterForm_input' style={{ height: "100px" }} id='Description' name='Description' defaultValue={user.description} required></textarea>
-          </div>
-        </div>
-        <div className='ProfileRegisterForm_row required'>
-          <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-            Faculty:{" "}
-          </label>
-          <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <select className='ProfileRegisterForm_input' id='Faculty' name='Faculty' required>
-              <option value=''></option>
-              {facalties.map(function (facalty) {
-                return (
-                  <option value={facalty} selected={facalty == user.facalty}>
-                    {facalty}
-                  </option>
-                );
-              })}
-            </select>
-          </a>
-        </div>
-        <div className='ProfileRegisterForm_row required'>
-          <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-            University:{" "}
-          </label>
-          <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <select className='ProfileRegisterForm_input' id='University' name='University' required>
-              <option value=''></option>
-              {universities.map(function (university) {
-                return (
-                  <option value={university} selected={university == user.university}>
-                    {university}
-                  </option>
-                );
-              })}
-            </select>
-          </a>
-        </div>
-        <div className='ProfileRegisterForm_row required'>
-          <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-            Status:{" "}
-          </label>
-          <a className='ProfileRegisterForm_colm75' style={{ padding: "0" }} type='ProfileRegisterForm_colm' required>
-            {Status.map(function (status) {
-              return (
-                <a className='ProfileRegisterForm_colm30' type='ProfileRegisterForm_colm' id='status'>
-                  <input type='radio' id={status} value={status} name='status' defaultChecked={status == user.status} required></input>
-                  <a> {status}</a>
-                </a>
-              );
-            })}
-          </a>
-        </div>
-        <div className='ProfileRegisterForm_row required'>
-          <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-            IG Account
-          </label>
-          <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <input className='ProfileRegisterForm_input' id='ProfileIG' name='ProfileIG' defaultValue={user.IG} required></input>
-            <br></br>
-          </div>
-        </div>
-        <div className='ProfileRegisterForm_row required'>
-          <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-            Interests:{" "}
-          </label>
-          <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <div className='ProfileRegisterForm_colm30'>
-              {interests1.map(function (interest) {
-                return (
-                  <div style={{ padding: "10px" }} type='ProfileRegisterForm_colm' id='Interest'>
-                    <input
-                      type='checkbox'
-                      className='interest'
-                      id={interest}
-                      name={interest}
-                      value={interest}
-                      defaultChecked={() => {
-                        if (user != null) {
-                          user.interest.find((user_interest) => user_interest == interest);
-                        }
-                      }}
-                    ></input>
-                    <a> {interest}</a>
-                  </div>
-                );
-              })}
-            </div>
-            <div className='ProfileRegisterForm_colm30'>
-              {interests2.map(function (interest) {
-                return (
-                  <div style={{ padding: "10px" }} type='ProfileRegisterForm_colm' id='Interest'>
-                    <input
-                      type='checkbox'
-                      className='interest'
-                      id={interest}
-                      name={interest}
-                      value={interest}
-                      defaultChecked={() => {
-                        if (user != null) {
-                          user.interest.find((user_interest) => user_interest == interest);
-                        }
-                      }}
-                    ></input>
-                    <a> {interest}</a>
-                  </div>
-                );
-              })}
+          <div className='ProfileRegisterForm_row required'>
+            <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
+              Name:
+            </label>
+            <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
+              <input className='ProfileRegisterForm_input' id='ProfileName' name='ProfileName' defaultValue={user.name} type='text' required></input>
+              <br></br>
             </div>
           </div>
-        </div>
-        <div className='ProfileRegisterForm_row'>
-          <button
-            type='submit'
-            value='Submit'
-            id='Submit'
-            className='ProfileRegisterForm_button'
-            onClick={(event) => {
-              let interest = $("input[class='interest']:checked").val();
-              if(interest != null){
-                this.setProfile(event);
-              }
-              else{
-                window.alert("Please choose at least one interest.")
-                event.preventDefault();
-              }
-            }}
-          >
-            Submit
-          </button>
-        </div>
+          <div className='ProfileRegisterForm_row required'>
+            <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
+              Year:{" "}
+            </label>
+            <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
+              <select className='ProfileRegisterForm_input' id='Year' name='Year' required>
+                <option value=''></option>
+                {years.map(function (year) {
+                  return (
+                    <option value={year} selected={year == user.years}>
+                      {year}
+                    </option>
+                  );
+                })}
+              </select>
+            </a>
+          </div>
+          <div className='ProfileRegisterForm_row required'>
+            <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
+              Gender:{" "}
+            </label>
+            <a className='ProfileRegisterForm_colm75' style={{ padding: "0" }} type='ProfileRegisterForm_colm'>
+              {genders.map(function (gender) {
+                return (
+                  <a className='ProfileRegisterForm_colm30' type='ProfileRegisterForm_colm' id='Gender'>
+                    <input type='radio' id={gender} name='gender' value={gender} defaultChecked={gender == user.gender} required></input>
+                    <a> {gender}</a>
+                  </a>
+                );
+              })}
+            </a>
+          </div>
+          <div className='ProfileRegisterForm_row required'>
+            <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
+              Description:{" "}
+            </label>
+            <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
+              <textarea className='ProfileRegisterForm_input' style={{ height: "100px" }} id='Description' name='Description' defaultValue={user.description} required></textarea>
+            </div>
+          </div>
+          <div className='ProfileRegisterForm_row required'>
+            <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
+              Faculty:{" "}
+            </label>
+            <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
+              <select className='ProfileRegisterForm_input' id='Faculty' name='Faculty' required>
+                <option value=''></option>
+                {facalties.map(function (facalty) {
+                  return (
+                    <option value={facalty} selected={facalty == user.facalty}>
+                      {facalty}
+                    </option>
+                  );
+                })}
+              </select>
+            </a>
+          </div>
+          <div className='ProfileRegisterForm_row required'>
+            <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
+              University:{" "}
+            </label>
+            <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
+              <select className='ProfileRegisterForm_input' id='University' name='University' required>
+                <option value=''></option>
+                {universities.map(function (university) {
+                  return (
+                    <option value={university} selected={university == user.university}>
+                      {university}
+                    </option>
+                  );
+                })}
+              </select>
+            </a>
+          </div>
+          <div className='ProfileRegisterForm_row required'>
+            <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
+              Status:{" "}
+            </label>
+            <a className='ProfileRegisterForm_colm75' style={{ padding: "0" }} type='ProfileRegisterForm_colm' required>
+              {Status.map(function (status) {
+                return (
+                  <a className='ProfileRegisterForm_colm30' type='ProfileRegisterForm_colm' id='status'>
+                    <input type='radio' id={status} value={status} name='status' defaultChecked={status == user.status} required></input>
+                    <a> {status}</a>
+                  </a>
+                );
+              })}
+            </a>
+          </div>
+          <div className='ProfileRegisterForm_row required'>
+            <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
+              IG Account
+            </label>
+            <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
+              <input className='ProfileRegisterForm_input' id='ProfileIG' name='ProfileIG' defaultValue={user.IG} required></input>
+              <br></br>
+            </div>
+          </div>
+          <div className='ProfileRegisterForm_row required'>
+            <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
+              Interests:{" "}
+            </label>
+            <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
+              <div className='ProfileRegisterForm_colm30'>
+                {interests1.map(function (interest) {
+                  return (
+                    <div style={{ padding: "10px" }} type='ProfileRegisterForm_colm' id='Interest'>
+                      <input
+                        type='checkbox'
+                        className='interest'
+                        id={interest}
+                        name={interest}
+                        value={interest}
+                        defaultChecked={() => {
+                          if (user != null) {
+                            user.interest.find((user_interest) => user_interest == interest);
+                          }
+                        }}
+                      ></input>
+                      <a> {interest}</a>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className='ProfileRegisterForm_colm30'>
+                {interests2.map(function (interest) {
+                  return (
+                    <div style={{ padding: "10px" }} type='ProfileRegisterForm_colm' id='Interest'>
+                      <input
+                        type='checkbox'
+                        className='interest'
+                        id={interest}
+                        name={interest}
+                        value={interest}
+                        defaultChecked={() => {
+                          if (user != null) {
+                            user.interest.find((user_interest) => user_interest == interest);
+                          }
+                        }}
+                      ></input>
+                      <a> {interest}</a>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div className='ProfileRegisterForm_row'>
+            <button
+              type='submit'
+              value='Submit'
+              id='Submit'
+              className='ProfileRegisterForm_button'
+              onClick={(event) => {
+                let interest = $("input[class='interest']:checked").val();
+                if (interest != null) {
+                  this.setProfile(event);
+                } else {
+                  window.alert("Please choose at least one interest.");
+                  event.preventDefault();
+                }
+              }}
+            >
+              Submit
+            </button>
+          </div>
         </form>
       </div>
     );

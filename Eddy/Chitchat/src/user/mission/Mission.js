@@ -26,10 +26,10 @@ class Mission extends React.Component {
 
   render() {
     const mission_list = [
-      { Name: "Daily Login", Content: "Log in daily", Link: "", index: 0 }, //0
-      { Name: "Hello", Content: "You are welcome", Link: "http://fb.com", index: 1 }, //1
-      { Name: "Create Ice-breaking Quiz", Content: "Think of some question for the Ice breaking quiz!", Link: "./home.html", index: 2 }, //2
-      { Name: "Likes", Content: "How many you got likes from others?", Link: "", index: 3 }, //3
+      { Name: "Daily Login", Content: "Log in daily", Link: "", index: 0, token: 0 }, //0
+      { Name: "Hello", Content: "You are welcome", Link: "", index: 1, token: 3 }, //1
+      { Name: "Create Ice-breaking Quiz", Content: "Think of some question for the Ice breaking quiz!", Link: "", index: 2, token: 4 }, //2
+      { Name: "Likes", Content: "How many you got likes from others?", Link: "", index: 3, token: 5 }, //3
     ];
     return (
       <div>
