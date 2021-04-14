@@ -11,6 +11,7 @@ router.post("/account", (req, res) => {
   //UserAccount.findOneAndUpdate({ });
   UserProfile.findOneAndUpdate({ username: req.session.username }, {
     nickname: req.body.name, 
+    password: req.body.password,
     gender: req.body.gender, 
     picture: req.body.picture, 
     description: req.body.description,
