@@ -29,6 +29,7 @@ const Matching_1 = (props) => {
       owngender: props.user.gender,
       ownyear: props.user.year,
       ownfaculty: props.user.faculty,
+      username: props.user.name,
     };
     var fee = 2;
     if (userPref.university != "") fee += 2;
@@ -47,9 +48,9 @@ const Matching_1 = (props) => {
         xhttp.onreadystatechange = function () {
           var response = {
             questions: [
-              { id: "001", question: "Which food do you like more?", answer: ["Option A", "Option B"] },
-              { id: "002", question: "Which animal do you like more?", answer: ["Option A", "Option B"] },
-              { id: "003", question: "Which city do you like more?", answer: ["Option A", "Option B"] },
+              { id: "001", question: "Which food do you like more?", answer: ["Chocolate", "Candy"] },
+              { id: "002", question: "Which animal do you like more?", answer: ["Cat", "Dog"] },
+              { id: "003", question: "Which city do you like more?", answer: ["Hong Kong", "Tai Wan"] },
             ],
           };
           setpopupquiz(response);
@@ -61,7 +62,7 @@ const Matching_1 = (props) => {
             setmatching(3);
           } else if (this.readyState == 4) {
             setmatching(3);
-            props.setchatting(true);
+            //props.setchatting(true);
           }
         };
         xhttp.open("POST", "http://localhost:5000/match", true);
@@ -79,7 +80,7 @@ const Matching_1 = (props) => {
   if (matching == 0) return <Filter_form matchingStartHandler={matchingStartHandler} />;
   else if (matching == 1) return <Match_loading userPref={userPref} setmatching={setmatching} />;
   else if (matching == 3) return <Popup_quiz userPref={userPref} setmatching={setmatching} popupquiz={popupquiz} setuserResponse={setuserResponse} />;
-  else if (matching == 2) return <Chat setmatching={setmatching} userResponse={userResponse} setchatting={props.setchatting} />;
+  else if (matching == 2) return <Chat setmatching={setmatching} userInfo={props.user} userResponse={userResponse} setchatting={props.setchatting} />;
 };
 
 export default Matching_1;

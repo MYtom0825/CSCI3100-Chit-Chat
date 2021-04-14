@@ -20,7 +20,7 @@ var connectionOptions = {
   transports: ["websocket"],
 };
 
-const Chat = ({ setmatching, userResponse, setchatting }) => {
+const Chat = ({ setmatching, userInfo, userResponse, setchatting }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
@@ -35,8 +35,8 @@ const Chat = ({ setmatching, userResponse, setchatting }) => {
   const [partnerResponseRendered, setpartnerResponseRendered] = useState(false);
 
   useEffect(() => {
-    const name = cookies.get("Username");
-    const room = cookies.get("Userroom");
+    const name = userInfo.name;
+    const room = userInfo.room;
     socket = io.connect(ENDPOINT, connectionOptions);
 
     setName(name);

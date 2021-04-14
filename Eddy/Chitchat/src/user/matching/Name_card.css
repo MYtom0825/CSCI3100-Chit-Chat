@@ -21,10 +21,6 @@
 .namecard_info {
   padding-left: 10%;
 }
-.namecard_info:nth-child(odd) {
-  padding-left: 10%;
-  margin-top: 5%;
-}
 
 cardbutton {
   margin-top: 5vh;
