@@ -183,7 +183,7 @@ router.post("/match", (req, res) => {
                             queueExist = Queue.exists({ userProfile: profile._id });
                           }
                           while (queueExist) { }
-                          account = await getAccount();
+                          account
                           UserAccount.findOne({ username: account.MatchedUser })
                             .populate("userProfile")
                             .exec(function (err, result) {
