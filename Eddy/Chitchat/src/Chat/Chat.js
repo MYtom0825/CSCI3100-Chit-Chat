@@ -134,7 +134,7 @@ const Chat = ({ setmatching, userInfo, userResponse, setchatting }) => {
     setMessages([...messages, message]);
     setconfirmed(true);
     setshare(true);
-    socket.emit("share", cookies.getAll().UserIG, () => setMessage(""));
+    socket.emit("share", userInfo.ig, () => setMessage(""));
   };
 
   const confirmNo = () => {

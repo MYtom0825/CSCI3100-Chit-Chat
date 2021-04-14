@@ -22,7 +22,7 @@ class ProfileRegisterForm extends React.Component {
     var parameters = { "interest[]": interest };
     let objectID = window.location.pathname.split("/")[2];
     window.alert("Change request has been sent!");
-    $.post("http://localhost:5000/registration/" + objectID, { userName, picture, nickName, year, gender, desc, faculty, university, status, interest });
+    $.post("http://localhost:5000/registration/" + objectID, { userName, picture, nickName, year, gender, desc, faculty, university, status, interest, contact });
     this.props.backToLogin();
   };
 
