@@ -27,6 +27,7 @@ router.post("/account", (req, res) => {
       res.send("update failed");
     }
     else {
+      console.log("update success!");
       res.send("update successful");
     }
   });

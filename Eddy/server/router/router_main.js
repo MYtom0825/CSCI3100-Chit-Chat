@@ -102,11 +102,11 @@ router.post("/match", (req, res) => {
 
               Queue.find({
                 $and: [
-                  { requiredGender: { profileGender, $exists: true, $ne: [] } },
-                  { requiredUni: { profileUni, $exists: true, $ne: [] } },
-                  { requiredMajor: { profileMajor, $exists: true, $ne: [] } },
-                  { requiredYear: { profileYear, $exists: true, $ne: [] } },
-                  { requiredStatus: { profileStatus, $exists: true, $ne: [] } },
+                  { $or: [ { requiredGender: profileGender }, { requiredGender: "" } ] },
+                  { $or: [ { requiredUni: profileUni }, { requiredGender: "" } ] },
+                  { $or: [ { requiredMajor: profileMajor }, { requiredGender: "" } ] },
+                  { $or: [ { requiredYear: profileYear }, { requiredGender: "" } ] },
+                  { $or: [ { requiredStatus: profileStatus }, { requiredGender: "" } ] },
                 ],
               })
                 .populate("userProfile")
@@ -164,11 +164,11 @@ router.post("/match", (req, res) => {
                         userAccount: account._id,
                         userProfile: profile._id,
                         room: Math.random().toString(36).substr(8),
-                        requiredGender: gender,
-                        requiredUni: uni,
-                        requiredMajor: major,
-                        requiredYear: year,
-                        requiredStatus: status,
+                        requiredGender: filterGender,
+                        requiredUni: filterUni,
+                        requiredMajor: filterMajor,
+                        requiredYear: filterYear,
+                        requiredStatus: filterStatus,
                       });
 
                       newQueue.save(async function (err, record) {
@@ -179,36 +179,36 @@ router.post("/match", (req, res) => {
                           //wait until updated
                           const queueExist = true;
                           do {
-                            queueExist = Queue.exists({ userProfile: profile._id });
+                            Queue.exists({ matchedProfile: { $exists: true, $ne: null } });
                           }
                           while (queueExist);
-                          UserAccount.findOne({ username: req.session.username })
-                            .populate("matchedUser")
+                          Queue.findOne({ userProfile: profile._id })
+                            .populate("matchedProfile")
                             .exec(function (err, result) {
                               if (err) {
                                 console.log(err);
                               }
                               else {
-                                account = result;
+                                var queue = result;
                                 let json = {
                                   questions: [
                                     { id: quiz[0].quizID, question: quiz[0].question, answer: [quiz[0].answer1, quiz[0].answer2] },
                                     { id: quiz[1].quizID, question: quiz[1].question, answer: [quiz[1].answer1, quiz[1].answer2] },
                                     { id: quiz[2].quizID, question: quiz[2].question, answer: [quiz[2].answer1, quiz[2].answer2] },
                                   ],
-                                  contact: account.matchedUser.contact,
+                                  contact: queue.matchedProfile.contact,
                                   info: {
-                                    name: account.matchedUser.nickname,
-                                    gender: account.matchedUser.gender,
-                                    picture: account.matchedUser.picture,
-                                    description: account.matchedUser.description,
-                                    faculty: account.matchedUser.faculty,
-                                    university: account.matchedUser.university,
-                                    year: account.matchedUser.year,
-                                    status: account.matchedUser.status,
+                                    name: queue.matchedProfile.nickname,
+                                    gender: queue.matchedProfile.gender,
+                                    picture: queue.matchedProfile.picture,
+                                    description: queue.matchedProfile.description,
+                                    faculty: queue.matchedProfile.faculty,
+                                    university: queue.matchedProfile.university,
+                                    year: queue.matchedProfile.year,
+                                    status: queue.matchedProfile.status,
                                     commonInterest: commonInterest,
                                   },
-                                  room: roomID,
+                                  room: queue.room,
                                 };
                                 console.log(json);
                                 return res.send(json);
