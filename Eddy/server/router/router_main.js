@@ -100,20 +100,18 @@ router.post("/match", (req, res) => {
               var profileFaculty = profile.faculty;
               var profileYear = profile.year;
               var profileStatus = profile.status;
-              console.log(profileGender);
+  console.log(profileGender);
   console.log(profileUni);
   console.log(profileFaculty);
   console.log(profileYear);
   console.log(profileStatus);
 
               Queue.find({
-                $and: [
-                  { $or: [ { requiredGender: profileGender }, { requiredGender: "" } ] },
-                  { $or: [ { requiredUni: profileUni }, { requiredUni: "" } ] },
-                  { $or: [ { requiredFaculty: profileFaculty }, { requiredFaculty: "" } ] },
-                  { $or: [ { requiredYear: profileYear }, { requiredYear: "" } ] },
-                  { $or: [ { requiredStatus: profileStatus }, { requiredStatus: "" } ] },
-                ],
+                  requiredGender: {$in: [profileGender, ""] } ,
+                  requiredUni: {$in: [profileUni, ""] },
+                  requiredFaculty: {$in: [profileFaculty, ""] },
+                  requiredYear: {$in: [profileYear, ""] },
+                  requiredStatus: {$in: [profileStatus, ""] }
               })
                 .populate("userProfile")
                 .sort({ queueNumber: 1 })
@@ -123,20 +121,50 @@ router.post("/match", (req, res) => {
                   }
                   else {
                     var matchUsers = result;
-                    console.log(matchUsers);
                     if (matchUsers.length != 0) {
                       //there are users in queue that current user satisfy his requirement
                       //check if the matched user also satisfy current user's requirement
                       for (var i = 0; i < matchUsers.length; i++) {
+                        console.log(matchUsers[i].user);
+                    console.log("andddddddd");
+                    console.log(matchUsers[i].userProfile);
+                    console.log("andddddddd");
+                    console.log(matchUsers[i].userProfile.faculty);
+                    console.log("\"", filterFaculty, "\"");
+                    //console.log(matchUsers[i].userProfile.faculty);
+                    ///console.log(matchUsers[i].userProfile.faculty);
+                    //console.log(matchUsers[i].userProfile.faculty);
+                    //console.log(matchUsers[i].userProfile.faculty);
+                    var a = (filterGender == "");
+                    var aa = (matchUsers[i].userProfile.gender == filterGender);
+                    var b = (filterUni == "");
+                    var bb = (matchUsers[i].userProfile.university == filterUni);
+                    var c =(filterFaculty == "");
+                    var cc = (matchUsers[i].userProfile.faculty == filterFaculty);
+                    var d = (filterYear == "");
+                    var dd = (matchUsers[i].userProfile.year == filterYear);
+                    var e = (filterStatus == "");
+                    var ee = (matchUsers[i].userProfile.status == filterStatus);
+                    console.log(a);
+                    console.log(b);
+                    console.log(c);
+                    console.log(d);
+                    console.log(e);
+                    console.log(aa);
+                    console.log(bb);
+                    console.log(cc);
+                    console.log(dd);
+                    console.log(ee);
                         if (
-                          (filterGender === null || element.userProfile.gender === filterGender) &&
-                          (filterUni === null || element.userProfile.university === filterUni) &&
-                          (filterFaculty === null || element.userProfile.faculty === filterFaculty) &&
-                          (filterYear === null || element.userProfile.year === filterYear) &&
-                          (filterStatus === null || element.userProfile.status === filterStatus)
+                          (filterGender == "" || matchUsers[i].userProfile.gender == filterGender) &&
+                          (filterUni == "" || matchUsers[i].userProfile.university == filterUni) &&
+                          (filterFaculty == "" || matchUsers[i].userProfile.faculty == filterFaculty) &&
+                          (filterYear == "" || matchUsers[i].userProfile.year == filterYear) &&
+                          (filterStatus == "" || matchUsers[i].userProfile.status == filterStatus)
                         ) {
-                          let commonInterest = profile.interest.filter((x) => element.userProfile.interest.includes(x));
-
+                          console.log("here???");
+                          let commonInterest = profile.interest.filter((x) => matchUsers[i].userProfile.interest.includes(x));
+                          console.log("Bhere???");
                           let json = {
                             questions: [
                               { id: quiz[0].quizID, question: quiz[0].question, answer: [quiz[0].answer1, quiz[0].answer2] },
@@ -145,7 +173,7 @@ router.post("/match", (req, res) => {
                             ],
                             contact: matchUsers[i].userProfile.contact,
                             info: {
-                              name: matchUsers[i].userProfile.nickname,
+                              name: matchUsers[i].userProfile.nickName,
                               gender: matchUsers[i].userProfile.gender,
                               picture: matchUsers[i].userProfile.picture,
                               description: matchUsers[i].userProfile.description,
@@ -157,10 +185,12 @@ router.post("/match", (req, res) => {
                             },
                             room: matchUsers[i].room,
                           };
+                          console.log("Chere???");
                           updateQueue(matchUsers[i].userProfile._id, profile._id); //del matched user in Queue
                           console.log(json);
                           return res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
                         }
+                        console.log("WTFhere???");
                       }
                     } else {
                       console.log("no matched user");
