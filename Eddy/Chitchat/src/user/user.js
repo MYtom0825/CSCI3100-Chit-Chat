@@ -1,6 +1,6 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import "./user.css";
-
+import $ from "jquery";
 //Import Component
 import Menu from "./menu/Menu";
 import Profile from "./profile/profile.js";
@@ -14,6 +14,11 @@ const User = (props) => {
   const [toChat, setgoChat] = useState(false);
   const [chatting, setchatting] = useState(false);
 
+  useEffect(() => {
+    return () => {
+      $.post("http://localhost:5000/logout", { username: props.user.name, token: props.user.token });
+    };
+  });
 
   const MissionGet = () => {
     setgomission((tomission) => (tomission = true));
@@ -53,7 +58,7 @@ const User = (props) => {
         {chatting ? "" : <TokenBlock token={props.user.token} />}
         {toProfile ? <Profile user={props.user} /> : ""}
         {tomission ? <Mission user={props.user} /> : ""}
-        {toChat ? <Matching_1 setchatting={setchatting} user={props.user} changeToken={props.DeductToken}/> : ""}
+        {toChat ? <Matching_1 setchatting={setchatting} user={props.user} changeToken={props.DeductToken} /> : ""}
       </div>
     </div>
   );
