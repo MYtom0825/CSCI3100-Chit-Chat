@@ -14,6 +14,8 @@ const User = (props) => {
   const [toChat, setgoChat] = useState(false);
   const [chatting, setchatting] = useState(false);
 
+  const [Token, setToken] = useState(props.user.token);
+
   const MissionGet = () => {
     setgomission((tomission) => (tomission = true));
     setgoProfile((toProfile) => (toProfile = false));
@@ -33,14 +35,26 @@ const User = (props) => {
     console.log("Chat");
   };
 
+  const DeductToken = (MinusToken) =>{
+    setToken((Token) => (Token -= MinusToken));
+    props.user.token = Token;
+    console.log("Token changed");
+  };
+
+  const AddToken = (AddToken) =>{
+    setToken((Token) => (Token += AddToken));
+    console.log("Token changed");
+  };
+
+
   return (
     <div className='app'>
       <div>{chatting ? "" : <Menu logout={props.logout} toProf={ProfileGet} tomission={MissionGet} toChat={ChatGet} />}</div>
       <div className='body'>
-        {chatting ? "" : <TokenBlock token={props.user.token} />}
+        {chatting ? "" : <TokenBlock token={Token} />}
         {toProfile ? <Profile user={props.user} /> : ""}
         {tomission ? <Mission user={props.user} /> : ""}
-        {toChat ? <Matching_1 setchatting={setchatting} user={props.user} /> : ""}
+        {toChat ? <Matching_1 setchatting={setchatting} user={props.user} changeToken={DeductToken}/> : ""}
       </div>
     </div>
   );

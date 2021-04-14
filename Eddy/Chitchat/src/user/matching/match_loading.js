@@ -25,7 +25,7 @@ class Match_loading extends React.Component {
               <Filter
                 gender={this.props.userPref.gender}
                 university={this.props.userPref.university}
-                major={this.props.userPref.major}
+                major={this.props.userPref.faculty}
                 year={this.props.userPref.year}
                 status={this.props.userPref.status}
               />
