@@ -12,13 +12,13 @@ router.get("/mission", (req, res) => {
   //show the progress of user's mission
   console.log(req.session.id);
 
-  if (!req.session.username) {
+  if (!req.body.username) {
     return res.status(401).send();
   }
 
   
 
-  UserAccount.findOne({ username: req.session.username }, function (err, result) {
+  UserAccount.findOne({ username: req.body.username }, function (err, result) {
     var missionFinished=[];
      
     function missionFind(useraccount){
