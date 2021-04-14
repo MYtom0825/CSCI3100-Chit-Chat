@@ -45,6 +45,7 @@ class ProfileEditForm extends React.Component {
 
     return (
       <div className='ProfileRegisterForm_Container'>
+        <form>
         <div className='ProfileRegisterForm_row'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             Profile Picture:{" "}
@@ -53,7 +54,7 @@ class ProfileEditForm extends React.Component {
             <input type='file' id='ProfilePic' name='ProfilePic'></input>
           </a>
         </div>
-        <div className='ProfileRegisterForm_row'>
+        <div className='ProfileRegisterForm_row required'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             Name:
           </label>
@@ -62,13 +63,13 @@ class ProfileEditForm extends React.Component {
             <br></br>
           </div>
         </div>
-        <div className='ProfileRegisterForm_row'>
+        <div className='ProfileRegisterForm_row required'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             Year:{" "}
           </label>
           <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <select className='ProfileRegisterForm_input' id='Year' name='Year'>
-              <option value='Nan'></option>
+            <select className='ProfileRegisterForm_input' id='Year' name='Year' required>
+              <option value=''></option>
               {years.map(function (year) {
                 return (
                   <option value={year} selected={year == user.year}>
@@ -79,7 +80,7 @@ class ProfileEditForm extends React.Component {
             </select>
           </a>
         </div>
-        <div className='ProfileRegisterForm_row'>
+        <div className='ProfileRegisterForm_row required'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             Gender:{" "}
           </label>
@@ -87,28 +88,28 @@ class ProfileEditForm extends React.Component {
             {genders.map(function (gender) {
               return (
                 <a className='ProfileRegisterForm_colm30' type='ProfileRegisterForm_colm' id='Gender'>
-                  <input type='radio' id={gender} name='gender' value={gender} defaultChecked={gender == user.gender}></input>
+                  <input type='radio' id={gender} name='gender' value={gender} defaultChecked={gender == user.gender} required></input>
                   <a> {gender}</a>
                 </a>
               );
             })}
           </a>
         </div>
-        <div className='ProfileRegisterForm_row'>
+        <div className='ProfileRegisterForm_row required'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             Description:{" "}
           </label>
           <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <textarea className='ProfileRegisterForm_input' style={{ height: "100px" }} id='Description' name='Description' defaultValue={user.description}></textarea>
+            <textarea className='ProfileRegisterForm_input' style={{ height: "100px" }} id='Description' name='Description' defaultValue={user.description} required></textarea>
           </div>
         </div>
-        <div className='ProfileRegisterForm_row'>
+        <div className='ProfileRegisterForm_row required'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             Faculty:{" "}
           </label>
           <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <select className='ProfileRegisterForm_input' id='Faculty' name='Faculty'>
-              <option value='Nan'></option>
+            <select className='ProfileRegisterForm_input' id='Faculty' name='Faculty' required>
+              <option value=''></option>
               {facalties.map(function (facalty) {
                 return (
                   <option value={facalty} selected={facalty == user.faculty}>
@@ -119,13 +120,13 @@ class ProfileEditForm extends React.Component {
             </select>
           </a>
         </div>
-        <div className='ProfileRegisterForm_row'>
+        <div className='ProfileRegisterForm_row required'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             University:{" "}
           </label>
           <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <select className='ProfileRegisterForm_input' id='University' name='University'>
-              <option value='Nan'></option>
+            <select className='ProfileRegisterForm_input' id='University' name='University' required>
+              <option value=''></option>
               {universities.map(function (university) {
                 return (
                   <option value={university} selected={university == user.university}>
@@ -136,7 +137,7 @@ class ProfileEditForm extends React.Component {
             </select>
           </a>
         </div>
-        <div className='ProfileRegisterForm_row'>
+        <div className='ProfileRegisterForm_row required'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             Status:{" "}
           </label>
@@ -144,23 +145,23 @@ class ProfileEditForm extends React.Component {
             {Status.map(function (status) {
               return (
                 <a className='ProfileRegisterForm_colm30' type='ProfileRegisterForm_colm' id='status'>
-                  <input type='radio' id={status} value={status} name='status' defaultChecked={status == user.status}></input>
+                  <input type='radio' id={status} value={status} name='status' defaultChecked={status == user.status} required></input>
                   <a> {status}</a>
                 </a>
               );
             })}
           </a>
         </div>
-        <div className='ProfileRegisterForm_row'>
+        <div className='ProfileRegisterForm_row required'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             IG Account
           </label>
           <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <input className='ProfileRegisterForm_input' id='ProfileIG' name='ProfileIG' defaultValue={user.IG}></input>
+            <input className='ProfileRegisterForm_input' id='ProfileIG' name='ProfileIG' defaultValue={user.IG} required></input>
             <br></br>
           </div>
         </div>
-        <div className='ProfileRegisterForm_row'>
+        <div className='ProfileRegisterForm_row required'>
           <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
             Interests:{" "}
           </label>
@@ -203,13 +204,21 @@ class ProfileEditForm extends React.Component {
             id='Submit'
             className='ProfileRegisterForm_button'
             onClick={(event) => {
-              this.setProfile(event);
-              this.props.backToProfile();
+              let interest = $("input[class='interest']:checked").val();
+              if(interest != null){
+                this.setProfile(event);
+                this.props.backToProfile();
+              }
+              else{
+                window.alert("Please choose at least one interest.")
+                event.preventDefault();
+              }
             }}
           >
             Submit
           </button>
         </div>
+      </form>
       </div>
     );
   }
