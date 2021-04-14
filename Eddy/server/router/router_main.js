@@ -158,7 +158,12 @@ router.post("/match", (req, res) => {
                       console.log(matchUsers[i].quizId[1]);
                       let commonInterest = profile.interest.filter((x) => matchUsers[i].userProfile.interest.includes(x));
                       console.log("Bhere???");
-                      Quiz.find({ quizID: matchUsers[i].quizId[0], quizID: matchUsers[i].quizId[1], quizID: matchUsers[i].quizId[2] }, function (err, result) {
+                      Quiz.find({ 
+                        $or: [ 
+                          { quizID: matchUsers[i].quizId[0] }, 
+                          { quizID: matchUsers[i].quizId[1], },
+                          { quizID: matchUsers[i].quizId[2] }
+                        ] }, function (err, result) {
                         if (err) {
                           console.log(err);
                         }
