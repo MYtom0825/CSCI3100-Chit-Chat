@@ -33,7 +33,7 @@ const ProfileDetail = (props) => {
         <h1 className='profile_colm75'> {props.sts}</h1>
       </div>
       <div className='profile_row'>
-        <h1 className='profile_colm25' style={{height:"100vh" }}>Interests: </h1>
+        <h1 className='profile_colm25' style={{height: props.int.length * 73}}>Interests: </h1>
         {props.int.map(function (interest) {
             return <h1 className='profile_colm75'> {interest} </h1>;
           })}

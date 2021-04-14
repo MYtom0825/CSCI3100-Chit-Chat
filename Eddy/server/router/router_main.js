@@ -14,6 +14,7 @@ router.get("/main", (req, res) => {
 });
 
 router.post("/match", (req, res) => {
+  console.log(req.session);
   console.log(req.body);
   //matching
   if (!req.session.username) {

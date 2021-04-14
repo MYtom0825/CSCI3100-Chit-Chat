@@ -11,6 +11,7 @@ router.use(session({ secret: "random", resave: false, saveUninitialized: true })
 
 router.get("/mission", (req, res) => {
   //show the progress of user's mission
+  console.log(req.session);
   if (!req.session.username) {
     return res.status(401).send();
   }
