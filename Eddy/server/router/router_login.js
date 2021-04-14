@@ -181,7 +181,7 @@ router.post("/forgotpw", (req, res) => {
       res.send("Account can't be found");
     } else {
       var subject = "Reset of Your Happy Chat Account Password";
-      var html = `<p>Please click to following link to reset your password!</p><p><a href="localhost:3000/resetpw/${result._id}">Reset</a></p>`;
+      var html = `<p>Please click to following link to reset your password!</p><p><a href="http://localhost:3000/resetpw/${result._id}">Reset</a></p>`;
       sendEmail.sendEmail(email, subject, html); //send email
       console.log("forgot password email sent");
       res.send("Reset password email sent! Please check your email");

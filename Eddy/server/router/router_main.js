@@ -63,12 +63,12 @@ router.post("/match", (req, res) => {
   var profile;
   var quiz;
 
-  function delQueue(id) {
-    Queue.deleteOne({ userAccount: id }, function (err) {
+  function updateQueue(userId, matchedId) {
+    Queue.updateOne({ userProfile: userId }, { matchedProfile: matchedId }, function (err) {
       if (err) {
         console.log(err);
       } else {
-        console.log(`User ${id} deleted from the queue`);
+        console.log(`User profile ${matchedId} is matched!`);
       }
     });
   }
@@ -109,7 +109,6 @@ router.post("/match", (req, res) => {
                   { requiredStatus: { profileStatus, $exists: true, $ne: [] } },
                 ],
               })
-                .populate("userAccount")
                 .populate("userProfile")
                 .sort({ queueNumber: 1 })
                 .exec(function (err, result) {
@@ -152,7 +151,7 @@ router.post("/match", (req, res) => {
                             },
                             room: matchUsers[i].room,
                           };
-                          delQueue(matchUsers[i].account._id); //del matched user in Queue
+                          updateQueue(matchUsers[i].userProfile._id, profile._id); //del matched user in Queue
                           console.log(json);
                           return res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
                         }
@@ -182,32 +181,31 @@ router.post("/match", (req, res) => {
                           do {
                             queueExist = Queue.exists({ userProfile: profile._id });
                           }
-                          while (queueExist) { }
-                          account
-                          UserAccount.findOne({ username: account.MatchedUser })
-                            .populate("userProfile")
+                          while (queueExist);
+                          UserAccount.findOne({ username: req.session.username })
+                            .populate("matchedUser")
                             .exec(function (err, result) {
                               if (err) {
                                 console.log(err);
                               }
                               else {
-                                var matched = result;
+                                account = result;
                                 let json = {
                                   questions: [
                                     { id: quiz[0].quizID, question: quiz[0].question, answer: [quiz[0].answer1, quiz[0].answer2] },
                                     { id: quiz[1].quizID, question: quiz[1].question, answer: [quiz[1].answer1, quiz[1].answer2] },
                                     { id: quiz[2].quizID, question: quiz[2].question, answer: [quiz[2].answer1, quiz[2].answer2] },
                                   ],
-                                  contact: matched.userProfile.contact,
+                                  contact: account.matchedUser.contact,
                                   info: {
-                                    name: matched.userProfile.nickname,
-                                    gender: matched.userProfile.gender,
-                                    picture: matched.userProfile.picture,
-                                    description: matched.userProfile.description,
-                                    faculty: matched.userProfile.faculty,
-                                    university: matched.userProfile.university,
-                                    year: matched.userProfile.year,
-                                    status: matched.userProfile.status,
+                                    name: account.matchedUser.nickname,
+                                    gender: account.matchedUser.gender,
+                                    picture: account.matchedUser.picture,
+                                    description: account.matchedUser.description,
+                                    faculty: account.matchedUser.faculty,
+                                    university: account.matchedUser.university,
+                                    year: account.matchedUser.year,
+                                    status: account.matchedUser.status,
                                     commonInterest: commonInterest,
                                   },
                                   room: roomID,

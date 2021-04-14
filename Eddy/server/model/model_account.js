@@ -5,7 +5,6 @@ var UserAccountSchema = mongoose.Schema({
     username:{type:String,unique:true,require:true},
     password:{type:String,require:true},
     email:{type:String,unique:true,require:true},
-    matchedUser:{type:mongoose.Schema.Types.ObjectId,ref:'UserProfile'},
     userProfile:{type:mongoose.Schema.Types.ObjectId,ref:'UserProfile'},
     missionFinished:[{type:Number}],
     report:{type:mongoose.Schema.Types.ObjectId,ref:'Report'},

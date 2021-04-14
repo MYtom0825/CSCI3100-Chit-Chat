@@ -42,7 +42,7 @@ router.post("/register", (req, res) => {
               console.log(`saved!!!   ${record._id}`);
               var id = record._id;
               var subject = "Verification of Your Happy Chat University Account";
-              var html = `<p>Please click to following link to create your own account!</p><p><a href="localhost:3000/registration/${id}">Verify</a></p>`;
+              var html = `<p>Please click to following link to create your own account!</p><p><a href="http://localhost:3000/registration/${id}">Verify</a></p>`;
               sendEmail.sendEmail(email, subject, html); //send email
               console.log("verification email sent");
             }
