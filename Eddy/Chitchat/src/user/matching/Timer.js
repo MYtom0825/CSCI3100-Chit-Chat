@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 
 class Timer extends Component {
+    constructor(props) {
+        super(props);
+      }
     state = {
         minutes: 2,
         seconds: 0,
@@ -37,7 +40,7 @@ class Timer extends Component {
         return (
             <div>
                 { minutes === 0 && seconds === 0
-                    ? <h1>Times up</h1> //need to be modify, go back to home page??
+                    ? this.props.timeout() //need to be modify, go back to home page??
                     : <h1 className="pop_up_quiz_title">Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
                 }
             </div>
