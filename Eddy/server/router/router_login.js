@@ -232,6 +232,7 @@ router.post("/logout", (req, res) => {
       console.log("Logout!");
     }
   });
+  res.send("HaHa");
 });
 
 module.exports = router;

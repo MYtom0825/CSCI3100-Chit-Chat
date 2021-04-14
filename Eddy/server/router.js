@@ -17,7 +17,6 @@ router.post("/match", (req, res) => {
   console.log(req.gender);
   setTimeout(function () {
     console.log("recieved");
-    //res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
     res.send("server is up and running");
   }, 5000);
 });
