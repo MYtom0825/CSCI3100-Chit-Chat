@@ -98,7 +98,7 @@ router.post("/registration/:id", async (req, res) => {
       });
     }
   } else {
-    const account;
+    var account;
     if (!(req.body.PW == "" || req.body.PW == null || req.body.PW == undefined)) {
       account = await UserAccount.findOneAndUpdate({ username: req.body.username }, { password: req.body.PW });
     }
