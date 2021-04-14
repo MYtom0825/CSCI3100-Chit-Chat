@@ -87,6 +87,7 @@ router.post("/match", (req, res) => {
         else {
           profile = result;
           console.log(profile);
+          if 
           var profileGender = profile.gender;
           var profileUni = profile.university;
           var profileFaculty = profile.faculty;
@@ -97,6 +98,8 @@ router.post("/match", (req, res) => {
           console.log(profileFaculty);
           console.log(profileYear);
           console.log(profileStatus);
+
+          const query = `{ require }`;
 
           Queue.find({
             requiredGender: { $in: [profileGender, ""] },
@@ -215,7 +218,7 @@ router.post("/match", (req, res) => {
                                 console.log(err);
                               }
                               else{
-                                queueExist=true;
+                                queueExist=result;
                               }
                             });
                           }
