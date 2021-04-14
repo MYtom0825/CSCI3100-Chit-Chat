@@ -169,14 +169,7 @@ class ProfileEditForm extends React.Component {
               {interests1.map(function (interest) {
                 return (
                   <div style={{ padding: "10px" }} type='ProfileRegisterForm_colm' id='Interest'>
-                    <input
-                      type='checkbox'
-                      className='interest'
-                      id={interest}
-                      name={interest}
-                      value={interest}
-                      defaultChecked={user.interest.includes(interest)}
-                    ></input>
+                    <input type='checkbox' className='interest' id={interest} name={interest} value={interest} defaultChecked={user.interest.includes(interest)}></input>
                     <a> {interest}</a>
                   </div>
                 );
@@ -186,14 +179,7 @@ class ProfileEditForm extends React.Component {
               {interests2.map(function (interest) {
                 return (
                   <div style={{ padding: "10px" }} type='ProfileRegisterForm_colm' id='Interest'>
-                    <input
-                      type='checkbox'
-                      className='interest'
-                      id={interest}
-                      name={interest}
-                      value={interest}
-                      defaultChecked={user.interest.includes(interest)}
-                    ></input>
+                    <input type='checkbox' className='interest' id={interest} name={interest} value={interest} defaultChecked={user.interest.includes(interest)}></input>
                     <a> {interest}</a>
                   </div>
                 );
@@ -218,6 +204,7 @@ class ProfileEditForm extends React.Component {
             className='ProfileRegisterForm_button'
             onClick={(event) => {
               this.setProfile(event);
+              this.props.backToProfile();
             }}
           >
             Submit
