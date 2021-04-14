@@ -25,7 +25,7 @@ const mission = require("./router/router_mission.js");
 
 //app.use(router);
 
-app.use(session({ secret: "secretdasfdsagdsaqewqecxzc", resave: false, saveUninitialized: false }));
+app.use(session({ secret: "secretdasfdsagdsaqewqecxzc", resave: false, saveUninitialized: false ,cookie:{httpOnly:false}}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(home);
