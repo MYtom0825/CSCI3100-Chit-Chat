@@ -14,6 +14,7 @@ router.get("/main", (req, res) => {
 });
 
 router.post("/match", (req, res) => {
+  console.log(req.body);
   //matching
   if (!username) {
     return res.status(401).send();
@@ -94,9 +95,13 @@ router.post("/match", (req, res) => {
       { requiredYear: { profileYear, $exists: true, $ne: [] } },
       { requiredStatus: { profileStatus, $exists: true, $ne: [] } },
     ],
-  }).populate('userAccount').populate('userProfile').sort({ queueNumber: 1 });
+  })
+    .populate("userAccount")
+    .populate("userProfile")
+    .sort({ queueNumber: 1 });
 
-  if (matchUsers !== {}) {     //there are users in queue that current user satisfy his requirement
+  if (matchUsers !== {}) {
+    //there are users in queue that current user satisfy his requirement
     //check if the matched user also satisfy current user's requirement
     matchUsers.forEach((element) => {
       if (
@@ -110,9 +115,9 @@ router.post("/match", (req, res) => {
 
         let json = {
           questions: [
-            {id: quiz[0].quizID, question: quiz[0].question, answer: [quiz[0].answer1, quiz[0].answer2]},
-            {id: quiz[1].quizID, question: quiz[1].question, answer: [quiz[1].answer1, quiz[1].answer2]},
-            {id: quiz[2].quizID, question: quiz[2].question, answer: [quiz[2].answer1, quiz[2].answer2]}
+            { id: quiz[0].quizID, question: quiz[0].question, answer: [quiz[0].answer1, quiz[0].answer2] },
+            { id: quiz[1].quizID, question: quiz[1].question, answer: [quiz[1].answer1, quiz[1].answer2] },
+            { id: quiz[2].quizID, question: quiz[2].question, answer: [quiz[2].answer1, quiz[2].answer2] },
           ],
           contact: element.userProfile.contact,
           info: {
@@ -157,12 +162,12 @@ router.post("/match", (req, res) => {
         const queueExist = Queue.exists({ userProfile: profile._id });
         while (queueExist) {}
         account = await getAccount();
-        const matched = UserAccount.findOne({ username: account.MatchedUser }).populate('userProfile')
+        const matched = UserAccount.findOne({ username: account.MatchedUser }).populate("userProfile");
         let json = {
           questions: [
-            {id: quiz[0].quizID, question: quiz[0].question, answer: [quiz[0].answer1, quiz[0].answer2]},
-            {id: quiz[1].quizID, question: quiz[1].question, answer: [quiz[1].answer1, quiz[1].answer2]},
-            {id: quiz[2].quizID, question: quiz[2].question, answer: [quiz[2].answer1, quiz[2].answer2]}
+            { id: quiz[0].quizID, question: quiz[0].question, answer: [quiz[0].answer1, quiz[0].answer2] },
+            { id: quiz[1].quizID, question: quiz[1].question, answer: [quiz[1].answer1, quiz[1].answer2] },
+            { id: quiz[2].quizID, question: quiz[2].question, answer: [quiz[2].answer1, quiz[2].answer2] },
           ],
           contact: element.userProfile.contact,
           info: {

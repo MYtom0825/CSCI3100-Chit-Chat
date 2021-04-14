@@ -15,11 +15,16 @@ const Matching_1 = (props) => {
   const matchingStartHandler = (event) => {
     event.preventDefault();
     var userPref = {
-      university: $("#university").val(),
-      major: $("#major").val(),
-      year: $("input[name='year']:checked").val(),
+      uni: $("#university").val(),
+      faculty: $("#faculty").val(),
+      year: parseInt($("input[name='year']:checked").val()),
       status: $("input[name='status']:checked").val(),
       gender: $("input[name='gender']:checked").val(),
+      ownuni: props.user.university,
+      ownstatus: props.user.status,
+      owngender: props.user.gender,
+      ownyear: props.user.year,
+      ownfaculty: props.user.faculty,
     };
     var fee = 2;
     if (userPref.university != "") fee += 2;
@@ -51,7 +56,7 @@ const Matching_1 = (props) => {
           props.setchatting(true);
         }
       };
-      xhttp.open("POST", "http://localhost:5000", true);
+      xhttp.open("POST", "http://localhost:5000/match", true);
       xhttp.setRequestHeader("Access-Control-Allow-Headers", "*");
       xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
       // xhttp.setRequestHeader("X-PINGOTHER", "pingpong");
