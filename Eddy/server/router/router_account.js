@@ -8,6 +8,7 @@ let UserProfile = require("../model/model_profile.js");
 router.use(cors());
 
 router.post("/account", (req, res) => {
+  console.log("updating.....");
   //UserAccount.findOneAndUpdate({ });
   UserProfile.findOneAndUpdate({ username: req.session.username }, {
     nickname: req.body.name, 
