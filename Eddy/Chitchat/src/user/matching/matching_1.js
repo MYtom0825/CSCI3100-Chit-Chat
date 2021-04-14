@@ -57,7 +57,7 @@ const Matching_1 = (props) => {
           if (this.readyState == 4 && this.status == 200) {
             /*var response= JSON.parse(this.responseText);
              */
-            //props.setchatting(true);
+            props.setchatting(true);
 
             setmatching(3);
           } else if (this.readyState == 4) {
