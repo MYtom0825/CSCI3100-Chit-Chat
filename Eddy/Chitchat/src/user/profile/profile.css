@@ -39,7 +39,8 @@
 }
 .profile_detail{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    margin: 3% 10% 0 13%;
+
+    margin: 5% 10% 0 13%;
     padding: 5% 0 5% 10%;
     border: 5px solid rgb(240, 14, 248);
     border-radius: 15px;

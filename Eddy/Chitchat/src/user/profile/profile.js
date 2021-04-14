@@ -18,9 +18,9 @@ class profile extends React.Component {
     if (!this.state.editProfile)
       return (
         <div>
-          <div style={{ padding: "5px 0 0 45%" }}>
+          {/*<div style={{ padding: "5px 0 0 45%" }}>
             <img className='profile_img' src='https://placeimg.com/400/400/tech' alt='test' width='300' height='300'></img>
-          </div>
+      </div>*/}
           <div className='profile_detail'>
             <ProfileDetail
               na={this.props.user.name}

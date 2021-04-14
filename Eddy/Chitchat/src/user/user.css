@@ -23,8 +23,8 @@
   background-color: rgba(219, 18, 219, 0);
   margin-left: 80px;
   width: 95%;
+  float:right;
 
-  top: 0;
 
   min-height: 100vh;
   align-items: center;
