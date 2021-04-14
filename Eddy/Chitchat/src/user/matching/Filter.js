@@ -11,7 +11,7 @@ class Filter extends React.Component {
         <br />
         <h2>University: {this.props.university}</h2>
         <br />
-        <h2>Major: {this.props.major}</h2>
+        <h2>Faculty: {this.props.faculty}</h2>
         <br />
         <h2>Year: {this.props.year}</h2>
         <br />

@@ -15,7 +15,7 @@ const Matching_1 = (props) => {
   const matchingStartHandler = (event) => {
     event.preventDefault();
     var userPref = {
-      uni: $("#university").val(),
+      university: $("#university").val(),
       faculty: $("#faculty").val(),
       year: parseInt($("input[name='year']:checked").val()),
       status: $("input[name='status']:checked").val(),
@@ -28,11 +28,12 @@ const Matching_1 = (props) => {
     };
     var fee = 2;
     if (userPref.university != "") fee += 2;
-    if (userPref.major != "") fee += 2;
+    if (userPref.faculty != "") fee += 2;     
     if (userPref.year) fee += 2;
     if (userPref.gender) fee += 2;
     if (userPref.status) fee += 3;
     if (window.confirm("This matching will consume you " + fee + " token. Press OK to start the matching!")) {
+      props.changeToken(fee);
       setmatching(1);
       setuserPref(userPref);
       var xhttp = new XMLHttpRequest();
