@@ -16,7 +16,7 @@ router.get("/main", (req, res) => {
 router.post("/match", (req, res) => {
   
   //matching
-  if (!req.session.username) {
+  if (!req.body.username) {
     return res.status(401).send();
   }
 
@@ -28,7 +28,7 @@ router.post("/match", (req, res) => {
 
   function getAccount() {
     var result;
-    UserAccount.findOne({ username: req.session.username }).exec();
+    UserAccount.findOne({ username: req.body.username }).exec();
     return result;
   }
 
@@ -73,7 +73,7 @@ router.post("/match", (req, res) => {
     });
   }
 
-  account = UserAccount.findOne({ username: req.session.username }, function (err, result) {
+  account = UserAccount.findOne({ username: req.body.username }, function (err, result) {
     if (err) {
       console.log(err);
     }
@@ -161,7 +161,7 @@ router.post("/match", (req, res) => {
                       Quiz.find({ 
                         $or: [ 
                           { quizID: matchUsers[i].quizId[0] }, 
-                          { quizID: matchUsers[i].quizId[1], },
+                          { quizID: matchUsers[i].quizId[1] },
                           { quizID: matchUsers[i].quizId[2] }
                         ] }, function (err, result) {
                         if (err) {
@@ -172,9 +172,9 @@ router.post("/match", (req, res) => {
                           console.log(quiz);
                           let json = {
                             questions: [
-                              { id: quiz[0].quizID, question: quiz[0].question, answer: [quiz[0].answer1, quiz[0].answer2] },
-                              { id: quiz[1].quizID, question: quiz[1].question, answer: [quiz[1].answer1, quiz[1].answer2] },
-                              { id: quiz[2].quizID, question: quiz[2].question, answer: [quiz[2].answer1, quiz[2].answer2] },
+                              { id: "001", question: "Which food do you like more?", answer: ["Option A", "Option B"] },
+                              { id: "002", question: "Which animal do you like more?", answer: ["Option A", "Option B"] },
+                              { id: "003", question: "Which city do you like more?", answer: ["Option A", "Option B"] },
                             ],
                             contact: matchUsers[i].userProfile.contact,
                             info: {
@@ -251,9 +251,9 @@ router.post("/match", (req, res) => {
                                 var queue = result;
                                 let json = {
                                   questions: [
-                                    { id: quiz[0].quizID, question: quiz[0].question, answer: [quiz[0].answer1, quiz[0].answer2] },
-                                    { id: quiz[1].quizID, question: quiz[1].question, answer: [quiz[1].answer1, quiz[1].answer2] },
-                                    { id: quiz[2].quizID, question: quiz[2].question, answer: [quiz[2].answer1, quiz[2].answer2] },
+                                    { id: "001", question: "Which food do you like more?", answer: ["Option A", "Option B"] },
+                                    { id: "002", question: "Which animal do you like more?", answer: ["Option A", "Option B"] },
+                                    { id: "003", question: "Which city do you like more?", answer: ["Option A", "Option B"] },
                                   ],
                                   contact: queue.matchedProfile.contact,
                                   info: {
