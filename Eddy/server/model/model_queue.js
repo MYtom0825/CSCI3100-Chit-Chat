@@ -8,7 +8,7 @@ var QueueSchema = mongoose.Schema({
     room: {type:String},
     requiredGender:{type:String},
     requiredUni:{type:String},
-    requiredMajor:{type:String},
+    requiredFaculty:{type:String},
     requiredYear:{type:Number},
     requiredStatus:{type:String}
 })

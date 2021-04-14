@@ -50,13 +50,13 @@ router.post("/match", (req, res) => {
 
   //set filters
   var filterGender = req.body.gender;
-  var filterUni = req.body.uni;
-  var filterMajor = req.body.major;
+  var filterUni = req.body.university;
+  var filterFaculty = req.body.faculty;
   var filterYear = req.body.year;
   var filterStatus = req.body.status;
   console.log(filterGender);
   console.log(filterUni);
-  console.log(filterMajor);
+  console.log(filterFaculty);
   console.log(filterYear);
   console.log(filterStatus);
 
@@ -96,18 +96,23 @@ router.post("/match", (req, res) => {
               quiz = result;
               console.log(quiz);
               var profileGender = profile.gender;
-              var profileUni = profile.uni;
-              var profileMajor = profile.major;
+              var profileUni = profile.university;
+              var profileFaculty = profile.faculty;
               var profileYear = profile.year;
               var profileStatus = profile.status;
+              console.log(profileGender);
+  console.log(profileUni);
+  console.log(profileFaculty);
+  console.log(profileYear);
+  console.log(profileStatus);
 
               Queue.find({
                 $and: [
                   { $or: [ { requiredGender: profileGender }, { requiredGender: "" } ] },
-                  { $or: [ { requiredUni: profileUni }, { requiredGender: "" } ] },
-                  { $or: [ { requiredMajor: profileMajor }, { requiredGender: "" } ] },
-                  { $or: [ { requiredYear: profileYear }, { requiredGender: "" } ] },
-                  { $or: [ { requiredStatus: profileStatus }, { requiredGender: "" } ] },
+                  { $or: [ { requiredUni: profileUni }, { requiredUni: "" } ] },
+                  { $or: [ { requiredFaculty: profileFaculty }, { requiredFaculty: "" } ] },
+                  { $or: [ { requiredYear: profileYear }, { requiredYear: "" } ] },
+                  { $or: [ { requiredStatus: profileStatus }, { requiredStatus: "" } ] },
                 ],
               })
                 .populate("userProfile")
@@ -125,8 +130,8 @@ router.post("/match", (req, res) => {
                       for (var i = 0; i < matchUsers.length; i++) {
                         if (
                           (filterGender === null || element.userProfile.gender === filterGender) &&
-                          (filterUni === null || element.userProfile.uni === filterUni) &&
-                          (filterMajor === null || element.userProfile.major === filterMajor) &&
+                          (filterUni === null || element.userProfile.university === filterUni) &&
+                          (filterFaculty === null || element.userProfile.faculty === filterFaculty) &&
                           (filterYear === null || element.userProfile.year === filterYear) &&
                           (filterStatus === null || element.userProfile.status === filterStatus)
                         ) {
@@ -167,7 +172,7 @@ router.post("/match", (req, res) => {
                         room: Math.random().toString(36).substr(8),
                         requiredGender: filterGender,
                         requiredUni: filterUni,
-                        requiredMajor: filterMajor,
+                        requiredFaculty: filterFaculty,
                         requiredYear: filterYear,
                         requiredStatus: filterStatus,
                       });
