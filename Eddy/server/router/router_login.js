@@ -118,17 +118,48 @@ router.post("/login", (req, res) => {
 router.post("/forgotpw", (req, res) => {
   //forgot password
   var email = req.body.email;
-  var randomPw = Math.random().toString(36).substr(8);
 
-  UserAccount.findOneAndUpdate({ email: email }, { password: randomPw }, function (err, result) {
+  UserAccount.findOne({ email: email }, function (err, result) {
     if (err) {
       consolg.log(err);
       res.send("Account can't be found");
     } else {
-      var subject = "Recovery of Your Happy Chat Account Password";
-      var html = `<p>Your password is: </p><p><strong>${randomPw}</strong></p>`;
+      var subject = "Reset of Your Happy Chat Account Password";
+      var html = `<p>Please click to following link to reset your password!</p><p><a href="localhost:3000/resetpw/${id}">Reset</a></p>`;
       sendEmail.sendEmail(email, subject, html); //send email
       consolg.log("forgot password email sent");
+      res.send("Reset password email sent! Please check your email");
+    }
+  });
+});
+
+router.post("/resetpw/:id", (req, res) => {
+  var id = req.params.id;
+  var pw = req.body["password"];
+
+  var salt = "";
+  var hash = "";
+
+  try {
+    salt = await bcrypt.genSaltSync(10);
+  } catch (err) {
+    console.log("sssss");
+    console.log(err);
+  }
+  try {
+    hash = await bcrypt.hashSync(pw, salt);
+  } catch (err) {
+    console.log("xxxxxxx");
+    console.log(err);
+  }
+
+
+  UserAccount.findOneAndUpdate({ _id: id }, { password: hash }, function (err, result) {
+    if (err) {
+      consolg.log(err);
+      res.send("Account can't be found");
+    } else {
+      res.send("Password has been reset!");
     }
   });
 });
