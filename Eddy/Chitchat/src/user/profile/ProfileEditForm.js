@@ -159,7 +159,7 @@ class ProfileEditForm extends React.Component {
               IG Account
             </label>
             <div className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-              <input className='ProfileRegisterForm_input' id='ProfileIG' name='ProfileIG' defaultValue={user.IG} required></input>
+              <input className='ProfileRegisterForm_input' id='ProfileIG' name='ProfileIG' defaultValue={user.ig} required></input>
               <br></br>
             </div>
           </div>

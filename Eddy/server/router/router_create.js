@@ -98,6 +98,27 @@ router.post("/registration/:id", async (req, res) => {
       });
     }
   } else {
+    const account;
+    if (!(req.body.PW == "" || req.body.PW == null || req.body.PW == undefined)) {
+      account = await UserAccount.findOneAndUpdate({ username: req.body.username }, { password: req.body.PW });
+    }
+    else {
+      account = await UserAccount.findOne({ username: req.body.username });
+    }
+    
+    UserProfile.updateOne({ account: account._id }, { 
+      picture: req.body.picture,
+      nickName: req.body.nickName,
+      year: req.body.year,
+      gender: req.body.gender,
+      description: req.body.desc,
+      faculty: req.body.faculty,
+      university: req.body.university,
+      status: req.body.status,
+      interest: happy,
+      contact: req.body.contact,
+    });
+
   }
 });
 
