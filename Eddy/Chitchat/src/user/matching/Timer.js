@@ -5,8 +5,8 @@ class Timer extends Component {
         super(props);
       }
     state = {
-        minutes: 2,
-        seconds: 0,
+        minutes: 0,
+        seconds: 30,
     }
 
     componentDidMount() {
