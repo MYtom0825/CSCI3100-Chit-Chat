@@ -179,13 +179,13 @@ router.post("/forgotpw", (req, res) => {
   var hash = "";
 
   try {
-    salt = await bcrypt.genSaltSync(10);
+    salt = bcrypt.genSaltSync(10);
   } catch (err) {
     console.log("sssss");
     console.log(err);
   }
   try {
-    hash = await bcrypt.hashSync(newPw, salt);
+    hash = bcrypt.hashSync(newPw, salt);
   } catch (err) {
     console.log("xxxxxxx");
     console.log(err);
