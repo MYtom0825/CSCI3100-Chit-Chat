@@ -9,17 +9,31 @@ class Mission_card extends React.Component {
   }
 
   render() {
-    var finished;
     return (
       <div>
-        <td>{this.props.name}</td>
+        <td className="mission_title">{this.props.name}</td>
         <td>{this.props.content}</td>
         <td>
-          <a href={this.props.link}>GO!(Yet designed)</a>
+          {this.props.finished.includes(this.props.index) ? (
+            <button disabled>GO!(Yet designed)</button>
+          ) : (
+            <button
+              onClick={(event) => {
+                this.props.AddToken(this.props.Token);
+                this.props.FinishedMission(this.props.index);
+              }}
+            >
+              GO!(Yet designed)
+            </button>
+          )}
         </td>
         {this.props.finished.includes(this.props.index) ? (
           <td>
-            <p>finished</p>
+            <span className="checkmark">
+            <div className="checkmark_circle"></div>
+            <div className="checkmark_stem"></div>
+            <div className="checkmark_kick"></div>
+            </span>
           </td>
         ) : (
           <td>

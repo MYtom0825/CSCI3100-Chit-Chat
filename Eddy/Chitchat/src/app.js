@@ -29,6 +29,18 @@ class App extends React.Component {
     console.log("Token changed");
   };
 
+  AddToken = (AddToken) => {
+    var newUser = this.state.user;
+    console.log(newUser);
+    console.log(this.state.loc);
+    newUser.token += AddToken;
+    this.setState({ user: newUser });
+    console.log(newUser);
+    console.log(this.state.user);
+    window.alert("Mission Finished!");
+    console.log("Token changed");
+  };
+
   logout = () => {
     this.setState({ loc: "login" });
   };
@@ -149,7 +161,7 @@ class App extends React.Component {
     if (this.state.loc == "login") {
       return <LoginPage loginHandler={this.loginHandler} />; /*loadingHandler={this.loadingHandler} namecardHandler={this.namecardHandler} filterformHandler={this.filterformHandler}*/
     } else if (this.state.loc == "user" && this.state.user != null) {
-      return <User logout={this.logout} user={this.state.user} DeductToken={this.DeductToken} />;
+      return <User logout={this.logout} user={this.state.user} DeductToken={this.DeductToken} AddToken={this.AddToken} />;
     } else if (this.state.loc == "registration" && window.location.pathname.split("/")[2] != undefined && window.location.pathname.split("/")[2] != "") {
       return <ProfileRegisterForm backToLogin={this.backToLogin} />;
     } /*else if (this.state.loc == "loading") {

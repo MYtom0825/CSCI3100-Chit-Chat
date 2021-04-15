@@ -7,8 +7,8 @@ import "./Calendar.css";
 import Mission_card from "./Mission_card";
 
 class Mission extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       missionFinished: [],
     };
@@ -23,7 +23,12 @@ class Mission extends React.Component {
         this.setState({ missionFinished: [1, 2] });
       });
   }
-
+  FinishedMission = (index) => {
+    var finished = this.state.missionFinished;
+    finished.push(index);
+    this.setState({ missionFinished: finished });
+    console.log(finished);
+  };
   render() {
     const mission_list = [
       { Name: "Daily Login", Content: "Log in daily", Link: "", index: 0, token: 0 }, //0
@@ -44,7 +49,16 @@ class Mission extends React.Component {
               <div className='mission_tr'>
                 {mission_list.map((mission_list) => (
                   <div className='mission_tr'>
-                    <Mission_card name={mission_list.Name} content={mission_list.Content} link={mission_list.Link} finished={this.state.missionFinished} index={mission_list.index} />
+                    <Mission_card
+                      FinishedMission={this.FinishedMission}
+                      name={mission_list.Name}
+                      content={mission_list.Content}
+                      link={mission_list.Link}
+                      finished={this.state.missionFinished}
+                      index={mission_list.index}
+                      AddToken={this.props.AddToken}
+                      Token={mission_list.token}
+                    />
                   </div>
                 ))}
               </div>
