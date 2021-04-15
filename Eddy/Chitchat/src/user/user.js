@@ -57,7 +57,7 @@ const User = (props) => {
       <div className='body'>
         {chatting ? "" : <TokenBlock token={props.user.token} />}
         {toProfile ? <Profile user={props.user} /> : ""}
-        {tomission ? <Mission user={props.user} /> : ""}
+        {tomission ? <Mission user={props.user} AddToken={props.AddToken} /> : ""}
         {toChat ? <Matching_1 setchatting={setchatting} user={props.user} changeToken={props.DeductToken} /> : ""}
       </div>
     </div>
