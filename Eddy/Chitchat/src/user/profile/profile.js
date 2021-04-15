@@ -17,10 +17,14 @@ class profile extends React.Component {
   render() {
     if (!this.state.editProfile)
       return (
-        <div>
+        <div style={{background:"rgba(217, 198, 223, 0.5)"}}>
           {/*<div style={{ padding: "5px 0 0 45%" }}>
             <img className='profile_img' src='https://placeimg.com/400/400/tech' alt='test' width='300' height='300'></img>
       </div>*/}
+      
+          <div className='profile_title'>
+            <a>Your Profile</a>
+          </div>
           <div className='profile_detail'>
             <ProfileDetail
               na={this.props.user.name}

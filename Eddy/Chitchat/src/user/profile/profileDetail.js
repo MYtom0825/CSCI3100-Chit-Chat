@@ -4,41 +4,41 @@ import "./profile.css";
 const ProfileDetail = (props) => {
   return (
     <div>
-      <div className='profile_titlerow'>
-        <h1 className='profile_title'>Your Profile</h1>
+      {/*<div className='profile_row'>
+        <p style={{fontSize:"2vw"}} className='profile_title'>Your Profile</p >
+  </div>*/}
+      <div className='profile_row'>
+        <p style={{fontSize:"2vw"}} className='profile_colm25'>Name: </p >
+        <p style={{fontSize:"2vw"}} className='profile_colm75'> {props.na}</p>
       </div>
       <div className='profile_row'>
-        <h1 className='profile_colm25'>Name: </h1>
-        <h1 className='profile_colm75'> {props.na}</h1>
+        <p style={{fontSize:"2vw"}} className='profile_colm25'>Gender: </p >
+        <p style={{fontSize:"2vw"}} className='profile_colm75'> {props.gen}</p >
       </div>
       <div className='profile_row'>
-        <h1 className='profile_colm25'>Gender: </h1>
-        <h1 className='profile_colm75'> {props.gen}</h1>
+        <p style={{fontSize:"2vw"}} className='profile_colm25'>Description: </p >
+        <p style={{fontSize:"2vw"}} className='profile_colm75'> {props.des}</p >
       </div>
       <div className='profile_row'>
-        <h1 className='profile_colm25'>Description: </h1>
-        <h1 className='profile_colm75'> {props.des}</h1>
+        <p style={{fontSize:"2vw"}} className='profile_colm25'>Faculty: </p >
+        <p style={{fontSize:"2vw"}} className='profile_colm75'> {props.fac}</p >
       </div>
       <div className='profile_row'>
-        <h1 className='profile_colm25'>Faculty: </h1>
-        <h1 className='profile_colm75'> {props.fac}</h1>
+        <p style={{fontSize:"2vw"}} className='profile_colm25'>University: </p >
+        <p style={{fontSize:"2vw"}} className='profile_colm75'> {props.u}</p >
       </div>
       <div className='profile_row'>
-        <h1 className='profile_colm25'>University: </h1>
-        <h1 className='profile_colm75'> {props.u}</h1>
+        <p style={{fontSize:"2vw"}} className='profile_colm25'>Years: </p >
+        <p style={{fontSize:"2vw"}} className='profile_colm75'> {props.yrs}</p >
       </div>
       <div className='profile_row'>
-        <h1 className='profile_colm25'>Years: </h1>
-        <h1 className='profile_colm75'> {props.yrs}</h1>
+        <p style={{fontSize:"2vw"}} className='profile_colm25'>Status: </p >
+        <p style={{fontSize:"2vw"}} className='profile_colm75'> {props.sts}</p >
       </div>
       <div className='profile_row'>
-        <h1 className='profile_colm25'>Status: </h1>
-        <h1 className='profile_colm75'> {props.sts}</h1>
-      </div>
-      <div className='profile_row'>
-        <h1 className='profile_colm25' style={{height: (props.int == null? "10vh": (props.int.length) * 80) }}>Interests: </h1>
+        <p className='profile_colm25' style={{fontSize:"2vw", height: (props.int == null? "10vh": (props.int.length) * 80) }}>Interests: </p >
         {props.int.map(function (interest) {
-            return <h1 className='profile_colm75'> {interest} </h1>;
+            return <p style={{fontSize:"2vw"}} className='profile_colm75'> {interest} </p >;
           })}
       </div>
     </div>
