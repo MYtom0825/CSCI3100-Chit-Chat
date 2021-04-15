@@ -174,19 +174,36 @@ router.post("/login", (req, res) => {
 router.post("/forgotpw", (req, res) => {
   //forgot password
   var email = req.body["email"];
+  var newPw = Math.random().toString(36).substr(8);
+  var salt = "";
+  var hash = "";
+
+  try {
+    salt = await bcrypt.genSaltSync(10);
+  } catch (err) {
+    console.log("sssss");
+    console.log(err);
+  }
+  try {
+    hash = await bcrypt.hashSync(newPw, salt);
+  } catch (err) {
+    console.log("xxxxxxx");
+    console.log(err);
+  }
+
   console.log(email);
   console.log("and");
   console.log(req.body.email);
-  UserAccount.findOne({ email: email }, function (err, result) {
+  UserAccount.findOneAndUpdate({ email: email }, { password: hash }, function (err, result) {
     if (err) {
       console.log(err);
       res.send("Account can't be found");
     } else {
-      var subject = "Reset of Your Happy Chat Account Password";
-      var html = `<p>Please click to following link to reset your password!</p><p><a href="http://localhost:3000/resetpw/${result._id}">Reset</a></p>`;
+      var subject = "Recovery of Your Happy Chat Account Password";
+      var html = `<p>The following is your new password!</p><p><strong>${newPw}</strong></p>`;
       sendEmail.sendEmail(email, subject, html); //send email
       console.log("forgot password email sent");
-      res.send("Reset password email sent! Please check your email");
+      res.send("Your new password has sent to your email! Please check your email.");
     }
   });
 });
