@@ -65,7 +65,7 @@ router.post("/registration/:id", async (req, res) => {
             username: req.body.userName,
             password: hash,
             userProfile: profile_id,
-            token: 0,
+            token: 20,
           });
           console.log(req.body.interest);
           var newUserProfile = new UserProfile({
