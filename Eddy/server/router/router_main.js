@@ -18,28 +18,28 @@ router.post("/match", (req, res) => {
   if (!req.body.username) {
     return res.status(401).send();
   }
-
+  //get user profile (not in use now)
   function getProfile(id) {
     var result;
     result = UserProfile.findOne({ account: id }).exec();
     return result;
   }
-
+  //get user account (not in use now)
   function getAccount() {
     var result;
     UserAccount.findOne({ username: req.body.username }).exec();
     return result;
   }
-
+  //get quiz (not in use now)
   function getQuiz() {
     var cnt = 0;
-    Quiz.aggregate([{ $sample: { size: 3 } }]).foreach((element) => {
+    Quiz.aggregate([{ $sample: { size: 3 } }]).foreach((element) => {   //random generate 3 records of quizzes from db
       quiz[cnt] = element;
       cnt++;
     });
     return quiz;
   }
-
+  //initially used to get those informations (not in use now)
   async function lookfor() {
     account = await getAccount();
     profile = await getProfile(account._id);
@@ -55,16 +55,12 @@ router.post("/match", (req, res) => {
   if (filterGender == undefined) filterGender = "";
   if (filterStatus == undefined) filterStatus = "";
   if (filterYear == undefined) filterYear = "";
-  console.log(filterGender);
-  console.log(filterUni);
-  console.log(filterFaculty);
-  console.log(filterYear);
-  console.log(filterStatus);
 
   var account;
   var profile;
   var quiz;
 
+    //update the queue db record with userProfile = userId by modifying matchedProfile = matchedId
   function updateQueue(userId, matchedId) {
     Queue.updateOne({ userProfile: userId }, { matchedProfile: matchedId }, function (err) {
       if (err) {
@@ -75,19 +71,21 @@ router.post("/match", (req, res) => {
     });
   }
 
+  //find the user account
   account = UserAccount.findOne({ username: req.body.username }, function (err, result) {
     if (err) {
       console.log(err);
     } else {
       account = result;
       console.log(account);
+      //find the profile account
       profile = UserProfile.findOne({ account: account._id }, function (err, result) {
         if (err) {
           console.log(err);
         } else {
           profile = result;
           console.log(profile);
-          //if
+          //get the user info from profile
           var profileGender = profile.gender;
           var profileUni = profile.university;
           var profileFaculty = profile.faculty;
@@ -99,14 +97,16 @@ router.post("/match", (req, res) => {
           console.log(profileYear);
           console.log(profileStatus);
 
-          const query = `{ require }`;
-
+          //find the user in queue that the current user match the waiting user's requirement
           Queue.find({
-            /*requiredGender: { $in: [profileGender, ""] },
-            requiredUni: { $in: [profileUni, ""] },
-            requiredFaculty: { $in: [profileFaculty, ""] },
-            requiredYear: { $in: [profileYear, ""] },
-            requiredStatus: { $in: [profileStatus, ""] },*/
+            $and: [
+              {$or: [{requiredGender: profileGender}, {requiredGender: ""}] },
+              {$or: [{requiredUni: profileUni}, {requiredUni: ""}] },
+              {$or: [{requiredFaculty: profileFaculty}, {requiredFaculty: ""}] },
+              {$or: [{requiredYear: profileYear}, {requiredYear: ""}] },
+              {$or: [{requiredStatus: profileStatus}, {requiredStatus: ""}] },
+            ]
+            
           })
             .populate("userProfile")
             .sort({ queueNumber: 1 })
@@ -117,7 +117,7 @@ router.post("/match", (req, res) => {
                 var matchUsers = result;
                 if (matchUsers.length != 0) {
                   //there are users in queue that current user satisfy his requirement
-                  //check if the matched user also satisfy current user's requirement
+                  //loop for all waiting users to check if the matched user also satisfy current user's requirement
                   for (var i = 0; i < matchUsers.length; i++) {
                     console.log(matchUsers[i].user);
                     console.log("andddddddd");
@@ -149,7 +149,7 @@ router.post("/match", (req, res) => {
                     console.log(cc);
                     console.log(dd);
                     console.log(ee);
-                    if (
+                    if (  //if waiting user satisfy current user's requirement
                       (filterGender == "" || matchUsers[i].userProfile.gender == filterGender) &&
                       (filterUni == "" || matchUsers[i].userProfile.university == filterUni) &&
                       (filterFaculty == "" || matchUsers[i].userProfile.faculty == filterFaculty) &&
@@ -158,8 +158,10 @@ router.post("/match", (req, res) => {
                     ) {
                       console.log("here???");
                       console.log(matchUsers[i].quizId[1]);
+                      //get comment interest
                       let commonInterest = profile.interest.filter((x) => matchUsers[i].userProfile.interest.includes(x));
                       console.log("Bhere???");
+                      //define the json file to send to frontend
                       let json = {
                         questions: [
                           { id: "001", question: "Which food do you like more?", answer: ["Option A", "Option B"] },
@@ -185,9 +187,8 @@ router.post("/match", (req, res) => {
                       console.log(json);
                       return res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
                     }
-                    console.log("WTFhere???");
                   }
-                } else {
+                } else {  //no matched users found in queue db
                   console.log("no matched user");
                   //set new Queue with info inside profile
                   const newQueue = new Queue({
@@ -201,7 +202,7 @@ router.post("/match", (req, res) => {
                     requiredYear: filterYear,
                     requiredStatus: filterStatus,
                   });
-
+                  //store current user into queue db
                   newQueue.save(async function (err, record) {
                     if (err) {
                       console.log("Queue can't be save");
@@ -209,7 +210,7 @@ router.post("/match", (req, res) => {
                       console.log("Queue saved");
                       //wait until updated
                       const queueExist = true;
-                      do {
+                      do {  //this check if queue db is updated(being matched) but should not work
                         Queue.exists({ matchedProfile: { $exists: true, $ne: null } }, function (err, result) {
                           if (err) {
                             console.log(err);
@@ -217,7 +218,8 @@ router.post("/match", (req, res) => {
                             queueExist = result;
                           }
                         });
-                      } while (queueExist);
+                      } while (queueExist);   //infinite loop causing error
+                      //delete current user from queue db
                       Queue.findOneAndDelete({ userProfile: profile._id })
                         .populate("matchedProfile")
                         .exec(function (err, result) {
@@ -225,12 +227,13 @@ router.post("/match", (req, res) => {
                             console.log(err);
                           } else {
                             var queue = result;
+                            //define json file to be sent to frontend
                             let json = {
                               questions: [
                                 { id: "001", question: "Which food do you like more?", answer: ["Option A", "Option B"] },
                                 { id: "002", question: "Which animal do you like more?", answer: ["Option A", "Option B"] },
                                 { id: "003", question: "Which city do you like more?", answer: ["Option A", "Option B"] },
-                              ], //a
+                              ],
                               contact: queue.matchedProfile.contact,
                               info: {
                                 name: queue.matchedProfile.nickname,
@@ -258,8 +261,6 @@ router.post("/match", (req, res) => {
       });
     }
   });
-  /*
-   */
 });
 
 //popup quiz, after answered then send to backend.
