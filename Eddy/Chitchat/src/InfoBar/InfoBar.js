@@ -12,7 +12,7 @@ const InfoBar = ({ room, timeIsUp, countertime }) => {
     var s = new Date();
     console.log(s);
     console.log(countertime);
-    s.setMinutes(s.getMinutes() + countertime);
+    s.setSeconds(s.getSeconds() + 30);
     setendtime(new Date(s).getTime());
   }
 
@@ -43,7 +43,7 @@ const InfoBar = ({ room, timeIsUp, countertime }) => {
         {
           //<h3>{room}</h3>
         }
-        <h3 className='chatboxtime'>0 minutes 59 seconds left</h3>
+        <h3 className='chatboxtime'>0 minutes 29 seconds left</h3>
       </div>
       <div className='infoBar_RightInnerContainer'>
         <button className='report_button'> Report</button>

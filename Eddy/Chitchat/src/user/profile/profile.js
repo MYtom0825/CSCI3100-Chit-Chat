@@ -17,7 +17,7 @@ class profile extends React.Component {
   render() {
     if (!this.state.editProfile)
       return (
-        <div style={{background:"rgba(217, 198, 223, 0.5)"}}>
+        <div>
           {/*<div style={{ padding: "5px 0 0 45%" }}>
             <img className='profile_img' src='https://placeimg.com/400/400/tech' alt='test' width='300' height='300'></img>
       </div>*/}

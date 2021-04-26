@@ -5,6 +5,7 @@ import $ from "jquery";
 import Calendar from "react-calendar";
 import "./Calendar.css";
 import Mission_card from "./Mission_card";
+import icon from './Mission-icon.png';
 
 class Mission extends React.Component {
   constructor(props) {
@@ -43,7 +44,10 @@ class Mission extends React.Component {
           <Calendar locale='en-US' />
         </div>
         <div className='mission_column' type='colm_65'>
+        <div className='mission_row'>
+        <img src={icon} alt="" className='mission_icon'></img>
           <text_title1 type='mission'>MISSION LIST</text_title1>
+        </div>
           <div className='mission_card'>
             <div className='mission_table'>
               <div className='mission_tr'>
