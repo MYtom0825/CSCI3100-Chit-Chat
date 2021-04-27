@@ -5,12 +5,62 @@ let UserProfile = require("../model/model_profile.js");
 let UserAccount = require("../model/model_account.js");
 let Queue = require("../model/model_queue.js");
 let Quiz = require("../model/model_quiz.js");
+let Chat = require("../model/model_chat.js");
+const e = require("express");
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
+function getProfile(id) {
+  var result;
+  result = UserProfile.findOne({ account: id }).exec();
+  return result;
+}
+
 router.get("/main", (req, res) => {
   res.send("running la");
+});
+
+router.get("/matchresult", (req, res) => {
+  //, $or: [{ user1entered: false }, { user2entered: false }] }
+  UserAccount.findOne({ username: req.query.username })
+    .populate("userProfile")
+    .exec((err, result) => {
+      if (err) console.log(err);
+      else {
+        Chat.findOne({ $or: [{ user1: result._id }, { user2: result._id }], $or: [{ user1entered: false }, { user2entered: false }] })
+          .populate("user1")
+          .populate("user2")
+          .exec((error, chatbox) => {
+            if (err) console.log(err);
+            else if (chatbox == null) {
+              res.send("no partner yet");
+            } else {
+              var Partner;
+              if (req.query.username == chatbox.user1.username) {
+                Partner = chatbox.user2._id;
+                chatbox.user1entered = true;
+                chatbox.save();
+              } else {
+                Partner = chatbox.user1._id;
+                chatbox.user2entered = true;
+                chatbox.save();
+              }
+              UserProfile.findOne({ account: Partner }).exec((error, partnerinfo) => {
+                let json = { partnerinfo: partnerinfo, room: chatbox.room };
+                res.json(json);
+              });
+            }
+          });
+      }
+    });
+});
+
+router.get("/deletequeue", (req, res) => {
+  UserAccount.findOne({ username: req.query.username }).exec((err, user) => {
+    Queue.remove({ userProfile: user.userProfile }, () => {});
+  });
+  res.send();
 });
 
 router.post("/match", (req, res) => {
@@ -19,11 +69,7 @@ router.post("/match", (req, res) => {
     return res.status(401).send();
   }
   //get user profile (not in use now)
-  function getProfile(id) {
-    var result;
-    result = UserProfile.findOne({ account: id }).exec();
-    return result;
-  }
+
   //get user account (not in use now)
   function getAccount() {
     var result;
@@ -33,7 +79,8 @@ router.post("/match", (req, res) => {
   //get quiz (not in use now)
   function getQuiz() {
     var cnt = 0;
-    Quiz.aggregate([{ $sample: { size: 3 } }]).foreach((element) => {   //random generate 3 quizzes from db
+    Quiz.aggregate([{ $sample: { size: 3 } }]).foreach((element) => {
+      //random generate 3 quizzes from db
       quiz[cnt] = element;
       cnt++;
     });
@@ -71,19 +118,17 @@ router.post("/match", (req, res) => {
     });
   }
   //find the user account
-  account = UserAccount.findOne({ username: req.body.username }, function (err, result) {
+  account = UserAccount.findOne({ username: req.body.username }, function (err, matchingUser) {
     if (err) {
       console.log(err);
     } else {
-      account = result;
-      console.log(account);
+      account = matchingUser;
       //find the profile account
       profile = UserProfile.findOne({ account: account._id }, function (err, result) {
         if (err) {
           console.log(err);
         } else {
           profile = result;
-          console.log(profile);
           //get the user info from profile
           var profileGender = profile.gender;
           var profileUni = profile.university;
@@ -110,14 +155,72 @@ router.post("/match", (req, res) => {
                   //there are users in queue that current user satisfy his requirement
                   //loop for all waiting users to check if the matched user also satisfy current user's requirement
                   for (var i = 0; i < matchUsers.length; i++) {
-                    if (  //if waiting user satisfy current user's requirement
+                    if (
+                      //if waiting user satisfy current user's requirement
                       (filterGender == "" || matchUsers[i].userProfile.gender == filterGender) &&
                       (filterUni == "" || matchUsers[i].userProfile.university == filterUni) &&
                       (filterFaculty == "" || matchUsers[i].userProfile.faculty == filterFaculty) &&
                       (filterYear == "" || matchUsers[i].userProfile.year == filterYear) &&
                       (filterStatus == "" || matchUsers[i].userProfile.status == filterStatus)
                     ) {
-                      //get comment interest
+                      const newChat = new Chat({
+                        _id: new mongoose.Types.ObjectId(),
+                        user1: account._id,
+                        user2: matchUsers[i].userProfile.account,
+                        room: matchUsers[i].room,
+                        user1entered: false,
+                        user2entered: false,
+                        finished: false,
+                      });
+                      newChat.save((err) => {
+                        if (err) console.log(err);
+                        else console.log("newChat has been saved");
+                      });
+
+                      Queue.remove({ userProfile: matchUsers[i].userProfile }, () => console.log("removed Queue"));
+                    }
+                  }
+                } else {
+                  //no matched users found in queue db
+                  console.log("no matched user");
+                  //set new Queue with info inside profile
+                  const newQueue = new Queue({
+                    _id: new mongoose.Types.ObjectId(),
+                    userAccount: account._id,
+                    userProfile: profile._id,
+                    room: Math.random().toString(36).substr(8),
+                    requiredGender: filterGender,
+                    requiredUni: filterUni,
+                    requiredFaculty: filterFaculty,
+                    requiredYear: filterYear,
+                    requiredStatus: filterStatus,
+                  });
+                  //store current user into queue db
+                  newQueue.save(async function (err, record) {
+                    if (err) {
+                      console.log("Queue can't be save");
+                    } else {
+                      console.log("Queue saved");
+                    }
+                  });
+                }
+              }
+            });
+        }
+      });
+    }
+  });
+  res.send("Waiting");
+});
+
+//popup quiz, after answered then send to backend.
+//send common interest and ig and answer to frontend for broadcast...
+//send 2 user_id to backend to notice ended chat
+
+module.exports = router;
+
+//get comment interest
+/*
                       let commonInterest = profile.interest.filter((x) => matchUsers[i].userProfile.interest.includes(x));
                       //define the json file to send to frontend
                       let json = {
@@ -143,32 +246,10 @@ router.post("/match", (req, res) => {
                       console.log("Chere???");
                       updateQueue(matchUsers[i].userProfile._id, profile._id); //del matched user in Queue
                       console.log(json);
-                      return res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
-                    }
-                    console.log("WTFhere???");
-                  }
-                } else {  //no matched users found in queue db
-                  console.log("no matched user");
-                  //set new Queue with info inside profile
-                  const newQueue = new Queue({
-                    _id: new mongoose.Types.ObjectId(),
-                    userAccount: account._id,
-                    userProfile: profile._id,
-                    room: Math.random().toString(36).substr(8),
-                    requiredGender: filterGender,
-                    requiredUni: filterUni,
-                    requiredFaculty: filterFaculty,
-                    requiredYear: filterYear,
-                    requiredStatus: filterStatus,
-                  });
-                  //store current user into queue db
-                  newQueue.save(async function (err, record) {
-                    if (err) {
-                      console.log("Queue can't be save");
-                    } else {
-                      console.log("Queue saved");
-                      //wait until updated
-                      const queueExist = true;
+                      return res.json(json); */ //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
+
+//wait until updated
+/*const queueExist = true;
                       do {  //this check if queue db is updated(being matched) but should not work
                         Queue.exists({ matchedProfile: { $exists: true, $ne: null } }, function (err, result) {
                           if (err) {
@@ -177,9 +258,9 @@ router.post("/match", (req, res) => {
                             queueExist = result;
                           }
                         });
-                      } while (queueExist);   //infinite loop causing error
-                      //delete current user from queue db
-                      Queue.findOneAndDelete({ userProfile: profile._id })
+                      } while (queueExist);   //infinite loop causing error*/
+//delete current user from queue db
+/*Queue.findOneAndDelete({ userProfile: profile._id })
                         .populate("matchedProfile")
                         .exec(function (err, result) {
                           if (err) {
@@ -210,22 +291,4 @@ router.post("/match", (req, res) => {
                             console.log(json);
                             return res.send(json);
                           }
-                        });
-                    }
-                  });
-                }
-              }
-            });
-        }
-      });
-    }
-  });
-  /*
-   */
-});
-
-//popup quiz, after answered then send to backend.
-//send common interest and ig and answer to frontend for broadcast...
-//send 2 user_id to backend to notice ended chat
-
-module.exports = router;
+                        });*/

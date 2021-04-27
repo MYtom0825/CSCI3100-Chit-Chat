@@ -16,10 +16,7 @@
   text-align: justify;
   font-family: arial;
   width: 100%;
-}
-
-.namecard_info {
-  padding-left: 10%;
+  padding: 0pt 20pt;
 }
 
 cardbutton {

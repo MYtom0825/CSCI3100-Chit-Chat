@@ -11,11 +11,12 @@ class Mission_card extends React.Component {
   render() {
     return (
       <div>
-        <td className="mission_title">{this.props.name}</td>
+        <td className='mission_title'>{this.props.name}</td>
         <td>{this.props.content}</td>
+
         <td>
           {this.props.finished.includes(this.props.index) ? (
-            <button disabled>GO!(Yet designed)</button>
+            <button disabled>{this.props.Token} tokens have been got</button>
           ) : (
             <button
               onClick={(event) => {
@@ -23,16 +24,17 @@ class Mission_card extends React.Component {
                 this.props.FinishedMission(this.props.index);
               }}
             >
-              GO!(Yet designed)
+              GO! {this.props.Token} tokens can be got
             </button>
           )}
         </td>
+
         {this.props.finished.includes(this.props.index) ? (
           <td>
-            <span className="checkmark">
-            <div className="checkmark_circle"></div>
-            <div className="checkmark_stem"></div>
-            <div className="checkmark_kick"></div>
+            <span className='checkmark'>
+              <div className='checkmark_circle'></div>
+              <div className='checkmark_stem'></div>
+              <div className='checkmark_kick'></div>
             </span>
           </td>
         ) : (

@@ -1,0 +1,13 @@
+.name_card_holder {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 80%;
+  padding-left: 10%;
+  margin: auto;
+  text-align: center;
+  background: linear-gradient(rgb(255, 223, 255), rgb(242, 164, 245));
+  border-radius: 10pt;
+}
+
+.name_card_holder ul {
+  list-style-type: none;
+}

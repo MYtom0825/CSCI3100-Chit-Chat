@@ -19,12 +19,12 @@ const home = require("./router/router_home.js");
 const reg = require("./router/router_reg.js");
 const create = require("./router/router_create.js");
 const login = require("./router/router_login.js");
-//const main = require("./router/router_main.js");
+const main = require("./router/router_main copy.js");
 const mission = require("./router/router_mission.js");
 const account = require("./router/router_account.js");
-const router = require("./router.js");
+//const router = require("./router.js");
 
-app.use(router);
+//app.use(router);
 
 app.use(session({ secret: "secretdasfdsagdsaqewqecxzc", resave: false, saveUninitialized: true }));
 app.use(bodyParser.json());
@@ -34,7 +34,7 @@ app.use(reg);
 app.use(account);
 app.use(create);
 app.use(login);
-//app.use(main);
+app.use(main);
 app.use(mission);
 
 //mongodb

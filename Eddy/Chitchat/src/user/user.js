@@ -16,10 +16,15 @@ const User = (props) => {
 
   useEffect(() => {
     return () => {
-      $.post("http://localhost:5000/logout", { username: props.user.name, token: props.user.token });
+      $.post("http://localhost:5000/changetoken", { username: props.user.name, token: props.user.token });
     };
   });
 
+  useEffect(() => {
+    return () => {
+      $.get("http://localhost:5000/logout", { username: props.user.name });
+    };
+  }, [props.loc]);
   const MissionGet = () => {
     setgomission((tomission) => (tomission = true));
     setgoProfile((toProfile) => (toProfile = false));

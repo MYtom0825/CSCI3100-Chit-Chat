@@ -91,21 +91,21 @@ class App extends React.Component {
         console.log(res);
         switch (res.loginstate) {
           case 0:
-            console.log("0");
             window.alert("User not found. Please try with another email or Sign Up");
             break;
           case 1:
-            console.log("1");
             window.alert("Incorrect Password");
             break;
           case 2:
-            console.log("2");
             window.alert("Login Success");
             window.history.pushState(null, null, "/user");
             this.setState({
               loc: "user",
               user: res,
             });
+            break;
+          case 3:
+            window.alert("We do not accept multiple login. Your account is logged in in other devices");
             break;
           default:
         }
@@ -161,7 +161,7 @@ class App extends React.Component {
     if (this.state.loc == "login") {
       return <LoginPage loginHandler={this.loginHandler} />; /*loadingHandler={this.loadingHandler} namecardHandler={this.namecardHandler} filterformHandler={this.filterformHandler}*/
     } else if (this.state.loc == "user" && this.state.user != null) {
-      return <User logout={this.logout} user={this.state.user} DeductToken={this.DeductToken} AddToken={this.AddToken} />;
+      return <User logout={this.logout} user={this.state.user} DeductToken={this.DeductToken} AddToken={this.AddToken} loc={this.state.loc} />;
     } else if (this.state.loc == "registration" && window.location.pathname.split("/")[2] != undefined && window.location.pathname.split("/")[2] != "") {
       return <ProfileRegisterForm backToLogin={this.backToLogin} />;
     } /*else if (this.state.loc == "loading") {

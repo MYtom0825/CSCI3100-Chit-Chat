@@ -7,7 +7,7 @@ class TokenBlock extends React.Component {
       <div>
         <a className='token_block_frame'>
           <a className='coin_frame'>
-            <i class='fas fa-dollar-sign'></i>
+            <i className='fas fa-dollar-sign'></i>
           </a>
           <b>{this.props.token}</b>
         </a>

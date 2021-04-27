@@ -42,8 +42,6 @@ router.post("/registration/:id", async (req, res) => {
           const user_id = new mongoose.Types.ObjectId();
           const profile_id = new mongoose.Types.ObjectId();
 
-          
-
           console.log(record.email);
           console.log(record.password);
           try {
@@ -116,19 +114,22 @@ router.post("/registration/:id", async (req, res) => {
       }
       await UserAccount.updateOne({ username: req.body.userName }, { password: hash });
     }
-    
-    await UserProfile.updateOne({ account: account._id }, { 
-      picture: req.body.picture,
-      nickName: req.body.nickName,
-      year: req.body.year,
-      gender: req.body.gender,
-      description: req.body.desc,
-      faculty: req.body.faculty,
-      university: req.body.university,
-      status: req.body.status,
-      interest: happy,
-      contact: req.body.contact,
-    });
+
+    await UserProfile.updateOne(
+      { account: account._id },
+      {
+        picture: req.body.picture,
+        nickName: req.body.nickName,
+        year: req.body.year,
+        gender: req.body.gender,
+        description: req.body.desc,
+        faculty: req.body.faculty,
+        university: req.body.university,
+        status: req.body.status,
+        interest: happy,
+        contact: req.body.contact,
+      }
+    );
     return res.send("Updated");
   }
 });

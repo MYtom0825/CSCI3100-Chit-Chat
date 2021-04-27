@@ -28,7 +28,6 @@ router.get("/mission", (req, res) => {
             console.log("mission find error");
             console.log(err);
           } else {
-            console.log(missionArray);
             missionArray.forEach((element) => missionFinished.push(element.missionID));
             return res.json({
               missionFinishedID: missionFinished,
@@ -49,9 +48,6 @@ router.post("/mission", (req, res) => {
     if (array.missionFinished[1] != undefined) {
       array.missionFinished.map((mission) => {
         Mission.exists({ useraccount: user._id, missionID: mission }, function (err, exist) {
-          console.log("This is mission");
-          console.log(mission);
-          console.log(exist);
           if (err) {
             console.log("mission exist error");
           } else if (exist == false) {

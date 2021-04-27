@@ -12,7 +12,7 @@ const InfoBar = ({ room, timeIsUp, countertime }) => {
     var s = new Date();
     console.log(s);
     console.log(countertime);
-    s.setSeconds(s.getSeconds() + 30);
+    s.setSeconds(s.getSeconds() + 45);
     setendtime(new Date(s).getTime());
   }
 

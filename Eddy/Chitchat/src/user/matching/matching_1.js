@@ -11,6 +11,7 @@ const Matching_1 = (props) => {
   const [userPref, setuserPref] = useState();
   const [popupquiz, setpopupquiz] = useState([]);
   const [userResponse, setuserResponse] = useState([]);
+  const [partnerInfo, setpartnerInfo] = useState([]);
 
   const matchingStartHandler = (event) => {
     event.preventDefault();
@@ -41,10 +42,12 @@ const Matching_1 = (props) => {
       window.alert("You do not have enough tokens! Please reset your filter.");
     } else {
       if (window.confirm("This matching will consume you " + fee + " token. Press OK to start the matching!")) {
-        props.changeToken(fee);
-        setmatching(1);
         setuserPref(userPref);
-        var xhttp = new XMLHttpRequest();
+        $.post("http://localhost:5000/match", userPref).done((res) => {
+          props.changeToken(fee);
+          setmatching(1);
+        });
+        /* var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
           var response = {
             questions: [
@@ -55,8 +58,8 @@ const Matching_1 = (props) => {
           };
           setpopupquiz(response);
           if (this.readyState == 4 && this.status == 200) {
-            /*var response= JSON.parse(this.responseText);
-             */
+            //var response= JSON.parse(this.responseText);
+             
             props.setchatting(true);
 
             setmatching(3);
@@ -73,14 +76,14 @@ const Matching_1 = (props) => {
         xhttp.setRequestHeader("Content-type", "application/json");
         console.log(userPref);
         console.log(JSON.stringify(userPref));
-        xhttp.send(JSON.stringify(userPref));
+        xhttp.send(JSON.stringify(userPref));*/
       }
     }
   };
   if (matching == 0) return <Filter_form matchingStartHandler={matchingStartHandler} />;
-  else if (matching == 1) return <Match_loading userPref={userPref} setmatching={setmatching} />;
+  else if (matching == 1) return <Match_loading userPref={userPref} setmatching={setmatching} setpopupquiz={setpopupquiz} setpartnerInfo={setpartnerInfo} setchatting={props.setchatting} />;
   else if (matching == 3) return <Popup_quiz userPref={userPref} setmatching={setmatching} popupquiz={popupquiz} setuserResponse={setuserResponse} />;
-  else if (matching == 2) return <Chat setmatching={setmatching} userInfo={props.user} userResponse={userResponse} setchatting={props.setchatting} />;
+  else if (matching == 2) return <Chat setmatching={setmatching} userInfo={props.user} userResponse={userResponse} setchatting={props.setchatting} partnerInfo={partnerInfo} />;
 };
 
 export default Matching_1;

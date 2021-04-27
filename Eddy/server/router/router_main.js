@@ -5,7 +5,7 @@ let UserProfile = require("../model/model_profile.js");
 let UserAccount = require("../model/model_account.js");
 let Queue = require("../model/model_queue.js");
 let Quiz = require("../model/model_quiz.js");
-let Report=require("../model/model_report.js");
+let Report = require("../model/model_report.js");
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -14,6 +14,9 @@ router.get("/main", (req, res) => {
   res.send("running la");
 });
 
+router.get("/matchresult", (req, res) => {
+  console.log(req.query.username);
+});
 router.post("/match", (req, res) => {
   //matching
   if (!req.body.username) {
@@ -34,7 +37,8 @@ router.post("/match", (req, res) => {
   //get quiz (not in use now)
   function getQuiz() {
     var cnt = 0;
-    Quiz.aggregate([{ $sample: { size: 3 } }]).foreach((element) => {   //random generate 3 records of quizzes from db
+    Quiz.aggregate([{ $sample: { size: 3 } }]).foreach((element) => {
+      //random generate 3 records of quizzes from db
       quiz[cnt] = element;
       cnt++;
     });
@@ -61,7 +65,7 @@ router.post("/match", (req, res) => {
   var profile;
   var quiz;
 
-    //update the queue db record with userProfile = userId by modifying matchedProfile = matchedId
+  //update the queue db record with userProfile = userId by modifying matchedProfile = matchedId
   function updateQueue(userId, matchedId) {
     Queue.updateOne({ userProfile: userId }, { matchedProfile: matchedId }, function (err) {
       if (err) {
@@ -101,13 +105,12 @@ router.post("/match", (req, res) => {
           //find the user in queue that the current user match the waiting user's requirement
           Queue.find({
             $and: [
-              {$or: [{requiredGender: profileGender}, {requiredGender: ""}] },
-              {$or: [{requiredUni: profileUni}, {requiredUni: ""}] },
-              {$or: [{requiredFaculty: profileFaculty}, {requiredFaculty: ""}] },
-              {$or: [{requiredYear: profileYear}, {requiredYear: ""}] },
-              {$or: [{requiredStatus: profileStatus}, {requiredStatus: ""}] },
-            ]
-            
+              { $or: [{ requiredGender: profileGender }, { requiredGender: "" }] },
+              { $or: [{ requiredUni: profileUni }, { requiredUni: "" }] },
+              { $or: [{ requiredFaculty: profileFaculty }, { requiredFaculty: "" }] },
+              { $or: [{ requiredYear: profileYear }, { requiredYear: "" }] },
+              { $or: [{ requiredStatus: profileStatus }, { requiredStatus: "" }] },
+            ],
           })
             .populate("userProfile")
             .sort({ queueNumber: 1 })
@@ -150,7 +153,8 @@ router.post("/match", (req, res) => {
                     console.log(cc);
                     console.log(dd);
                     console.log(ee);
-                    if (  //if waiting user satisfy current user's requirement
+                    if (
+                      //if waiting user satisfy current user's requirement
                       (filterGender == "" || matchUsers[i].userProfile.gender == filterGender) &&
                       (filterUni == "" || matchUsers[i].userProfile.university == filterUni) &&
                       (filterFaculty == "" || matchUsers[i].userProfile.faculty == filterFaculty) &&
@@ -189,7 +193,8 @@ router.post("/match", (req, res) => {
                       return res.json(json); //send 3 popup_quiz, ig, info(name, array of comment interest), chatroom
                     }
                   }
-                } else {  //no matched users found in queue db
+                } else {
+                  //no matched users found in queue db
                   console.log("no matched user");
                   //set new Queue with info inside profile
                   const newQueue = new Queue({
@@ -209,8 +214,9 @@ router.post("/match", (req, res) => {
                     } else {
                       console.log("Queue saved");
                       //wait until updated
-                      var queueExist = true; 
-                      do {  //this check if queue db is updated(being matched) but should not work
+                      var queueExist = true;
+                      do {
+                        //this check if queue db is updated(being matched) but should not work
                         Queue.exists({ userProfile: { $exists: true, $ne: null } }, function (err, result) {
                           if (err) {
                             console.log(err);
@@ -218,7 +224,7 @@ router.post("/match", (req, res) => {
                             queueExist = result;
                           }
                         });
-                      } while (queueExist);   //infinite loop causing error
+                      } while (queueExist); //infinite loop causing error
                       //delete current user from queue db
                       Queue.findOneAndDelete({ userProfile: profile._id })
                         .populate("matchedProfile")
@@ -263,32 +269,31 @@ router.post("/match", (req, res) => {
   });
 });
 
+router.post("/report", (req, res) => {
+  UserAccount.findOne({ username: req.body.username }, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(401).send();
+    } else {
+      const newReport = new Report({
+        _id: new mongoose.Types.ObjectId(),
+        UserAccount: result._id,
+        reporterId: req.reporterid,
+        reportedId: req.reportedid,
+        reason: req.reason,
+        speakerId: req.speakerid,
+        text: req.text,
+        time: Date.now(),
+      });
 
-router.post("/report",(req,res)=>{
-  UserAccount.findOne({username:req.body.username},(err,result)=>{
-  if(err){
-    console.log(err);
-    return res.status(401).send();
-  }else{
-    const newReport=new Report({
-      _id:new mongoose.Types.ObjectId(),
-      UserAccount:result._id,
-      reporterId:req.reporterid,
-      reportedId:req.reportedid,
-      reason:req.reason,
-      speakerId:req.speakerid,
-      text:req.text,
-      time:Date.now()
-    });
-
-    newReport.save((err)=>{
-      if(err){
-        console.log('report not saved');
-      }else{
-        res.status(200).send('reported');
-      }
-    });
-  }
+      newReport.save((err) => {
+        if (err) {
+          console.log("report not saved");
+        } else {
+          res.status(200).send("reported");
+        }
+      });
+    }
   });
 });
 //popup quiz, after answered then send to backend.

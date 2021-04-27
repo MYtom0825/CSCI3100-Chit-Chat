@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
-import queryString from "query-string";
 import io from "socket.io-client";
-import Cookies from "universal-cookie";
 
 import "./Chat.css";
 import Name_card from "../user/matching/namecard";
 import InfoBar from "../InfoBar/InfoBar";
 import Messages from "../Messages/Messages";
 import Input from "../Input/Input";
-import { set } from "mongoose";
 let socket;
 
-const cookies = new Cookies();
 //hello
 var connectionOptions = {
   "force new connection": true,
@@ -20,23 +16,21 @@ var connectionOptions = {
   transports: ["websocket"],
 };
 
-const Chat = ({ setmatching, userInfo, userResponse, setchatting }) => {
+const Chat = ({ setmatching, userInfo, userResponse, setchatting, partnerInfo }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [End, setEnd] = useState(false);
-  const [user, setUser] = useState("");
   const ENDPOINT = "localhost:5000";
   const [confirmed, setconfirmed] = useState(false);
   const [share, setshare] = useState(false);
   const [countertime, setcountertime] = useState(1);
   const [partnerresponse, setpartnerresponse] = useState({});
-  const [partnerResponseRendered, setpartnerResponseRendered] = useState(false);
 
   useEffect(() => {
     const name = userInfo.name;
-    const room = userInfo.room;
+    const room = partnerInfo.room;
     socket = io.connect(ENDPOINT, connectionOptions);
 
     setName(name);
@@ -145,7 +139,7 @@ const Chat = ({ setmatching, userInfo, userResponse, setchatting }) => {
   return (
     <div className='chating_container'>
       <div className='namecard_container'>
-        <Name_card partnerresponse={partnerresponse} />
+        <Name_card partnerresponse={partnerresponse} partnerInfo={partnerInfo} />
       </div>
       <div className='chatbox_container'>
         <div className='chat_outerContainer'>

@@ -27,8 +27,6 @@ router.post("/login", (req, res) => {
           console.log("can't find user req session ");
           return res.json(data);
         } else {
-          user.onOffStatus = "on";
-
           var data = {
             loginstate: 2,
             name: user.userProfile.nickName,
@@ -74,23 +72,20 @@ router.post("/login", (req, res) => {
               console.log("mission completed before");
             }
           });
-
           console.log("login successful");
           return res.json(data);
         }
       });
   } else {
-    console.log("log in");
     var email = req.body["email"];
     var password = req.body["password"];
-    console.log(email);
-    console.log(password);
     UserAccount.findOne({ email: email })
       .populate("userProfile")
       .exec(function (error, user) {
         /*loginstate:0 => can't find user
                      1 => password incorrect
                      2 => login successful
+                     3 => someone is using the account
         */
         if (error) {
           console.log(err);
@@ -104,12 +99,14 @@ router.post("/login", (req, res) => {
           console.log("can't find user");
           return res.json(data);
         }
-
+        if (user.online) {
+          var data = {
+            loginstate: 3,
+          };
+          return res.json(data);
+        }
         if (user && bcrypt.compareSync(password, user.password)) {
           req.session.username = user.username;
-          console.log(req.session.username);
-
-          console.log(req.session.id);
 
           var data = {
             loginstate: 2,
@@ -124,7 +121,6 @@ router.post("/login", (req, res) => {
             interest: user.userProfile.interest,
             ig: user.userProfile.contact,
             token: user.token,
-            room: "teseting",
           };
 
           Mission.exists({ useraccount: user._id, missionID: 0 }, function (err, exist) {
@@ -157,7 +153,8 @@ router.post("/login", (req, res) => {
               console.log("mission completed before");
             }
           });
-
+          user.online = true;
+          user.save();
           console.log("login successful");
           return res.json(data);
         } else {
@@ -238,15 +235,24 @@ router.post("/resetpw/:id", async (req, res) => {
   });
 });
 
-router.post("/logout", (req, res) => {
+router.post("/changetoken", (req, res) => {
   var username = req.body.username;
   var token = req.body.token;
 
   UserAccount.findOneAndUpdate({ username: username }, { token: token }, function (err, result) {
     if (err) {
       console.log(err);
-    } else {
-      console.log("Logout!");
+    }
+  });
+  res.send("HaHa");
+});
+
+router.get("/logout", (req, res) => {
+  var username = req.query.username;
+
+  UserAccount.findOneAndUpdate({ username: username }, { online: false }, function (err, result) {
+    if (err) {
+      console.log(err);
     }
   });
   res.send("HaHa");
