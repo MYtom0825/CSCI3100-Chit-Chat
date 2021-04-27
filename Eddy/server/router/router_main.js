@@ -265,10 +265,31 @@ router.post("/match", (req, res) => {
 
 
 router.post("/report",(req,res)=>{
-   const newReport=new Report({
-     _id:new mongoose.Types.ObjectId(),
-     
-   })
+  UserAccount.findOne({username:req.body.username},(err,result)=>{
+  if(err){
+    console.log(err);
+    return res.status(401).send();
+  }else{
+    const newReport=new Report({
+      _id:new mongoose.Types.ObjectId(),
+      UserAccount:result._id,
+      reporterId:req.reporterid,
+      reportedId:req.reportedid,
+      reason:req.reason,
+      speakerId:req.speakerid,
+      text:req.text,
+      time:Date.now()
+    });
+
+    newReport.save((err)=>{
+      if(err){
+        console.log('report not saved');
+      }else{
+        res.status(200).send('reported');
+      }
+    });
+  }
+  });
 });
 //popup quiz, after answered then send to backend.
 //send common interest and ig and answer to frontend for broadcast...
