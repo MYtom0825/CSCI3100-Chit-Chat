@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 let UserAccount = require("../model/model_account.js");
 let Mission = require("../model/model_mission.js");
 const cors = require("cors");
@@ -38,5 +39,38 @@ router.get("/mission", (req, res) => {
   });
 });
 
+router.post("/mission", (req, res) => {
+  //update mission database if user has finished new mission
+  let string = JSON.stringify(req.body);
+  let index = string.search("missionFinished");
+  let editted = string.slice(0, index + 15) + string.slice(index + 17);
+  let array = JSON.parse(editted);
+  UserAccount.findOne({ username: req.body.username }, function (err, user) {
+    if (array.missionFinished[1] != undefined) {
+      array.missionFinished.map((mission) => {
+        Mission.exists({ useraccount: user._id, missionID: mission }, function (err, exist) {
+          console.log("This is mission");
+          console.log(mission);
+          console.log(exist);
+          if (err) {
+            console.log("mission exist error");
+          } else if (exist == false) {
+            var newMission = new Mission({
+              _id: new mongoose.Types.ObjectId(),
+              useraccount: user._id,
+              missionID: mission,
+            });
+            newMission.save((error) => {
+              if (error) {
+                console.log(error);
+              }
+            });
+          }
+        });
+      });
+    }
+  });
+  res.status(200).send("Mission updated!");
+});
 
 module.exports = router;
