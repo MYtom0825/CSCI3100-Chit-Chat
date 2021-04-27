@@ -5,6 +5,7 @@ let UserProfile = require("../model/model_profile.js");
 let UserAccount = require("../model/model_account.js");
 let Queue = require("../model/model_queue.js");
 let Quiz = require("../model/model_quiz.js");
+let Report=require("../model/model_report.js");
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -262,6 +263,13 @@ router.post("/match", (req, res) => {
   });
 });
 
+
+router.post("/report",(req,res)=>{
+   const newReport=new Report({
+     _id:new mongoose.Types.ObjectId(),
+     
+   })
+});
 //popup quiz, after answered then send to backend.
 //send common interest and ig and answer to frontend for broadcast...
 //send 2 user_id to backend to notice ended chat
