@@ -193,7 +193,6 @@ router.post("/match", (req, res) => {
                   //set new Queue with info inside profile
                   const newQueue = new Queue({
                     _id: new mongoose.Types.ObjectId(),
-                    userAccount: account._id,
                     userProfile: profile._id,
                     room: Math.random().toString(36).substr(8),
                     requiredGender: filterGender,
@@ -209,9 +208,9 @@ router.post("/match", (req, res) => {
                     } else {
                       console.log("Queue saved");
                       //wait until updated
-                      const queueExist = true;
+                      var queueExist = true; 
                       do {  //this check if queue db is updated(being matched) but should not work
-                        Queue.exists({ matchedProfile: { $exists: true, $ne: null } }, function (err, result) {
+                        Queue.exists({ userProfile: { $exists: true, $ne: null } }, function (err, result) {
                           if (err) {
                             console.log(err);
                           } else {
