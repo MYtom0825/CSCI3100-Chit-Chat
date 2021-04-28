@@ -194,10 +194,15 @@ router.post("/forgotpw", (req, res) => {
   UserAccount.findOneAndUpdate({ email: email }, { password: hash }, function (err, result) {
     if (err) {
       console.log(err);
+    } 
+    else if (result == null) {
+      console.log("Account can't be found");
       res.send("Account can't be found");
-    } else {
+    }
+    else {
+      console.log(result);
       var subject = "Recovery of Your Happy Chat Account Password";
-      var html = `<p>The following is your new password!</p><p><strong>${newPw}</strong></p>`;
+      var html = `<p>This is your new password: <strong>${newPw}</strong></p><p>Thanks</p><p>ChitChat Team</p>`;
       sendEmail.sendEmail(email, subject, html); //send email
       console.log("forgot password email sent");
       res.send("Your new password has sent to your email! Please check your email.");

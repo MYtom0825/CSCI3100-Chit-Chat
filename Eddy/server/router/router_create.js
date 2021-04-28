@@ -37,7 +37,8 @@ router.post("/registration/:id", async (req, res) => {
       VerifyingAccount.findByIdAndRemove({ _id: req.params.id }, async function (err, record) {
         if (err) {
           console.log(err);
-        } else {
+        } 
+        else {
           //insert into UserAccount
           const user_id = new mongoose.Types.ObjectId();
           const profile_id = new mongoose.Types.ObjectId();

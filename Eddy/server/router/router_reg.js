@@ -17,14 +17,16 @@ router.post("/register", (req, res) => {
     if (err) {
       console.log(err);
     } else if (result === true) {
-      console.log("Account registered!");
+      console.log("Email registered already!");
+      res.send("Email registered already!");
     } else {
       //check if email exist in VerifyingAccount
       VerifyingAccount.exists({ email: email }, function (err, result) {
         if (err) {
           console.log(err);
         } else if (result === true) {
-          console.log("Account Verifying!");
+          console.log("Email is already verifying!");
+          res.send("Email is already verifying!");
         } else {
           //non exist email in mongodb
           console.log(email);
@@ -38,20 +40,21 @@ router.post("/register", (req, res) => {
           newAccount.save(function (err, record) {
             if (err) {
               console.log("Account can't be saved");
+              console.log(err);
             } else {
               console.log(`saved!!!   ${record._id}`);
               var id = record._id;
-              var subject = "Verification of Your Happy Chat University Account";
-              var html = `<p>Please click to following link to create your own account!</p><p><a href="http://localhost:3000/registration/${id}">Verify</a></p>`;
+              var subject = "Verification of Your Chit Chat University Account";
+              var html = `<p>Please click to following link to create your own account!</p><p><a href="http://localhost:3000/registration/${id}">http://localhost:3000/registration/${id}</a></p><p>Thanks</p><p>ChitChat Team</p>`;
               sendEmail.sendEmail(email, subject, html); //send email
               console.log("verification email sent");
+              res.send("Email-verification has been sent to your University Email!");
             }
           });
         }
       });
     }
   });
-  res.end();
 });
 
 module.exports = router;

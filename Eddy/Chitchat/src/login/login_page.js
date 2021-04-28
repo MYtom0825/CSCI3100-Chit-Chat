@@ -42,7 +42,7 @@ class LoginPage extends React.Component {
         password: pw,
       })
         .done((res) => {
-          window.alert("Email-verification has been sent to your University Email!");
+          window.alert(res);
           e.preventDefault();
         })
         .fail(() => {
