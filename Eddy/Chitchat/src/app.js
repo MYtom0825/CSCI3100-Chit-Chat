@@ -2,10 +2,8 @@ import React, { Component, useState } from "react";
 import $ from "jquery";
 import LoginPage from "./login/login_page.js";
 import User from "./user/user";
-import Cookies from "universal-cookie";
 import ProfileRegisterForm from "./ProfileRegistrationForm/ProfileRegisterForm";
 import Forget_password from "./Forget_password/Forget_password.js";
-const cookies = new Cookies();
 
 const BACKEND = "http://localhost:5000/";
 
@@ -13,10 +11,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loc: window.location.pathname.split("/")[1] || "login", //localhost:3000/user
+      //location state is used to identify which page the user is in, it includes "login","user","registration","forget password"
+      // this app.js mainly handles features without logging in, if user is logged in, he will be directed to "user"
+      // App class is the root of all components
+      loc: window.location.pathname.split("/")[1] || "login", //localhost:3000/login
       userID: null,
       user: null,
     };
+
     window.addEventListener("popstate", () => {
       this.setState({
         loc: window.location.pathname.split("/")[1] || "login",
@@ -42,9 +44,11 @@ class App extends React.Component {
   };
 
   logout = () => {
-    this.setState({ loc: "login" });
+    this.setState({ loc: "login" }); //logout function will be passed to menu component, when user clicks logout, he will be directed back to login
   };
+
   loginHandler = (e) => {
+    // this function is to get user input in login form and handle login affairs
     e.preventDefault();
     let email = $("#userEmail").val(),
       pw = $("#userPW").val();
@@ -60,36 +64,14 @@ class App extends React.Component {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    console.log(
-      formBody
-    ); /*
-    $.ajax({
-      url: "http://localhost:5000/login",
-      type: "post",
-      data: { email: email, password: pw },
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        "Access-Control-Allow-Headers": "*", //If your header name has spaces or any other char not appropriate
-        "Access-Control-Allow-Origin": "*", //for object property name, use quoted notation shown in second
-      },
-      success: function (data) {
-        console.log(data);
-      },
-    });*/
-    /*fetch("http://localhost:5000/login/" + formBody, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      },
-      body: formBody,
-    });*/ $.post(
-      BACKEND + "login",
-      { email: email, password: pw }
-    )
+    console.log(formBody);
+    $.post(BACKEND + "login", { email: email, password: pw })
       .done((res) => {
         var response = res;
         console.log(res);
-        switch (res.loginstate) {
+        switch (
+          res.loginstate //different login state, 0: no this account, 1: incorrect password, 2: login success, 3: multiple login
+        ) {
           case 0:
             window.alert("User not found. Please try with another email or Sign Up");
             break;
@@ -98,7 +80,7 @@ class App extends React.Component {
             break;
           case 2:
             window.alert("Login Success");
-            window.history.pushState(null, null, "/user");
+            window.history.pushState(null, null, "/user"); //allowing user to get back to login page by clicking last page
             this.setState({
               loc: "user",
               user: res,
@@ -111,6 +93,7 @@ class App extends React.Component {
         }
       })
       .fail(() => {
+        /* a test case with hardcoded user for frontend testing
         window.history.pushState(null, null, "/user");
         const user = {
           name: "Tom",
@@ -128,78 +111,31 @@ class App extends React.Component {
           userID: 123,
           user: user,
         });
-        console.log(this.state.user);
+        console.log(this.state.user);*/
+        window.alert("System is unavailable right now. Please try again later! ");
       });
   };
 
   backToLogin = () => {
+    // this is for features without logging in
     window.history.pushState(null, null, "/login");
     this.setState({
       loc: "login",
     });
   };
-  /*
-  loadingHandler = () => {
-    window.history.pushState(null, null, "/loading");
-    this.setState({
-      loc: "loading",
-    });
-  };
-  namecardHandler = () => {
-    window.history.pushState(null, null, "/namecard");
-    this.setState({
-      loc: "namecard",
-    });
-  };
-  filterformHandler = () => {
-    window.history.pushState(null, null, "/filterform");
-    this.setState({
-      loc: "filterform",
-    });
-  };*/
+
   render() {
     if (this.state.loc == "login") {
-      return <LoginPage loginHandler={this.loginHandler} />; /*loadingHandler={this.loadingHandler} namecardHandler={this.namecardHandler} filterformHandler={this.filterformHandler}*/
+      return <LoginPage loginHandler={this.loginHandler} />;
     } else if (this.state.loc == "user" && this.state.user != null) {
+      // user state will be set up only when login success, non-user can not access user component without proper log in
       return <User logout={this.logout} user={this.state.user} DeductToken={this.DeductToken} AddToken={this.AddToken} loc={this.state.loc} />;
     } else if (this.state.loc == "registration" && window.location.pathname.split("/")[2] != undefined && window.location.pathname.split("/")[2] != "") {
       return <ProfileRegisterForm backToLogin={this.backToLogin} />;
-    } /*else if (this.state.loc == "loading") {
-      return <Match_loading />;
-    } else if (this.state.loc == "filter") {
-      return <filter />;  else if (this.state.loc == "namecard") {
-      return <Name_card />;
-      } else return <Matching_1 />;*/ else if (
-      this.state.loc == "forgotpassword"
-    ) {
+    } else if (this.state.loc == "forgotpassword") {
       return <Forget_password backToLogin={this.backToLogin} />;
     } else return <LoginPage loginHandler={this.loginHandler} />;
   }
-  componentDidMount() {
-    /*if (this.state.userID == null && this.state.loc != "login") {
-      window.alert("Please login before going to destinated page!");
-      this.setState({ loc: "login" });
-    }*/
-  }
 }
 
-/*
-else if (this.state.loc == "user") {
-      return <User />;
-    }
-  const [status, setStatus] = useState(1);
-
-  const matchingStartHandler = () => {
-    setStatus(2);
-  };
-
-  const eventHandler = () => {
-    setStatus(1);
-  };
-
-  if (true) {
-    console.log("ok");
-    setStatus(2);
-  }
-*/
 export default App;
