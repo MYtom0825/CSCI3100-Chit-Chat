@@ -6,6 +6,7 @@ let UserAccount = require("../model/model_account.js");
 let Queue = require("../model/model_queue.js");
 let Quiz = require("../model/model_quiz.js");
 let Chat = require("../model/model_chat.js");
+let Report=require("../model/model_report.js");
 const e = require("express");
 
 router.use(express.json());
@@ -31,7 +32,7 @@ router.get("/matchresult", (req, res) => {
         Chat.findOne({ $or: [{ user1: result._id }, { user2: result._id }], $or: [{ user1entered: false }, { user2entered: false }] })
           .populate("user1")
           .populate("user2")
-          .exec((error, chatbox) => {
+          .exec((err, chatbox) => {
             if (err) console.log(err);
             else if (chatbox == null) {
               res.send("no partner yet");
@@ -211,6 +212,46 @@ router.post("/match", (req, res) => {
     }
   });
   res.send("Waiting");
+});
+
+router.post("/report", (req, res) => {
+  UserAccount.findOne({ username: req.body.username }, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(401).send();
+    } else {
+
+      Chat.findOne({$or:[{user1:result._id},{user2:result._id}]},(error,chat)=>{
+        if(error){
+          console.log(error);
+        }else{
+          var reported;
+          if(chat.user1==result._id){
+            reported=chat.user2;
+          }else if(chat.user2==result._id){
+            reported=chat.user1;
+          }
+          const newReport = new Report({
+            _id: new mongoose.Types.ObjectId(),
+            UserAccount: result._id,
+            reporterID: result._id,
+            reportedID: reported,
+            reason: req.reason,
+            text: req.text,
+            time: Date.now(),
+          });
+    
+          newReport.save((err) => {
+            if (err) {
+              console.log("report not saved");
+            } else {
+              res.status(200).send("reported");
+            }
+          });
+        }
+      });
+    }
+  });
 });
 
 //popup quiz, after answered then send to backend.

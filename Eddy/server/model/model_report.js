@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 var ReportSchema = mongoose.Schema({
     _id:{type:mongoose.Schema.Types.ObjectId},
     userAccount:{type:mongoose.Schema.Types.ObjectId,ref:'UserAccount'},
-    reporterID:{type:Number},
-    reportedID:{type:Number},
+    reporterID:{type:mongoose.Schema.Types.ObjectId,ref:'UserAccount'},
+    reportedID:{type:mongoose.Schema.Types.ObjectId,ref:'UserAccount'},
     reason:{type:String},
     speakerID:{type:Number},
     text:[{type:String}],
