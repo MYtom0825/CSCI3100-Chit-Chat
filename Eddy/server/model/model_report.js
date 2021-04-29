@@ -6,7 +6,6 @@ var ReportSchema = mongoose.Schema({
     reporterID:{type:mongoose.Schema.Types.ObjectId,ref:'UserAccount'},
     reportedID:{type:mongoose.Schema.Types.ObjectId,ref:'UserAccount'},
     reason:{type:String},
-    speakerID:{type:Number},
     text:[{type:String}],
     time:{type:Date}
 })
