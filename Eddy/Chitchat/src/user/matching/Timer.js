@@ -12,7 +12,7 @@ class Timer extends Component {
     componentDidMount() {
         this.myInterval = setInterval(() => {
             const { seconds, minutes } = this.state
-
+            //calculate the countdown time for each interval
             if (seconds > 0) {
                 this.setState(({ seconds }) => ({
                     seconds: seconds - 1
@@ -37,10 +37,11 @@ class Timer extends Component {
 
     render() {
         const { minutes, seconds } = this.state
+        //display the countdown time
         return (
             <div>
                 { minutes === 0 && seconds === 0
-                    ? this.props.timeout() //need to be modify, go back to home page??
+                    ? this.props.timeout() //go to the chatroom
                     : <h1 className="pop_up_quiz_title">Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
                 }
             </div>

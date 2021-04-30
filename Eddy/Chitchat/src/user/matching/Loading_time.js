@@ -9,7 +9,7 @@ class Timer extends Component {
     componentDidMount() {
         this.myInterval = setInterval(() => {
             const { seconds, minutes } = this.state
-
+            //calculate the loading time for each interval
             if (seconds === 59){
                 this.setState(({ minutes }) => ({
                     minutes: minutes + 1,
@@ -21,17 +21,6 @@ class Timer extends Component {
                     seconds: seconds + 1
                 }))
             }
-            /*
-            if (seconds === 59) {
-                if (minutes === 0) {
-                    clearInterval(this.myInterval)
-                } else {
-                    this.setState(({ minutes }) => ({
-                        minutes: minutes + 1,
-                        seconds: 0
-                    }))
-                }
-            }*/ 
         }, 1000)
     }
 
@@ -41,6 +30,7 @@ class Timer extends Component {
 
     render() {
         const { minutes, seconds } = this.state
+        //display the loading time
         return (
             <div>
                 {<h1 className="pop_up_quiz_title">Queueing time: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
