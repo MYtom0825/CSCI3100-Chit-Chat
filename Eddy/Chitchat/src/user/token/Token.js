@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Token.css";
 
 class TokenBlock extends React.Component {
+  //tokenblock to show how many token does the user has
   render() {
     return (
       <div>

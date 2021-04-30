@@ -5,6 +5,8 @@ import ProfileDetail from "./profileDetail";
 import ProfileEditForm from "./ProfileEditForm";
 
 class profile extends React.Component {
+  //profile component shows user profile info
+  //user may also edit his profile here
   constructor(props) {
     super(props);
     this.state = {
@@ -18,10 +20,6 @@ class profile extends React.Component {
     if (!this.state.editProfile)
       return (
         <div>
-          {/*<div style={{ padding: "5px 0 0 45%" }}>
-            <img className='profile_img' src='https://placeimg.com/400/400/tech' alt='test' width='300' height='300'></img>
-      </div>*/}
-      
           <div className='profile_title'>
             <a>Your Profile</a>
           </div>
@@ -45,7 +43,7 @@ class profile extends React.Component {
           </div>
         </div>
       );
-    else return <ProfileEditForm user={this.props.user} backToProfile={this.backToProfile} />;
+    else return <ProfileEditForm user={this.props.user} backToProfile={this.backToProfile} />; //this direct user to profile edit form
   }
 }
 

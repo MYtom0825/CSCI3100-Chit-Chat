@@ -4,6 +4,8 @@ import $ from "jquery";
 import "../../ProfileRegistrationForm/ProfileRegisterForm.css";
 
 class ProfileEditForm extends React.Component {
+  // this is a profile edit form so user may change all his information here, including password
+  //original user information will also be shown when user gets in the form
   setProfile = (e) => {
     let picture = "picture",
       userName = $("#ProfileName").val(),
@@ -20,22 +22,13 @@ class ProfileEditForm extends React.Component {
     $("input[class='interest']:checked").each(function (i) {
       interest[i] = $(this).val();
     });
-    var parameters = { "interest[]": interest };
     let objectID = window.location.pathname.split("/")[2];
-
+    //objectID is undefined this time
+    //profile first registration and profile editing shares the same directory/route as they are similar, both setting user info
     $.post("http://localhost:5000/registration/" + objectID, { userName, picture, nickName, year, gender, desc, faculty, university, status, interest, contact, PW });
     window.alert("Success. Your update would be valid starting from your next Login!");
   };
   render() {
-    /* name: "Tom",
-      gender: "Male",
-      picture: "",
-      description: "Hi I am using react",
-      facalty: "Engineering",
-      university: "CUHK",
-      years: "3",
-      status: "Available",
-      interest: ["Dancing", "Pop music", "Classic music"],*/
     var user = this.props.user;
     var facalties = ["Engineering", "Medicine", "Law", "Social Science", "Science", "Busness Administration", "Art", "Education"];
     var genders = ["Male", "Female"];
@@ -53,14 +46,6 @@ class ProfileEditForm extends React.Component {
             this.props.backToProfile();
           }}
         >
-          {/*<div className='ProfileRegisterForm_row'>
-          <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-            Profile Picture:{" "}
-          </label>
-          <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-            <input type='file' id='ProfilePic' name='ProfilePic'></input>
-          </a>
-    </div>*/}
           <div className='ProfileRegisterForm_row required'>
             <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
               Name:
