@@ -5,23 +5,29 @@ import Filter from "./Filter";
 import Loading_time from "./Loading_time";
 
 class Match_loading extends React.Component {
+  // this component is for user queuing for partner
   constructor(props) {
     super(props);
   }
   helperFunction = (x, y, z) => {
+    //helper function to set different state
     this.props.setpopupquiz(y);
-    this.props.setpartnerInfo(z);
-    this.props.setchatting(true);
-    this.props.setmatching(x);
+    this.props.setpartnerInfo(z); //save partner info so in partner information can be shown near chat box
+    this.props.setchatting(true); //set chatting to true when user has partner so he can not switch between feature after matched
+    this.props.setmatching(x); //proceed to pop_up_quiz stage
   };
 
   myTimer = () => {
+    // every complete 5 seconds for example (7:05:00||7:05:05 and so on) so the two users will enter the room at similar time
+    //send get request to check if user found partner
     var d = new Date();
     var t = d.getSeconds();
     if (t % 5 == 0) {
       $.get("http://localhost:5000/matchresult", { username: this.props.userPref.username }).done((res) => {
         if (res != "no partner yet") {
+          //if there is partner, set pop-up-quiz question and proceed to pop-up-quiz
           var response = {
+            // trial pop-up-quiz, when there is more questions, question will be get from database
             questions: [
               { id: "001", question: "Which food do you like more?", answer: ["Chocolate", "Candy"] },
               { id: "002", question: "Which animal do you like more?", answer: ["Cat", "Dog"] },
@@ -35,6 +41,7 @@ class Match_loading extends React.Component {
   };
 
   componentDidMount() {
+    //call above function every second during loading to check whether user got partner
     var checkMatched = setInterval(() => this.myTimer(), 1000);
     document.getElementById("return").addEventListener("click", function myStopFunction() {
       clearInterval(checkMatched);
@@ -42,6 +49,7 @@ class Match_loading extends React.Component {
   }
 
   componentWillUnmount() {
+    // before matched, user can quit the matching function and he will stop queueing
     $("#return").trigger("click");
     $.get("http://localhost:5000/deletequeue", { username: this.props.userPref.username }).done(() => {});
   }
@@ -68,6 +76,7 @@ class Match_loading extends React.Component {
                 className='submit'
                 id='return'
                 onClick={() => {
+                  // quit matching and stop queuing
                   this.props.setmatching(0);
                 }}
               >

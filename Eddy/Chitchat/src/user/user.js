@@ -5,7 +5,7 @@ import $ from "jquery";
 import Menu from "./menu/Menu";
 import Profile from "./profile/profile.js";
 import Mission from "./mission/Mission";
-import Matching_1 from "./matching/matching_1";
+import Matching from "./matching/matching.js";
 import TokenBlock from "./token/Token";
 
 const User = (props) => {
@@ -59,7 +59,7 @@ const User = (props) => {
         {chatting ? "" : <TokenBlock token={props.user.token} />}
         {toProfile ? <Profile user={props.user} /> : ""}
         {tomission ? <Mission user={props.user} AddToken={props.AddToken} /> : ""}
-        {toChat ? <Matching_1 setchatting={setchatting} user={props.user} changeToken={props.DeductToken} /> : ""}
+        {toChat ? <Matching setchatting={setchatting} user={props.user} changeToken={props.DeductToken} /> : ""}
       </div>
     </div>
   );

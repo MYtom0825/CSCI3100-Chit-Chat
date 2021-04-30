@@ -2,6 +2,7 @@ import React from "react";
 import "./Input.css";
 
 const Input = ({ message, setMessage, sendMessage }) => (
+  // to input message that user wants to send
   <form className='chatInput_form'>
     <input
       className='chatInput_input'

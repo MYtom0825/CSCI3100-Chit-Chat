@@ -5,13 +5,14 @@ import "./Message.css";
 import ReactEmoji from "react-emoji";
 
 const Message = ({ message: { user, text }, name }) => {
+  //show each message, there are two kinds, message sent by user, message sent by partner
   let isSentByCurrentUser = false;
 
   if (user === name) {
     isSentByCurrentUser = true;
   }
 
-  return isSentByCurrentUser ? (
+  return isSentByCurrentUser ? ( //if message is sent by user, it will be on the right, vice versa
     <div className='messageContainer justifyEnd'>
       <p className='sentText'> {name}</p>
       <div className='messageBox backgroundBlue'>

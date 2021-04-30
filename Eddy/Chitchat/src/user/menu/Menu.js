@@ -2,7 +2,7 @@ import React from "react";
 import "./Menu.css";
 
 const Menu = (props) => {
-  //a menu bar on the left of the screen for user to switch between features
+  //a menu bar on the left of the application with three icons for user to switch between features
   return (
     <div className='menu'>
       <a className='menu_item' width='300' height='300'>

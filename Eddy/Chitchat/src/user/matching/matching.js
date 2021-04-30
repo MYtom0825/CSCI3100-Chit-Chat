@@ -1,4 +1,4 @@
-import "./matching_1.css";
+import "./matching.css";
 import $ from "jquery";
 import React, { Component, useState } from "react";
 import Match_loading from "./match_loading";
@@ -6,12 +6,13 @@ import Chat from "../Chat/Chat";
 import Popup_quiz from "./popup_quiz";
 import Filter_form from "./Filter_form";
 
-const Matching_1 = (props) => {
-  const [matching, setmatching] = useState(0);
-  const [userPref, setuserPref] = useState();
-  const [popupquiz, setpopupquiz] = useState([]);
-  const [userResponse, setuserResponse] = useState([]);
-  const [partnerInfo, setpartnerInfo] = useState([]);
+const Matching = (props) => {
+  //matching component is the root of matching feature, which includes filter,loading, pop_up_quiz, chatting
+  const [matching, setmatching] = useState(0); //state of matching, 0:filter. 1:loading, 3:pop_up_quiz, 2: chatting
+  const [userPref, setuserPref] = useState(); //to record user filter
+  const [popupquiz, setpopupquiz] = useState([]); //to save popup quiz questions
+  const [userResponse, setuserResponse] = useState([]); //to save user answers to pop up quiz
+  const [partnerInfo, setpartnerInfo] = useState([]); //to store partner information when matched to create a namecard on the left of chat
 
   const matchingStartHandler = (event) => {
     event.preventDefault();
@@ -20,6 +21,7 @@ const Matching_1 = (props) => {
       UserYear = parseInt($("input[name='year']:checked").val());
     }
     var userPref = {
+      //save user filter
       university: $("#university").val(),
       faculty: $("#faculty").val(),
       year: UserYear,
@@ -44,39 +46,10 @@ const Matching_1 = (props) => {
       if (window.confirm("This matching will consume you " + fee + " token. Press OK to start the matching!")) {
         setuserPref(userPref);
         $.post("http://localhost:5000/match", userPref).done((res) => {
+          //send all the user filters to backend so user will queue for partner and enter loading page
           props.changeToken(fee);
           setmatching(1);
         });
-        /* var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-          var response = {
-            questions: [
-              { id: "001", question: "Which food do you like more?", answer: ["Chocolate", "Candy"] },
-              { id: "002", question: "Which animal do you like more?", answer: ["Cat", "Dog"] },
-              { id: "003", question: "Which city do you like more?", answer: ["Hong Kong", "Tai Wan"] },
-            ],
-          };
-          setpopupquiz(response);
-          if (this.readyState == 4 && this.status == 200) {
-            //var response= JSON.parse(this.responseText);
-             
-            props.setchatting(true);
-
-            setmatching(3);
-          } else if (this.readyState == 4) {
-            setmatching(3);
-            props.setchatting(true);
-          }
-        };
-        xhttp.open("POST", "http://localhost:5000/match", true);
-        xhttp.setRequestHeader("Access-Control-Allow-Headers", "*");
-        xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-        // xhttp.setRequestHeader("X-PINGOTHER", "pingpong");
-        //xhttp.setRequestHeader("Content-Type", "application/xml");
-        xhttp.setRequestHeader("Content-type", "application/json");
-        console.log(userPref);
-        console.log(JSON.stringify(userPref));
-        xhttp.send(JSON.stringify(userPref));*/
       }
     }
   };
@@ -86,4 +59,4 @@ const Matching_1 = (props) => {
   else if (matching == 2) return <Chat setmatching={setmatching} userInfo={props.user} userResponse={userResponse} setchatting={props.setchatting} partnerInfo={partnerInfo} />;
 };
 
-export default Matching_1;
+export default Matching;

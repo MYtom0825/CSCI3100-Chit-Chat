@@ -5,6 +5,7 @@ import Name_card_Details from "./namecarddetails";
 //import Component
 
 class Name_card extends React.Component {
+  //Name_card component is shown on the left of chat box, it includes brief introduction, partner information and partner answer to pop-up-quiz
   constructor(props) {
     super(props);
   }

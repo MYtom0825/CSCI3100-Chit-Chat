@@ -8,8 +8,8 @@ import Messages from "./Messages/Messages";
 import Input from "./Input/Input";
 let socket;
 
-//hello
 var connectionOptions = {
+  //prevent cors
   "force new connection": true,
   reconnectionAttempts: "Infinity",
   timeout: 10000,
@@ -17,16 +17,19 @@ var connectionOptions = {
 };
 
 const Chat = ({ setmatching, userInfo, userResponse, setchatting, partnerInfo }) => {
-  const [name, setName] = useState("");
-  const [room, setRoom] = useState("");
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [End, setEnd] = useState(false);
+  //Chat component includes chatbox (on the right) and name card (on the left)
+  //chatbox includes infobar that shows time left for chatting, input bar for typing message, messages for showing message
+  //namecard shows partner information and partner answer to pop up quiz
   const ENDPOINT = "localhost:5000";
-  const [confirmed, setconfirmed] = useState(false);
-  const [share, setshare] = useState(false);
+  const [name, setName] = useState(""); //save user name
+  const [room, setRoom] = useState(""); //save room
+  const [message, setMessage] = useState(""); //save message that user typed
+  const [messages, setMessages] = useState([]); //save message array which includes message from admin, user, partner
+  const [End, setEnd] = useState(false); //chat end
+  const [confirmed, setconfirmed] = useState(false); // whether chosen sharing ig to partner
+  const [share, setshare] = useState(false); //whether to show ig to partner
   const [countertime, setcountertime] = useState(1);
-  const [partnerresponse, setpartnerresponse] = useState({});
+  const [partnerresponse, setpartnerresponse] = useState({}); //save partner answer to pop up quiz
 
   useEffect(() => {
     const name = userInfo.name;
@@ -35,8 +38,8 @@ const Chat = ({ setmatching, userInfo, userResponse, setchatting, partnerInfo })
 
     setName(name);
     setRoom(room);
-    socket.emit("join", { name, room }, () => {});
-    socket.emit("answer", { userResponse });
+    socket.emit("join", { name, room }, () => {}); //user joining socket(chat room)
+    socket.emit("answer", { userResponse }); //send pop-up-quiz to partner
     return () => {
       //for unmount
       socket.disconnect();
@@ -46,18 +49,20 @@ const Chat = ({ setmatching, userInfo, userResponse, setchatting, partnerInfo })
 
   useEffect(() => {
     socket.on("message", (message) => {
+      //update messages array
       setMessages([...messages, message]);
     });
-    console.log(messages);
   }, [messages]);
 
   useEffect(() => {
+    //to show partner popupquiz answer on the left
     socket.on("showquiz", (Partnerresponse) => {
       setpartnerresponse({ ...partnerresponse, ...Partnerresponse });
     });
   }, [partnerresponse]);
 
   useEffect(() => {
+    //as thw two users enter the room at different time, popupquiz answer has to be sent to other user again when late user joins
     socket.on("shareAgain", () => {
       socket.emit("answer", { userResponse });
     });
@@ -65,58 +70,33 @@ const Chat = ({ setmatching, userInfo, userResponse, setchatting, partnerInfo })
 
   useEffect(() => {
     if (End) {
-      console.log(messages);
+      //when chatting time is up, admin ask if user wants to share contact to partner
       var confirmation = "Would you like to share your IG account to your partner?";
       var message = { user: "admin", text: confirmation };
-
       setMessages([...messages, message]);
-      console.log(messages);
     }
   }, [End]);
 
   const timeIsUp = () => {
-    console.log("rendered timeisup");
+    //chatting time is up, user will be given 10 seconds to choose whether to share his own contact
     setEnd(true);
     setTimeout(function () {
       setconfirmed(true);
-      console.log("rendered 1st line");
-      console.log(messages);
       var confirmation = "You will be directed back to the matching page in 5 seconds.";
       var message = { user: "admin", text: confirmation };
       var confirmation2 = "Hope you have enjoyed the chat^^!";
       var message2 = { user: "admin", text: confirmation2 };
       setMessages([...messages, message, message2]);
       setTimeout(function () {
+        //send user back to matching page
         setmatching(0);
         setchatting(false);
       }, 5000);
     }, 10000);
-    /*
-    setTimeout(function () {
-      setconfirmed(true);
-    }, 10000);
-    if (!share) {
-      var confirmation = "Your partner did not share IG";
-      var message = { user: "admin", text: confirmation };
-      console.log(message);
-      setMessages([...messages, message]);
-    }
-    var confirmation = "You will be directed back to the matching page in 5 seconds.";
-    var message = { user: "admin", text: confirmation };
-    console.log(message);
-    setMessages([...messages, message]);
-    var confirmation = "Hope you have enjoyed the chat^^!";
-    var message = { user: "admin", text: confirmation };
-    console.log(message);
-    setMessages([...messages, message]);
-    socket.disconnect();
-    socket.off();
-    setTimeout(function () {
-      setmatching(0);
-    }, 5000);*/
   };
 
   const sendMessage = (event) => {
+    //sending message
     event.preventDefault();
     if (message) {
       socket.emit("sendMessage", message, () => setMessage(""));
@@ -124,6 +104,7 @@ const Chat = ({ setmatching, userInfo, userResponse, setchatting, partnerInfo })
   };
 
   const confirmYes = () => {
+    // user choose to share his contact
     var message = { user: name, text: "Yes" };
     setMessages([...messages, message]);
     setconfirmed(true);
@@ -132,6 +113,7 @@ const Chat = ({ setmatching, userInfo, userResponse, setchatting, partnerInfo })
   };
 
   const confirmNo = () => {
+    //user choose not to share his contact
     var message = { user: name, text: "No" };
     setMessages([...messages, message]);
     setconfirmed(true);

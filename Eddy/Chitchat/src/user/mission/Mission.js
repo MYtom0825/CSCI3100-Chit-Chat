@@ -8,7 +8,7 @@ import Mission_card from "./Mission_card";
 import icon from "./Mission-icon.png";
 
 class Mission extends React.Component {
-  //Mission component is for mission feature
+  //Mission component is for mission feature which includes a calendar and mission list
   constructor(props) {
     super(props);
     this.state = {
@@ -44,6 +44,7 @@ class Mission extends React.Component {
       { Name: "Create Ice-breaking Quiz", Content: "Think of some question for the Ice breaking quiz!", Link: "", index: 2, token: 4 }, //2
       { Name: "Likes", Content: "How many you got likes from others?", Link: "", index: 3, token: 5 }, //3
     ];
+    //mission feature contains two part, calendar (on the left) imported from react-calendar, mission card (on the right), calendar can be modified to show days that user has logged in later
     return (
       <div>
         <div className='mission_column' type='colm_35'>
@@ -60,6 +61,9 @@ class Mission extends React.Component {
               <div className='mission_tr'>
                 {mission_list.map((mission_list) => (
                   <div className='mission_tr'>
+                    {
+                      //Mission Details are outputed and generated with Mission_card component for each mission
+                    }
                     <Mission_card
                       FinishedMission={this.FinishedMission}
                       name={mission_list.Name}
