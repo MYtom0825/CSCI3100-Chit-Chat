@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-//chat database model
 var ChatSchema = mongoose.Schema({
   _id: { type: mongoose.Schema.Types.ObjectId },
   user1: { type: mongoose.Schema.Types.ObjectId, ref: "UserAccount", require: true },
@@ -10,6 +9,7 @@ var ChatSchema = mongoose.Schema({
   user2entered: { type: Boolean },
   chatHistory:[{speaker:String,text:String}],
   finished: { type: Boolean },
+
 });
 
 var Chat = mongoose.model("Chat", ChatSchema);
