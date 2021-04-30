@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+//mission database model
 var MissionSchema = mongoose.Schema({
     _id: {type:mongoose.Schema.Types.ObjectId},
     useraccount:{type:mongoose.Schema.Types.ObjectId,ref:'UserAccount'},

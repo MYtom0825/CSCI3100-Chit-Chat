@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+//user profile database model
 var UserProfileSchema = mongoose.Schema({
   account: { type: mongoose.Schema.Types.ObjectId, ref: "UserAccount" },
   picture: { type: String },

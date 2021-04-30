@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const autoIncrement = require("mongoose-auto-increment");
 
+//queue database model
 var QueueSchema = mongoose.Schema({
   _id: { type: mongoose.Schema.Types.ObjectId },
   userProfile: { type: mongoose.Schema.Types.ObjectId, ref: "UserProfile" },
@@ -14,6 +15,7 @@ var QueueSchema = mongoose.Schema({
   requiredStatus: { type: String },
 });
 autoIncrement.initialize(mongoose.connection);
+//auto increment of queue number
 QueueSchema.plugin(autoIncrement.plugin, { model: "Queue", field: "queueNumber", startAt: 1, incrementBy: 1 });
 
 var Queue = mongoose.model("Queue", QueueSchema);

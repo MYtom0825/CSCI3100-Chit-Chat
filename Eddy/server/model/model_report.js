@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+//report database model
 var ReportSchema = mongoose.Schema({
     _id:{type:mongoose.Schema.Types.ObjectId},
     userAccount:{type:mongoose.Schema.Types.ObjectId,ref:'UserAccount'},

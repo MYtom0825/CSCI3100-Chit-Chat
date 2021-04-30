@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+//verifying account database model
 var VerifyingAccountSchema = mongoose.Schema({
     _id: {type: mongoose.Schema.Types.ObjectId},
     email: {type: String, unique: true, require: true},
