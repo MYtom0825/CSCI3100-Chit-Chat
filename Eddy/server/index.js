@@ -74,21 +74,21 @@ io.on("connection", (socket) => {
     const user = getUser(socket.id);
     io.to(user.room).emit("message", { user: user.name, text: message });
     console.log(user.name);
-   /* UserAccount.findOne({username:user.name},(err,account)=>{
+    console.log(user.room);
+   UserAccount.findOne({username:user.name},(err,account)=>{
       if(err){
         console.log(err);
       }else{
-        Chat.findOne({$or: [{ user1: account._id }, { user2: account._id }]},(error,chat)=>{
+        
+        Chat.findOneAndUpdate({room:user.room},{$push:{chatHistory:{speaker:account.username,text:message}}},(error)=>{
           if(error){
-            console.log(error);
-          }else{
-            var chatHist=chat.chatHistory;
-            chatHist.push({speaker:user.name,text:message});
-            Chat.updateOne({$or: [{ user1: account._id }, { user2: account._id }]},{chatHistory:chatHist});
+            console.log("chat can't save"+error);
           }
         });
+
+        
       }
-    });*/
+    });
     callback();
   });
 
