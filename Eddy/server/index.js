@@ -73,7 +73,8 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
     io.to(user.room).emit("message", { user: user.name, text: message });
-    UserAccount.findOne({username:user.name},(err,account)=>{
+    console.log(user.name);
+   /* UserAccount.findOne({username:user.name},(err,account)=>{
       if(err){
         console.log(err);
       }else{
@@ -87,7 +88,7 @@ io.on("connection", (socket) => {
           }
         });
       }
-    });
+    });*/
     callback();
   });
 

@@ -167,7 +167,7 @@ router.post("/match", (req, res) => {
                       const newChat = new Chat({
                         _id: new mongoose.Types.ObjectId(),
                         user1: account._id,
-                        user2: matchUsers[i].userProfile.account,
+                        user2: matchUsers[i].userAccount,
                         room: matchUsers[i].room,
                         user1entered: false,
                         user2entered: false,
