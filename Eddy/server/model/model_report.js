@@ -7,8 +7,8 @@ var ReportSchema = mongoose.Schema({
     reporterID:{type:mongoose.Schema.Types.ObjectId,ref:'UserAccount'},
     reportedID:{type:mongoose.Schema.Types.ObjectId,ref:'UserAccount'},
     reason:{type:String},
-    text:[{type:String}],
-    time:{type:Date}
+    text:[{type:String}],   //chat record
+    time:{type:Date}    //reporting time
 })
 
 var Report = mongoose.model('Report',ReportSchema);

@@ -6,8 +6,9 @@ var QueueSchema = mongoose.Schema({
   _id: { type: mongoose.Schema.Types.ObjectId },
   userProfile: { type: mongoose.Schema.Types.ObjectId, ref: "UserProfile" },
   userAccount:{ type: mongoose.Schema.Types.ObjectId, ref: "UserAccount" },
-  queueNumber: { type: Number },
-  room: { type: String },
+  queueNumber: { type: Number },  //auto increment
+  room: { type: String },   //chat room name
+  //requirements
   requiredGender: { type: String },
   requiredUni: { type: String },
   requiredFaculty: { type: String },
