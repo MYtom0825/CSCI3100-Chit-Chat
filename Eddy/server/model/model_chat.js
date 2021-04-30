@@ -7,6 +7,7 @@ var ChatSchema = mongoose.Schema({
   room: { type: String, unique: true, require: true },
   user1entered: { type: Boolean },
   user2entered: { type: Boolean },
+  chatHistory:[{speaker:String,text:String}],
   finished: { type: Boolean },
 });
 

@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const autoIncrement = require("mongoose-auto-increment");
 const socketio = require("socket.io");
 const http = require("http");
+let Chat = require("./model/model_chat.js");
+let UserAccount = require("./model/model_account.js");
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./users.js");
 
@@ -71,6 +73,26 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
     io.to(user.room).emit("message", { user: user.name, text: message });
+    UserAccount.findOne({username:user.name},(err,account)=>{
+      if(err){
+        console.log(err);
+      }else{
+        Chat.findOne({$or: [{ user1: account._id }, { user2: account._id }]},(error,chat)=>{
+          if(error){
+            console.log(error);
+          }else{
+            var chatHist=chat.chatHistory;
+            chatHist.push({speaker:user.name,text:message});
+            chat.chatHistory=chatHist;
+            Chat.save((er)=>{
+              if(er){
+                console.log(er);
+              }
+            });
+          }
+        });
+      }
+    });
     callback();
   });
 
