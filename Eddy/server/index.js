@@ -83,12 +83,7 @@ io.on("connection", (socket) => {
           }else{
             var chatHist=chat.chatHistory;
             chatHist.push({speaker:user.name,text:message});
-            chat.chatHistory=chatHist;
-            Chat.save((er)=>{
-              if(er){
-                console.log(er);
-              }
-            });
+            Chat.updateOne({$or: [{ user1: account._id }, { user2: account._id }]},{chatHistory:chatHist});
           }
         });
       }
