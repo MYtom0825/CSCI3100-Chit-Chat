@@ -13,6 +13,7 @@ const Matching = (props) => {
   const [popupquiz, setpopupquiz] = useState([]); //to save popup quiz questions
   const [userResponse, setuserResponse] = useState([]); //to save user answers to pop up quiz
   const [partnerInfo, setpartnerInfo] = useState([]); //to store partner information when matched to create a namecard on the left of chat
+  const [charge, setcharge] = useState(0);
 
   const matchingStartHandler = (event) => {
     event.preventDefault();
@@ -49,12 +50,16 @@ const Matching = (props) => {
           //send all the user filters to backend so user will queue for partner and enter loading page
           props.changeToken(fee);
           setmatching(1);
+          setcharge(fee);
         });
       }
     }
   };
   if (matching == 0) return <Filter_form matchingStartHandler={matchingStartHandler} />;
-  else if (matching == 1) return <Match_loading userPref={userPref} setmatching={setmatching} setpopupquiz={setpopupquiz} setpartnerInfo={setpartnerInfo} setchatting={props.setchatting} />;
+  else if (matching == 1)
+    return (
+      <Match_loading userPref={userPref} setmatching={setmatching} setpopupquiz={setpopupquiz} setpartnerInfo={setpartnerInfo} setchatting={props.setchatting} AddToken={props.AddToken} fee={charge} />
+    );
   else if (matching == 3) return <Popup_quiz userPref={userPref} setmatching={setmatching} popupquiz={popupquiz} setuserResponse={setuserResponse} />;
   else if (matching == 2) return <Chat setmatching={setmatching} userInfo={props.user} userResponse={userResponse} setchatting={props.setchatting} partnerInfo={partnerInfo} />;
 };

@@ -51,7 +51,9 @@ class Match_loading extends React.Component {
   componentWillUnmount() {
     // before matched, user can quit the matching function and he will stop queueing
     $("#return").trigger("click");
-    $.get("http://localhost:5000/deletequeue", { username: this.props.userPref.username }).done(() => {});
+    $.get("http://localhost:5000/deletequeue", { username: this.props.userPref.username }).done(() => {
+      this.props.AddToken(this.props.fee, 1);
+    });
   }
   render() {
     return (

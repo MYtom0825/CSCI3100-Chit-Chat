@@ -28,20 +28,21 @@ class App extends React.Component {
   }
 
   DeductToken = (MinusToken) => {
-    this.state.user.token -= MinusToken;
+    var newUser = this.state.user;
+    newUser.token -= MinusToken;
+    this.setState({ user: newUser });
     console.log("Token changed");
   };
 
-  AddToken = (AddToken) => {
+  AddToken = (AddToken, place) => {
     var newUser = this.state.user;
-    console.log(newUser);
-    console.log(this.state.loc);
     newUser.token += AddToken;
     this.setState({ user: newUser });
-    console.log(newUser);
-    console.log(this.state.user);
-    window.alert("Mission Finished!");
-    console.log("Token changed");
+    if (place != 1) {
+      window.alert("Mission Finished!");
+    } else {
+      window.alert("Charged token has been given back to you.");
+    }
   };
 
   logout = () => {

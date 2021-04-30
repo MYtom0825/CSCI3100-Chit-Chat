@@ -35,7 +35,7 @@ const InfoBar = ({ room, timeIsUp, countertime, messages, userInfo, setmatching,
   });
 
   const report = () => {
-    console.log(userInfo.name);
+    //reporting partner and user will be directed back to matching
     var username = userInfo.name;
     if (window.confirm("Report you partner?")) {
       var reason = window.prompt("Please tell us the reason of reporting.", "Spamming");
