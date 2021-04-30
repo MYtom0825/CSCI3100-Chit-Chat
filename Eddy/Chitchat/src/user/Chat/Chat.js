@@ -126,7 +126,7 @@ const Chat = ({ setmatching, userInfo, userResponse, setchatting, partnerInfo })
       <div className='chatbox_container'>
         <div className='chat_outerContainer'>
           <div className='chat_container'>
-            <InfoBar room={room} timeIsUp={timeIsUp} countertime={countertime} messages={messages} userInfo={userInfo} />
+            <InfoBar room={room} timeIsUp={timeIsUp} countertime={countertime} messages={messages} userInfo={userInfo} setmatching={setmatching} setchatting={setchatting} />
             <Messages messages={messages} name={name} />
             {End ? (
               confirmed ? (
