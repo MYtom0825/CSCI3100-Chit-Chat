@@ -5,6 +5,7 @@ const cors = require("cors");
 router.use(cors());
 
 router.get("/", (req, res) => {
+  //accepting all get request
   res.send("running la");
 });
 

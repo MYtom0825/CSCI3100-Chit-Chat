@@ -13,32 +13,34 @@ router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
 router.post("/registration/:id", async (req, res) => {
+  //for user first time profile registration or user updating his information
   var happy = JSON.stringify(req.body);
   var n = happy.indexOf("interest");
   var happy2 = happy.slice(0, n + 8) + happy.slice(n + 10);
   happy = JSON.parse(happy2).interest;
-  console.log(happy);
 
   var salt = "";
   var hash = "";
+  //password hashing
   try {
     salt = await bcrypt.genSaltSync(10);
   } catch (err) {
-    console.log("sssss");
     console.log(err);
   }
 
   if (req.params.id != "undefined") {
+    //first time registration
     const existdUserName = await UserAccount.findOne({ username: req.body.username });
     if (existdUserName) {
+      //we only accept unique username
       console.log(existdUserName);
       return res.send("username taken");
     } else {
       VerifyingAccount.findByIdAndRemove({ _id: req.params.id }, async function (err, record) {
+        //when user created account, remove him from the verifying account database
         if (err) {
           console.log(err);
-        } 
-        else {
+        } else {
           //insert into UserAccount
           const user_id = new mongoose.Types.ObjectId();
           const profile_id = new mongoose.Types.ObjectId();
@@ -48,17 +50,16 @@ router.post("/registration/:id", async (req, res) => {
           try {
             salt = await bcrypt.genSaltSync(10);
           } catch (err) {
-            console.log("sssss");
             console.log(err);
           }
           try {
             hash = await bcrypt.hashSync(record.password, salt);
           } catch (err) {
-            console.log("xxxxxxx");
             console.log(err);
           }
 
           var newUserAccount = new UserAccount({
+            //create new user
             _id: user_id,
             email: record.email,
             username: req.body.userName,
@@ -66,6 +67,7 @@ router.post("/registration/:id", async (req, res) => {
             userProfile: profile_id,
             token: 20,
           });
+
           console.log(req.body.interest);
           var newUserProfile = new UserProfile({
             _id: profile_id,
@@ -105,18 +107,21 @@ router.post("/registration/:id", async (req, res) => {
       });
     }
   } else {
+    //this is for user modifying his preofile details
     account = await UserAccount.findOne({ username: req.body.userName });
     if (!(req.body.PW == "" || req.body.PW == null || req.body.PW == undefined)) {
+      //if he changes password, hash it
       try {
         hash = await bcrypt.hashSync(req.body.PW, salt);
       } catch (err) {
-        console.log("xxxxxxx");
         console.log(err);
       }
+      //update user password
       await UserAccount.updateOne({ username: req.body.userName }, { password: hash });
     }
 
     await UserProfile.updateOne(
+      //update user profile info
       { account: account._id },
       {
         picture: req.body.picture,

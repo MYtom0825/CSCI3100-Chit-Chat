@@ -1,6 +1,8 @@
+//helper functions for socket/ chatroom management
 const users = [];
 
 const addUser = ({ id, name, room }) => {
+  //add user to the room
   name = name;
   room = room;
 
@@ -18,6 +20,7 @@ const addUser = ({ id, name, room }) => {
 };
 
 const removeUser = (id) => {
+  //remove user from the room
   const index = users.findIndex((user) => user.id === id);
 
   if (index !== -1) {
@@ -25,8 +28,8 @@ const removeUser = (id) => {
   }
 };
 
-const getUser = (id) => users.find((user) => user.id === id);
+const getUser = (id) => users.find((user) => user.id === id); //show if that user is in the room
 
-const getUsersInRoom = (room) => users.filter((user) => user.room === room);
+const getUsersInRoom = (room) => users.filter((user) => user.room === room); //get all users in the room
 
 module.exports = { addUser, removeUser, getUser, getUsersInRoom };

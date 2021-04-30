@@ -9,7 +9,6 @@ router.use(cors());
 
 router.get("/mission", (req, res) => {
   //show the progress of user's mission
-
   if (!req.query.username) {
     return res.status(401).send();
   }
