@@ -31,6 +31,7 @@ router.post("/register", (req, res) => {
           //non exist email in mongodb
           console.log(email);
           console.log(password);
+          //create new account record and save
           const newAccount = new VerifyingAccount({
             _id: new mongoose.Types.ObjectId(),
             email: email,

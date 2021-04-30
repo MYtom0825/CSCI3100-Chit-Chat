@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+//quiz database model
 var QuizSchema = mongoose.Schema({
     quizID: {type: Number, unique: true},
     question: {type: String, require: true},

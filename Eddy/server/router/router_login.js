@@ -27,6 +27,7 @@ router.post("/login", (req, res) => {
         return;
       }
       if (!user) {
+        //incorrect email
         var data = {
           loginstate: 0,
         };
@@ -34,12 +35,14 @@ router.post("/login", (req, res) => {
         return res.json(data);
       }
       if (user.online) {
+        //multiple login
         var data = {
           loginstate: 3,
         };
         return res.json(data);
       }
       if (user && bcrypt.compareSync(password, user.password)) {
+        //validate password
         req.session.username = user.username;
 
         var data = {
@@ -61,7 +64,7 @@ router.post("/login", (req, res) => {
           if (err) {
             console.log("mission exist error");
           } else if (exist == false) {
-            //user logged in, help him to finish the daily login mission and add token
+            //daily login mission not yet complete
             var missionFinished = new Mission({
               _id: new mongoose.Types.ObjectId(),
               useraccount: user._id,
@@ -70,7 +73,7 @@ router.post("/login", (req, res) => {
               Content: "Log in daily",
               token: 5,
             });
-
+            //complete daily login mission
             missionFinished.save((error) => {
               if (error) {
                 console.log(error);
@@ -93,6 +96,7 @@ router.post("/login", (req, res) => {
         console.log("login successful");
         return res.json(data);
       } else {
+        //incorrect password
         var data = {
           loginstate: 1,
         };
@@ -109,6 +113,7 @@ router.post("/forgotpw", (req, res) => {
   var salt = "";
   var hash = "";
 
+  //hashing the new password for storing into database
   try {
     salt = bcrypt.genSaltSync(10);
   } catch (err) {
@@ -120,13 +125,16 @@ router.post("/forgotpw", (req, res) => {
     console.log(err);
   }
 
+  console.log(email);
   UserAccount.findOneAndUpdate({ email: email }, { password: hash }, function (err, result) {
     if (err) {
       console.log(err);
     } else if (result == null) {
+      //incorrect email
       console.log("Account can't be found");
       res.send("Account can't be found");
     } else {
+      //update password
       console.log(result);
       var subject = "Recovery of Your Happy Chat Account Password";
       var html = `<p>This is your new password: <strong>${newPw}</strong></p><p>Thanks</p><p>ChitChat Team</p>`;
@@ -145,6 +153,7 @@ router.post("/resetpw/:id", async (req, res) => {
   var salt = "";
   var hash = "";
 
+  //hashing the new password for storing into database
   try {
     salt = await bcrypt.genSaltSync(10);
   } catch (err) {
@@ -159,8 +168,12 @@ router.post("/resetpw/:id", async (req, res) => {
   UserAccount.findOneAndUpdate({ _id: id }, { password: hash }, function (err, result) {
     if (err) {
       console.log(err);
+    } else if (result == null) {
+      //incorrect link
+      console.log("Account can't be found");
       res.send("Account can't be found");
     } else {
+      //successfully updated password
       res.send("Password has been reset!");
     }
   });

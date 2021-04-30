@@ -93,6 +93,7 @@ io.on("connection", (socket) => {
     callback();
   });
 
+  //socket io disconnection
   socket.on("disconnect", () => {
     //user disconnect from the socket and left the chat room
     const user = removeUser(socket.id);

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+//user profile database model
 var UserProfileSchema = mongoose.Schema({
   account: { type: mongoose.Schema.Types.ObjectId, ref: "UserAccount" },
   picture: { type: String },
@@ -13,7 +14,7 @@ var UserProfileSchema = mongoose.Schema({
   description: { type: String },
   interest: [{ type: String }], //array of interests
   createdTime: { type: Date },
-  contact: { type: String },
+  contact: { type: String },  //ig
 });
 
 var UserProfile = mongoose.model("UserProfile", UserProfileSchema);
