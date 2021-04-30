@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import closeIcon from "../icons/closeIcon.png";
 import onlineIcon from "../icons/onlineIcon.png";
 import "./InfoBar.css";
+import $ from "jquery";
 
-const InfoBar = ({ room, timeIsUp, countertime }) => {
+const InfoBar = ({ room, timeIsUp, countertime, messages }) => {
   //const [min, setMin] = useState();
   //const [sec, setSec] = useState();
   const [endtime, setendtime] = useState();
@@ -12,7 +12,7 @@ const InfoBar = ({ room, timeIsUp, countertime }) => {
     var s = new Date();
     console.log(s);
     console.log(countertime);
-    s.setSeconds(s.getSeconds() + 45);
+    s.setMinutes(s.getMinutes() + 10);
     setendtime(new Date(s).getTime());
   }
 
@@ -36,6 +36,10 @@ const InfoBar = ({ room, timeIsUp, countertime }) => {
     }
   });
 
+  const showmessages = () => {
+    $.post("http://localhost:5000/hello", { messages });
+  };
+
   return (
     <div className='infoBar'>
       <div className='infoBar_leftInnerContainer'>
@@ -46,7 +50,10 @@ const InfoBar = ({ room, timeIsUp, countertime }) => {
         <h3 className='chatboxtime'>0 minutes 29 seconds left</h3>
       </div>
       <div className='infoBar_RightInnerContainer'>
-        <button className='report_button'> Report</button>
+        <button className='report_button' onClick={showmessages}>
+          {" "}
+          Report
+        </button>
       </div>
     </div>
   );
