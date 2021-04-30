@@ -37,7 +37,7 @@ const InfoBar = ({ room, timeIsUp, countertime, messages }) => {
   });
 
   const showmessages = () => {
-    $.post("http://localhost:5000/hello", { messages });
+    $.post("http://localhost:5000/report", {room});
   };
 
   return (
