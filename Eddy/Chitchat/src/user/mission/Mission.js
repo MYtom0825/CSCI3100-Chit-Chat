@@ -8,6 +8,7 @@ import Mission_card from "./Mission_card";
 import icon from "./Mission-icon.png";
 
 class Mission extends React.Component {
+  //Mission component is for mission feature
   constructor(props) {
     super(props);
     this.state = {
@@ -15,28 +16,29 @@ class Mission extends React.Component {
     };
   }
   componentDidMount() {
+    //we get mission that has been finished by the user from the database
     $.get("http://localhost:5000/mission", { username: this.props.user.name })
       .done((res) => {
         var finished = res.missionFinishedID;
         this.setState({ missionFinished: finished });
       })
       .fail(() => {
-        this.setState({ missionFinished: [1, 2] });
+        this.setState({ missionFinished: [0, 1, 2, 3] }); //we assume mission are all finished when the server is down so that user can not re-do missions
       });
   }
   componentWillUnmount() {
-    $.post("http://localhost:5000/mission", { username: this.props.user.name, missionFinished: this.state.missionFinished }).always(() => {
-      console.log("finished");
-    });
+    //when user switch to other feature, update the finished mission array in the database
+    $.post("http://localhost:5000/mission", { username: this.props.user.name, missionFinished: this.state.missionFinished }).always(() => {});
   }
   FinishedMission = (index) => {
+    //add mission id to missionFinished state when user finishes the mission so user cannot redo mission
     var finished = this.state.missionFinished;
     finished.push(index);
     this.setState({ missionFinished: finished });
-    console.log(finished);
   };
   render() {
     const mission_list = [
+      //these are trial mission which includes token that user may get
       { Name: "Daily Login", Content: "Log in daily", Link: "", index: 0, token: 5 }, //0
       { Name: "Hello", Content: "You are welcome", Link: "", index: 1, token: 3 }, //1
       { Name: "Create Ice-breaking Quiz", Content: "Think of some question for the Ice breaking quiz!", Link: "", index: 2, token: 4 }, //2
@@ -78,39 +80,4 @@ class Mission extends React.Component {
     );
   }
 }
-/*
-const Mission = () => {
-    
-   
-    const mission_list = [{Name:"Create Ice-breaking Quiz", Content:"Think of some question for the Ice breaking quiz!",Link:"./home.html" },
-                        {Name:"Hello", Content:"You are welcome", Link:"http://fb.com"},
-                       ];
-   
-    
-
-    return(
-        <div >
-            <div className="column">                                     
-                <text_title>DAILY LOGIN</text_title>   
-                <Calendar locale="en-US"/>  
-            </div>
-            <div className="column">
-                <div className="mission_card">
-                    <div className="table">
-                
-                        <div className="tr">
-                            {mission_list.map((mission_list)=>(
-                                <Mission_card name={mission_list.Name} content={mission_list.Content} link={mission_list.Link}/>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-    );
-
-};
-*/
-
 export default Mission;

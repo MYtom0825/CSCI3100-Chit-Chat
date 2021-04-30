@@ -2,7 +2,7 @@ import "./matching_1.css";
 import $ from "jquery";
 import React, { Component, useState } from "react";
 import Match_loading from "./match_loading";
-import Chat from "../../Chat/Chat";
+import Chat from "../Chat/Chat";
 import Popup_quiz from "./popup_quiz";
 import Filter_form from "./Filter_form";
 
