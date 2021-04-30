@@ -61,7 +61,8 @@ const Matching = (props) => {
       <Match_loading userPref={userPref} setmatching={setmatching} setpopupquiz={setpopupquiz} setpartnerInfo={setpartnerInfo} setchatting={props.setchatting} AddToken={props.AddToken} fee={charge} />
     );
   else if (matching == 3) return <Popup_quiz userPref={userPref} setmatching={setmatching} popupquiz={popupquiz} setuserResponse={setuserResponse} />;
-  else if (matching == 2) return <Chat setmatching={setmatching} userInfo={props.user} userResponse={userResponse} setchatting={props.setchatting} partnerInfo={partnerInfo} />;
+  else if (matching == 2)
+    return <Chat setmatching={setmatching} userInfo={props.user} userResponse={userResponse} setchatting={props.setchatting} partnerInfo={partnerInfo} AddToken={props.AddToken} fee={charge} />;
 };
 
 export default Matching;

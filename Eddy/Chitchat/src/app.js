@@ -31,7 +31,6 @@ class App extends React.Component {
     var newUser = this.state.user;
     newUser.token -= MinusToken;
     this.setState({ user: newUser });
-    console.log("Token changed");
   };
 
   AddToken = (AddToken, place) => {

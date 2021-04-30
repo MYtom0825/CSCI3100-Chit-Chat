@@ -16,7 +16,7 @@ var connectionOptions = {
   transports: ["websocket"],
 };
 
-const Chat = ({ setmatching, userInfo, userResponse, setchatting, partnerInfo }) => {
+const Chat = ({ setmatching, userInfo, userResponse, setchatting, partnerInfo, AddToken, fee }) => {
   //Chat component includes chatbox (on the right) and name card (on the left)
   //chatbox includes infobar that shows time left for chatting, input bar for typing message, messages for showing message
   //namecard shows partner information and partner answer to pop up quiz
@@ -126,7 +126,17 @@ const Chat = ({ setmatching, userInfo, userResponse, setchatting, partnerInfo })
       <div className='chatbox_container'>
         <div className='chat_outerContainer'>
           <div className='chat_container'>
-            <InfoBar room={room} timeIsUp={timeIsUp} countertime={countertime} messages={messages} userInfo={userInfo} setmatching={setmatching} setchatting={setchatting} />
+            <InfoBar
+              room={room}
+              timeIsUp={timeIsUp}
+              countertime={countertime}
+              messages={messages}
+              userInfo={userInfo}
+              setmatching={setmatching}
+              setchatting={setchatting}
+              AddToken={AddToken}
+              fee={fee}
+            />
             <Messages messages={messages} name={name} />
             {End ? (
               confirmed ? (

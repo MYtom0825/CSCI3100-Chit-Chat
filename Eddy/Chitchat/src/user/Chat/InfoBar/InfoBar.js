@@ -3,7 +3,7 @@ import onlineIcon from "../icons/onlineIcon.png";
 import "./InfoBar.css";
 import $ from "jquery";
 
-const InfoBar = ({ room, timeIsUp, countertime, messages, userInfo, setmatching, setchatting }) => {
+const InfoBar = ({ room, timeIsUp, countertime, messages, userInfo, setmatching, setchatting, AddToken, fee }) => {
   const [endtime, setendtime] = useState();
 
   if (endtime == undefined) {
@@ -43,6 +43,7 @@ const InfoBar = ({ room, timeIsUp, countertime, messages, userInfo, setmatching,
       window.alert("Report has been submitted. We will review the case. Thank you!");
       setmatching(0);
       setchatting(false);
+      AddToken(fee, 1);
     }
   };
 
