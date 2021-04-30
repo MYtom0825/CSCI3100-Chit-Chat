@@ -24,9 +24,6 @@ const login = require("./router/router_login.js");
 const main = require("./router/router_main copy.js");
 const mission = require("./router/router_mission.js");
 const account = require("./router/router_account.js");
-//const router = require("./router.js");
-
-//app.use(router);
 
 app.use(session({ secret: "secretdasfdsagdsaqewqecxzc", resave: false, saveUninitialized: true }));
 app.use(bodyParser.json());
@@ -48,6 +45,7 @@ db.once("open", () => {
   console.log("Successful connection to MongoDB");
 });
 
+//socket io connection
 io.on("connection", (socket) => {
   socket.on("join", ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
@@ -89,6 +87,7 @@ io.on("connection", (socket) => {
     callback();
   });
 
+  //socket io disconnection
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
     if (user) {
