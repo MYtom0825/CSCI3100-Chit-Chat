@@ -8,12 +8,12 @@ import Forget_password from "./Forget_password/Forget_password.js";
 const BACKEND = "http://localhost:5000/";
 
 class App extends React.Component {
+  // this app.js mainly handles features without logging in, if user is logged in, he will be directed to "user"
+  // App class is the root of all components
   constructor(props) {
     super(props);
     this.state = {
       //location state is used to identify which page the user is in, it includes "login","user","registration","forget password"
-      // this app.js mainly handles features without logging in, if user is logged in, he will be directed to "user"
-      // App class is the root of all components
       loc: window.location.pathname.split("/")[1] || "login", //localhost:3000/login
       userID: null,
       user: null,
