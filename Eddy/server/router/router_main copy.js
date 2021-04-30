@@ -171,6 +171,7 @@ router.post("/match", (req, res) => {
                         room: matchUsers[i].room,
                         user1entered: false,
                         user2entered: false,
+                        chatHistory:[],
                         finished: false,
                       });
                       newChat.save((err) => {
@@ -237,7 +238,7 @@ router.post("/report", (req, res) => {
             reporterID: result._id,
             reportedID: reported,
             reason: req.reason,
-            text: req.text,
+            text: chat.chatHistory,
             time: Date.now(),
           });
     
