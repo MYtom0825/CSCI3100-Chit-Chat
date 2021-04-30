@@ -29,6 +29,16 @@ class ProfileRegisterForm extends React.Component {
     this.props.backToLogin(); //back to login page after registration
   };
 
+  componentDidMount() {
+    let objectID = window.location.pathname.split("/")[2];
+    $.get("http://localhost:5000/registration/" + objectID)
+    .done((res) => {
+      if (res == "wrong") {
+        this.props.backToLogin();
+      }
+    })
+  }
+
   render() {
     const user = {};
     var facalties = ["Engineering", "Medicine", "Law", "Social Science", "Science", "Busness Administration", "Art", "Education"];

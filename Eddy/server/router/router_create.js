@@ -12,6 +12,22 @@ router.use(cors());
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
+router.get("/registration/:id", (req, res) => {
+  id = req.params.id.toString();
+  console.log(id);
+  if (req.params.id == "undefined") return res.send("update");
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.send("wrong");
+  VerifyingAccount.exists({_id: id}, function (err, result) {
+    if (err) {
+      console.log(err);
+    }
+    else if (result == true) {
+      return res.send("create");
+    }
+    return res.send("wrong");
+  });
+});
+
 router.post("/registration/:id", async (req, res) => {
   //for user first time profile registration or user updating his information
   var happy = JSON.stringify(req.body);
@@ -40,7 +56,13 @@ router.post("/registration/:id", async (req, res) => {
         //when user created account, remove him from the verifying account database
         if (err) {
           console.log(err);
-        } else {
+        } 
+        else if (record == null) {
+          console.log("wrong object id");
+          return res.send("redirect");
+        }
+        else {
+          console.log(record);
           //insert into UserAccount
           const user_id = new mongoose.Types.ObjectId();
           const profile_id = new mongoose.Types.ObjectId();
