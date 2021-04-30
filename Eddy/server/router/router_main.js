@@ -222,7 +222,7 @@ router.post("/report", (req, res) => {
       console.log(err);
       return res.status(401).send();
     } else {
-      Chat.findOne({ $or: [{ user1: result._id }, { user2: result._id }] }, (error, chat) => {
+      Chat.findOne({room:req.body.room}, (error, chat) => {
         if (error) {
           console.log(error);
         } else {
