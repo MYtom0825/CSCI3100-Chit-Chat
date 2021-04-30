@@ -4,7 +4,10 @@ import $ from "jquery";
 import "./ProfileRegisterForm.css";
 
 class ProfileRegisterForm extends React.Component {
+  //user will receive a link to access the profile register form, user can input his personal info and create his account
+  //only a valid link can do registration
   setProfile = (e) => {
+    //sending all user input to backend for registration
     let picture = "picture",
       userName = $("#ProfileName").val(),
       nickName = $("#ProfileName").val(),
@@ -21,24 +24,13 @@ class ProfileRegisterForm extends React.Component {
     });
     var parameters = { "interest[]": interest };
     let objectID = window.location.pathname.split("/")[2];
-    window.alert("Change request has been sent!");
+    window.alert("Registration request has been sent! You may login and use ChitChat Now!");
     $.post("http://localhost:5000/registration/" + objectID, { userName, picture, nickName, year, gender, desc, faculty, university, status, interest, contact });
-    this.props.backToLogin();
+    this.props.backToLogin(); //back to login page after registration
   };
 
   render() {
-    const user = {
-      /* name: "Tom",
-      gender: "Male",
-      picture: "",
-      description: "Hi I am using react",
-      facalty: "Engineering",
-      university: "CUHK",
-      years: "3",
-      status: "Available",
-      interest: ["Dancing", "Pop music", "Classic music"],*/
-    };
-    //var user = this.props.user;
+    const user = {};
     var facalties = ["Engineering", "Medicine", "Law", "Social Science", "Science", "Busness Administration", "Art", "Education"];
     var genders = ["Male", "Female"];
     var universities = ["CUHK", "HKU", "LingU", "CityU", "HKUST", "PolyU", "BU", "EduU", "OU", "HSU"];
@@ -49,15 +41,11 @@ class ProfileRegisterForm extends React.Component {
 
     return (
       <div className='ProfileRegisterForm_Container'>
-        <form onSubmit={(event)=>{this.setProfile(event)}}>
-          {/*<div className='ProfileRegisterForm_row'>
-            <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
-              Profile Picture:{" "}
-            </label>
-            <a className='ProfileRegisterForm_colm75' type='ProfileRegisterForm_colm'>
-              <input type='file' id='ProfilePic' name='ProfilePic'></input>
-            </a>
-    </div>*/}
+        <form
+          onSubmit={(event) => {
+            this.setProfile(event);
+          }}
+        >
           <div className='ProfileRegisterForm_row required'>
             <label className='ProfileRegisterForm_colm25' type='ProfileRegisterForm_colm'>
               Name:
@@ -225,7 +213,7 @@ class ProfileRegisterForm extends React.Component {
                 if (interest == null) {
                   window.alert("Please choose at least one interest.");
                   event.preventDefault();
-                } 
+                }
               }}
             >
               Submit

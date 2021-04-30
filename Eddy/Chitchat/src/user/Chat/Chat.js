@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 
 import "./Chat.css";
-import Name_card from "../user/matching/namecard";
-import InfoBar from "../InfoBar/InfoBar";
-import Messages from "../Messages/Messages";
-import Input from "../Input/Input";
+import Name_card from "../matching/namecard";
+import InfoBar from "./InfoBar/InfoBar";
+import Messages from "./Messages/Messages";
+import Input from "./Input/Input";
 let socket;
 
 //hello

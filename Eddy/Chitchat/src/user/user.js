@@ -6,7 +6,7 @@ import Menu from "./menu/Menu";
 import Profile from "./profile/profile.js";
 import Mission from "./mission/Mission";
 import Matching_1 from "./matching/matching_1";
-import TokenBlock from "../token/Token";
+import TokenBlock from "./token/Token";
 
 const User = (props) => {
   const [tomission, setgomission] = useState(false);

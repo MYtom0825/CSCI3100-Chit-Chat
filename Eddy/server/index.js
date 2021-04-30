@@ -75,18 +75,15 @@ io.on("connection", (socket) => {
     io.to(user.room).emit("message", { user: user.name, text: message });
     console.log(user.name);
     console.log(user.room);
-   UserAccount.findOne({username:user.name},(err,account)=>{
-      if(err){
+    UserAccount.findOne({ username: user.name }, (err, account) => {
+      if (err) {
         console.log(err);
-      }else{
-        
-        Chat.findOneAndUpdate({room:user.room},{$push:{chatHistory:{speaker:account.username,text:message}}},(error)=>{
-          if(error){
-            console.log("chat can't save"+error);
+      } else {
+        Chat.findOneAndUpdate({ room: user.room }, { $push: { chatHistory: { speaker: account.username, text: message } } }, (error) => {
+          if (error) {
+            console.log("chat can't save" + error);
           }
         });
-
-        
       }
     });
     callback();

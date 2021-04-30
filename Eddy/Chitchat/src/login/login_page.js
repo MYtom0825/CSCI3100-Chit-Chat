@@ -1,11 +1,9 @@
 import React from "react";
 import "./login_page.css";
 import $ from "jquery";
-import Cookies from "universal-cookie";
-
-const cookies = new Cookies();
 
 class LoginPage extends React.Component {
+  //this is the first page of the application, user has to sign in before accessing other user features
   constructor(props) {
     super(props);
 
@@ -14,27 +12,31 @@ class LoginPage extends React.Component {
     };
   }
   signUpSwitchEventListener = () => {
+    //for switching between sign in and sign up form
     this.setState({
       container: "container right-panel-active",
     });
   };
 
   signInSwitchEventListener = () => {
+    //for switching between sign in and sign up form
     this.setState({
       container: "container",
     });
   };
 
   signUpEventHandler = (e) => {
+    //for signing up
     let email = $("#regEmail").val().toString(),
       pw = $("#regPW").val();
 
     let lastAtPos = email.lastIndexOf("@");
     let lastDotPos = email.lastIndexOf(".");
     if (email == "" || pw == "") {
+      //check if user input all fields
       window.alert("Please input all the field.");
     } else if (!(lastAtPos > 0 && email.includes("edu.hk", lastAtPos) && lastAtPos < lastDotPos && email.indexOf("@@") == -1 && lastDotPos > 2 && email.length - lastDotPos > 2)) {
-      window.alert("Wrong Email Format!");
+      window.alert("Wrong Email Format!"); //check if user inputted university email
       e.preventDefault();
     } else {
       $.post("http://localhost:5000/register", {
@@ -53,8 +55,6 @@ class LoginPage extends React.Component {
   };
 
   render() {
-    cookies.set("Username", Math.floor(Math.random() * 100).toString(), { path: "/" });
-    cookies.set("UserIG", "IGAccount", { path: "/" });
     return (
       <div className='login_page'>
         <div className={this.state.container} id='container'>
