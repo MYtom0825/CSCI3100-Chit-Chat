@@ -59,7 +59,7 @@ const User = (props) => {
         {chatting ? "" : <TokenBlock token={props.user.token} />}
         {toProfile ? <Profile user={props.user} /> : ""}
         {tomission ? <Mission user={props.user} AddToken={props.AddToken} /> : ""}
-        {toChat ? <Matching setchatting={setchatting} user={props.user} changeToken={props.DeductToken} /> : ""}
+        {toChat ? <Matching setchatting={setchatting} user={props.user} changeToken={props.DeductToken} AddToken={props.AddToken} /> : ""}
       </div>
     </div>
   );

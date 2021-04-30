@@ -3,7 +3,7 @@ import onlineIcon from "../icons/onlineIcon.png";
 import "./InfoBar.css";
 import $ from "jquery";
 
-const InfoBar = ({ room, timeIsUp, countertime, messages }) => {
+const InfoBar = ({ room, timeIsUp, countertime, messages, userInfo, setmatching, setchatting, AddToken, fee }) => {
   const [endtime, setendtime] = useState();
 
   if (endtime == undefined) {
@@ -35,7 +35,16 @@ const InfoBar = ({ room, timeIsUp, countertime, messages }) => {
   });
 
   const report = () => {
-    $.post("http://localhost:5000/report", { room });
+    //reporting partner and user will be directed back to matching
+    var username = userInfo.name;
+    if (window.confirm("Report you partner?")) {
+      var reason = window.prompt("Please tell us the reason of reporting.", "Spamming");
+      $.post("http://localhost:5000/report", { room, username, reason });
+      window.alert("Report has been submitted. We will review the case. Thank you!");
+      setmatching(0);
+      setchatting(false);
+      AddToken(fee, 1);
+    }
   };
 
   return (

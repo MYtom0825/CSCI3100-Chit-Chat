@@ -234,18 +234,19 @@ router.post("/report", (req, res) => {
           }
           const newReport = new Report({
             _id: new mongoose.Types.ObjectId(),
-            UserAccount: result._id,
+            userAccount: result._id,
             reporterID: result._id,
             reportedID: reported,
-            reason: req.reason,
+            reason: req.body.reason,
             text: chat.chatHistory,
             time: Date.now(),
           });
-
+          console.log(newReport);
           newReport.save((err) => {
             if (err) {
               console.log("report not saved");
             } else {
+              console.log("reported");
               res.status(200).send("reported");
             }
           });
