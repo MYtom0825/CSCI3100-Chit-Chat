@@ -4,20 +4,19 @@ import "./InfoBar.css";
 import $ from "jquery";
 
 const InfoBar = ({ room, timeIsUp, countertime, messages }) => {
-  //const [min, setMin] = useState();
-  //const [sec, setSec] = useState();
   const [endtime, setendtime] = useState();
 
   if (endtime == undefined) {
     var s = new Date();
     console.log(s);
     console.log(countertime);
-    s.setMinutes(s.getMinutes() + 10);
+    s.setMinutes(s.getMinutes + 1); //only 1 minute chatting time will be given (for testing )
     setendtime(new Date(s).getTime());
   }
 
   useEffect(() => {
     if (endtime - new Date().getTime() > 0) {
+      // to move the timer every second
       var x = setInterval(function () {
         var now = new Date().getTime();
         var distance = endtime - now;
@@ -36,10 +35,6 @@ const InfoBar = ({ room, timeIsUp, countertime, messages }) => {
     }
   });
 
-  const showmessages = () => {
-    $.post("http://localhost:5000/hello", { messages });
-  };
-
   return (
     <div className='infoBar'>
       <div className='infoBar_leftInnerContainer'>
@@ -47,13 +42,10 @@ const InfoBar = ({ room, timeIsUp, countertime, messages }) => {
         {
           //<h3>{room}</h3>
         }
-        <h3 className='chatboxtime'>0 minutes 29 seconds left</h3>
+        <h3 className='chatboxtime'>1 minutes 0 seconds left</h3>
       </div>
       <div className='infoBar_RightInnerContainer'>
-        <button className='report_button' onClick={showmessages}>
-          {" "}
-          Report
-        </button>
+        <button className='report_button'> Report</button>
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import "./namecarddetails.css";
 import React, { Component } from "react";
 
 class Name_card_Details extends React.Component {
+  //Name_card_Details show partner information and partner's answer to pop up quiz
   constructor(props) {
     super(props);
   }

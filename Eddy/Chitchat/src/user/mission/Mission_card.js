@@ -4,6 +4,7 @@ import "./Mission.css";
 //import Component
 
 class Mission_card extends React.Component {
+  //to output mission details
   constructor(props) {
     super(props);
   }
@@ -15,11 +16,12 @@ class Mission_card extends React.Component {
         <td>{this.props.content}</td>
 
         <td>
-          {this.props.finished.includes(this.props.index) ? (
+          {this.props.finished.includes(this.props.index) ? ( //button will be disabled if mission has already been finished so user cannot redo mission
             <button disabled>{this.props.Token} tokens have been got</button>
           ) : (
             <button
               onClick={(event) => {
+                //button to finish mission, token will be added and finished mission will be updated in database
                 this.props.AddToken(this.props.Token);
                 this.props.FinishedMission(this.props.index);
               }}
@@ -29,7 +31,7 @@ class Mission_card extends React.Component {
           )}
         </td>
 
-        {this.props.finished.includes(this.props.index) ? (
+        {this.props.finished.includes(this.props.index) ? ( //finished is an array that includes mission index of user finished mission
           <td>
             <span className='checkmark'>
               <div className='checkmark_circle'></div>
@@ -42,25 +44,9 @@ class Mission_card extends React.Component {
             <p></p>
           </td>
         )}
-      </div> //finished is a label
+      </div>
     );
   }
 }
-/*
-const Mission_card = (props) => {
- 
-
-    return(
-        <div>
-            <td>{props.name}</td>
-            <td>{props.content}</td>
-            <td><a href={props.link} >GO!(Yet designed)</a></td>
-             
-        </div>
-        
-    );
-
-};
-*/
 
 export default Mission_card;

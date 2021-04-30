@@ -2,12 +2,13 @@ import React from "react";
 import "./Filter_form.css";
 
 class Filter_form extends React.Component {
+  //This is a filter form for user to specify partner he wants to find
   constructor(props) {
     super(props);
   }
 
   university = ["CUHK", "HKU", "LingU", "CityU", "HKUST", "PolyU", "BU", "EduU", "OU", "HSU"];
-  
+
   faculty = ["Engineering", "Medicine", "Law", "Social Science", "Science", "Busness Administration", "Art", "Education"];
 
   render() {
@@ -15,10 +16,10 @@ class Filter_form extends React.Component {
       <div className='mission_1'>
         <div className='filter_form_grid_container'>
           <div className='filter_form_matching_intro'>
-            <h2 className="filter_form_title">Welcome to the Matching Function!</h2>
+            <h2 className='filter_form_title'>Welcome to the Matching Function!</h2>
             <p>You may pay tokens to add filter for your matching.</p>
             <br />
-            <h3 className="filter_form_title">Charges are below:</h3>
+            <h3 className='filter_form_title'>Charges are below:</h3>
             <br />
             <p>Basic Charge: 2 tokens</p>
             <br />
@@ -33,11 +34,11 @@ class Filter_form extends React.Component {
             <p>Status: 3 tokens</p>
             <br />
 
-            <h3 className="filter_form_title">Enjoy the Chat!</h3>
+            <h3 className='filter_form_title'>Enjoy the Chat!</h3>
           </div>
           <div className='matching_form_holder'>
             <form className='matching_form'>
-              <h1 className="filter_form_title">What kind of people do you want to look for?</h1>
+              <h1 className='filter_form_title'>What kind of people do you want to look for?</h1>
               <div class='filter-form-radio-container'>
                 <input id='Gender_M' name='gender' type='radio' value='Male' />
                 <label for='Gender_M'>Male</label>
@@ -48,14 +49,14 @@ class Filter_form extends React.Component {
               <select id='university' name='university'>
                 <option value=''>University</option>
                 {this.university.map((x) => (
-                    <option value={x}>{x}</option>
+                  <option value={x}>{x}</option>
                 ))}
               </select>
               <label for='faculty'>Faculty:</label>
               <select id='faculty' name='faculty'>
                 <option value=''>Faculty</option>
                 {this.faculty.map((x) => (
-                    <option value={x}>{x}</option>
+                  <option value={x}>{x}</option>
                 ))}
               </select>
               <div class='filter-form-radio-container'>

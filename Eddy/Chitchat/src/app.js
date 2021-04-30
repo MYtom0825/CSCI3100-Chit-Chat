@@ -16,6 +16,7 @@ class App extends React.Component {
       //location state is used to identify which page the user is in, it includes "login","user","registration","forget password"
       loc: window.location.pathname.split("/")[1] || "login", //localhost:3000/login
       userID: null,
+      //user is an array to save all user info after he login
       user: null,
     };
 
@@ -110,8 +111,7 @@ class App extends React.Component {
           loc: "user",
           userID: 123,
           user: user,
-        });
-        console.log(this.state.user);*/
+        });*/
         window.alert("System is unavailable right now. Please try again later! ");
       });
   };
