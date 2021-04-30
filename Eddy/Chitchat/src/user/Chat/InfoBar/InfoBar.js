@@ -4,20 +4,18 @@ import "./InfoBar.css";
 import $ from "jquery";
 
 const InfoBar = ({ room, timeIsUp, countertime, messages }) => {
-  //const [min, setMin] = useState();
-  //const [sec, setSec] = useState();
   const [endtime, setendtime] = useState();
 
   if (endtime == undefined) {
+    //initialize the time if haven't
     var s = new Date();
-    console.log(s);
-    console.log(countertime);
-    s.setMinutes(s.getMinutes() + 10);
+    s.setMinutes(s.getMinutes() + 1); //only 1 minute chatting will be given (for testing purpose)
     setendtime(new Date(s).getTime());
   }
 
   useEffect(() => {
     if (endtime - new Date().getTime() > 0) {
+      //update the timer every 1 second
       var x = setInterval(function () {
         var now = new Date().getTime();
         var distance = endtime - now;
@@ -36,21 +34,18 @@ const InfoBar = ({ room, timeIsUp, countertime, messages }) => {
     }
   });
 
-  const showmessages = () => {
-    $.post("http://localhost:5000/report", {room});
+  const report = () => {
+    $.post("http://localhost:5000/report", { room });
   };
 
   return (
     <div className='infoBar'>
       <div className='infoBar_leftInnerContainer'>
         <img className='infoBar_onlineIcon' src={onlineIcon} alt='online here' />
-        {
-          //<h3>{room}</h3>
-        }
-        <h3 className='chatboxtime'>0 minutes 29 seconds left</h3>
+        <h3 className='chatboxtime'>1 minutes 0 seconds left</h3>
       </div>
       <div className='infoBar_RightInnerContainer'>
-        <button className='report_button' onClick={showmessages}>
+        <button className='report_button' onClick={report}>
           {" "}
           Report
         </button>
